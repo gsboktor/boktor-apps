@@ -1,0 +1,32 @@
+assets by info 162 KiB [immutable]
+  assets by chunk 106 bytes (name: styles)
+    asset styles.1cba210dac73b274.js 106 bytes [emitted] [immutable] [minimized] (name: styles)
+    asset styles.ef46db3751d8e999.css 0 bytes [emitted] [immutable] [minimized] (name: styles)
+  asset main.199d9ba298e70bb3.js 161 KiB [emitted] [immutable] [minimized] (name: main)
+  asset runtime.4b98ffe30a585765.js 884 bytes [emitted] [immutable] [minimized] (name: runtime)
+asset favicon.ico 14.7 KiB [emitted] [from: packages/boktor-portfolio/src/favicon.ico] [copied]
+asset index.html 571 bytes [emitted]
+asset assets/.gitkeep 0 bytes [emitted] [from: packages/boktor-portfolio/src/assets/.gitkeep] [copied]
+Entrypoint main 162 KiB = runtime.4b98ffe30a585765.js 884 bytes main.199d9ba298e70bb3.js 161 KiB
+Entrypoint styles 990 bytes = runtime.4b98ffe30a585765.js 884 bytes styles.ef46db3751d8e999.css 0 bytes styles.1cba210dac73b274.js 106 bytes
+orphan modules 35.9 KiB (javascript) 937 bytes (runtime) [orphan] 9 modules
+runtime modules 2.45 KiB 3 modules
+cacheable modules 176 KiB (javascript) 80 bytes (css/mini-extract)
+  modules by path ./node_modules/ 143 KiB
+    modules by path ./node_modules/react/ 8 KiB 4 modules
+    modules by path ./node_modules/react-dom/ 131 KiB
+      ./node_modules/react-dom/client.js 619 bytes [built] [code generated]
+      + 2 modules
+    modules by path ./node_modules/scheduler/ 4.33 KiB
+      ./node_modules/scheduler/index.js 198 bytes [built] [code generated]
+      ./node_modules/scheduler/cjs/scheduler.production.min.js 4.14 KiB [built] [code generated]
+  modules by path ./packages/boktor-portfolio/src/ 33.4 KiB (javascript) 80 bytes (css/mini-extract)
+    ./packages/boktor-portfolio/src/main.tsx + 2 modules 33.4 KiB [built] [code generated]
+    ./packages/boktor-portfolio/src/styles.css 50 bytes [built] [code generated]
+    css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[8].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[8].use[2]!./packages/boktor-portfolio/src/styles.css 80 bytes [built] [code generated]
+webpack 5.97.1 compiled successfully in 1448 ms
+
+[0m[7m[1m[31m NX [39m[22m[27m[0m  [31mThe "paths[1]" argument must be of type string. Received undefined[39m
+
+Pass --verbose to see the stacktrace.
+

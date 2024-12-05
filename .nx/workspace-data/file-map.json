@@ -1,0 +1,231 @@
+{
+  "version": "6.0",
+  "nxVersion": "20.1.4",
+  "pathMappings": {},
+  "nxJsonPlugins": [
+    {
+      "name": "@nx/webpack/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview"
+      }
+    },
+    {
+      "name": "@nx/vite/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "testTargetName": "test",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview",
+        "serveStaticTargetName": "serve-static",
+        "typecheckTargetName": "typecheck"
+      }
+    },
+    {
+      "name": "@nx/playwright/plugin",
+      "options": {
+        "targetName": "e2e"
+      }
+    }
+  ],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": "package.json",
+        "hash": "1716243859448775288"
+      },
+      {
+        "file": "dist/packages/boktor-portfolio/main.js",
+        "hash": "14629896917410077757"
+      },
+      {
+        "file": "bun.lockb",
+        "hash": "187612545518127813"
+      },
+      {
+        "file": "vitest.workspace.ts",
+        "hash": "14023491222425291751"
+      },
+      {
+        "file": "dist/packages/boktor-portfolio/runtime.js",
+        "hash": "10621967110574557538"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "4222874914269930592"
+      },
+      {
+        "file": "dist/packages/boktor-portfolio/index.html",
+        "hash": "17730566409568719278"
+      },
+      {
+        "file": "dist/packages/boktor-portfolio/styles.js",
+        "hash": "13686570631543988312"
+      },
+      {
+        "file": "dist/packages/boktor-portfolio/assets/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "nx.json",
+        "hash": "6965030482724644506"
+      },
+      {
+        "file": "eslint.config.js",
+        "hash": "12244163099157739209"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "17554676857246940898"
+      },
+      {
+        "file": "dist/packages/boktor-portfolio/main.css",
+        "hash": "6138845185510030665"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "6414640752641789602"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "14688272390704683536"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "9304735198957892604"
+      },
+      {
+        "file": "dist/packages/boktor-portfolio/favicon.ico",
+        "hash": "9303420814833116677"
+      },
+      {
+        "file": "lerna.json",
+        "hash": "8034638182123150568"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "15792698797625309304"
+      },
+      {
+        "file": "dist/packages/boktor-portfolio/styles.css",
+        "hash": "1265676842395801676"
+      }
+    ],
+    "projectFileMap": {
+      "boktor-portfolio": [
+        {
+          "file": "packages/boktor-portfolio/.babelrc",
+          "hash": "13020124393823981135"
+        },
+        {
+          "file": "packages/boktor-portfolio/eslint.config.js",
+          "hash": "18206053935892145363",
+          "deps": [
+            "npm:@nx/eslint-plugin"
+          ]
+        },
+        {
+          "file": "packages/boktor-portfolio/project.json",
+          "hash": "14004875132164372025"
+        },
+        {
+          "file": "packages/boktor-portfolio/src/app/app.module.css",
+          "hash": "11759704728588118546"
+        },
+        {
+          "file": "packages/boktor-portfolio/src/app/app.spec.tsx",
+          "hash": "17913177391816838919",
+          "deps": [
+            "npm:@testing-library/react"
+          ]
+        },
+        {
+          "file": "packages/boktor-portfolio/src/app/app.tsx",
+          "hash": "10966255707074607719"
+        },
+        {
+          "file": "packages/boktor-portfolio/src/app/nx-welcome.tsx",
+          "hash": "2348102959109701629"
+        },
+        {
+          "file": "packages/boktor-portfolio/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "packages/boktor-portfolio/src/favicon.ico",
+          "hash": "9303420814833116677"
+        },
+        {
+          "file": "packages/boktor-portfolio/src/index.html",
+          "hash": "15266777409780592294"
+        },
+        {
+          "file": "packages/boktor-portfolio/src/main.tsx",
+          "hash": "4731961929376199421",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/boktor-portfolio/src/styles.css",
+          "hash": "14965370167795526825"
+        },
+        {
+          "file": "packages/boktor-portfolio/tsconfig.app.json",
+          "hash": "10339046004134999202"
+        },
+        {
+          "file": "packages/boktor-portfolio/tsconfig.json",
+          "hash": "9850153468027031608"
+        },
+        {
+          "file": "packages/boktor-portfolio/tsconfig.spec.json",
+          "hash": "4774073799405982151"
+        },
+        {
+          "file": "packages/boktor-portfolio/webpack.config.js",
+          "hash": "15255382917508739102",
+          "deps": [
+            "npm:@nx/webpack",
+            "npm:@nx/react"
+          ]
+        }
+      ],
+      "boktor-portfolio-e2e": [
+        {
+          "file": "packages/boktor-portfolio-e2e/eslint.config.js",
+          "hash": "4703616457710285801",
+          "deps": [
+            "npm:eslint-plugin-playwright"
+          ]
+        },
+        {
+          "file": "packages/boktor-portfolio-e2e/playwright.config.ts",
+          "hash": "1328643887048678239",
+          "deps": [
+            "npm:@playwright/test",
+            "npm:@nx/playwright",
+            "npm:@nx/devkit"
+          ]
+        },
+        {
+          "file": "packages/boktor-portfolio-e2e/project.json",
+          "hash": "14454753967252265064"
+        },
+        {
+          "file": "packages/boktor-portfolio-e2e/src/example.spec.ts",
+          "hash": "16019101014373124625",
+          "deps": [
+            "npm:@playwright/test"
+          ]
+        },
+        {
+          "file": "packages/boktor-portfolio-e2e/tsconfig.json",
+          "hash": "18107275616570252607"
+        }
+      ]
+    }
+  }
+}

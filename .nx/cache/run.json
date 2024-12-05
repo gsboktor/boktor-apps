@@ -1,0 +1,21 @@
+{
+  "run": {
+    "command": "nx serve boktor-portfolio",
+    "startTime": "2024-12-05T22:19:22.247Z",
+    "endTime": "2024-12-05T22:19:24.362Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "boktor-portfolio:serve",
+      "target": "serve",
+      "projectName": "boktor-portfolio",
+      "hash": "9815583812429856514",
+      "startTime": "2024-12-05T22:19:22.251Z",
+      "endTime": "2024-12-05T22:19:24.362Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 1
+    }
+  ]
+}

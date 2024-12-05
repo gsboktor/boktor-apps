@@ -1,0 +1,38 @@
+{
+  "name": "boktor-portfolio",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/boktor-portfolio/src",
+  "projectType": "application",
+  "tags": ["scope:client"],
+  "targets": {
+    "serve": {
+      "dependsOn": ["boktor-portfolio:build"],
+      "executor": "@nx/webpack:dev-server",
+      "options": {
+        "buildTarget": "boktor-portfolio:build",
+        "hmr": true,
+        "webpackConfig": "packages/boktor-portfolio/webpack.config.js"
+      }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/packages/boktor-portfolio",
+        "index": "packages/boktor-portfolio/src/index.html",
+        "baseHref": "/",
+        "main": "packages/boktor-portfolio/src/main.tsx",
+        "tsConfig": "packages/boktor-portfolio/tsconfig.app.json",
+        "assets": [
+          "packages/boktor-portfolio/src/favicon.ico",
+          "packages/boktor-portfolio/src/assets"
+        ],
+        "styles": ["packages/boktor-portfolio/src/styles.css"],
+        "scripts": [],
+        "webpackConfig": "packages/boktor-portfolio/webpack.config.js"
+      }
+    }
+  }
+}

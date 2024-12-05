@@ -1,0 +1,10 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "baseUrl": "."
+  },
+  "exclude": ["node_modules"]
+}
