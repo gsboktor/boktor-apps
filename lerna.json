@@ -1,5 +1,9 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "hoist": "true",
+  "packages": [
+    "packages/*"
+  ],
+  "useNx": true,
   "version": "0.0.0"
 }

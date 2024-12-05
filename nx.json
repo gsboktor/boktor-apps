@@ -1,0 +1,6 @@
+{
+    "extends": "@nrwl/workspace/presets/npm.json",
+    "affected": {
+      "defaultBase": "main"
+    }
+}
