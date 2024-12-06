@@ -55,7 +55,8 @@
   },
   "private": true,
   "workspaces": [
-    "packages/boktor-portfolio/*"
+    "packages/boktor-portfolio/*",
+    "packages/boktor-playground/*"
   ],
   "dependencies": {
     "react": "18.3.1",

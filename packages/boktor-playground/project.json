@@ -1,0 +1,54 @@
+{
+  "name": "boktor-playground",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/boktor-playground/src",
+  "projectType": "application",
+  "tags": ["scope:client"],
+  "targets": {
+    "serve": {
+      "dependsOn": ["boktor-playground:build"],
+      "executor": "@nx/webpack:dev-server",
+      "options": {
+        "buildTarget": "boktor-playground:build",
+        "hmr": true,
+        "webpackConfig": "packages/boktor-playground/webpack.config.js"
+        
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "boktor-playground:build:development"
+        },
+        "production": {
+          "buildTarget": "boktor-playground:build:production"
+        }
+      }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development":{
+          "optimization": false
+        },
+        "production": {
+          "optimization": true
+        }
+      },
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/packages/boktor-playground",
+        "index": "packages/boktor-playground/src/index.html",
+        "baseHref": "/",
+        "main": "packages/boktor-playground/src/main.tsx",
+        "tsConfig": "packages/boktor-playground/tsconfig.app.json",
+        "assets": [
+          "packages/boktor-playground/src/favicon.ico",
+          "packages/boktor-playground/src/assets"
+        ],
+        "scripts": [],
+        "webpackConfig": "packages/boktor-playground/webpack.config.js"
+      }
+    }
+  }
+}
