@@ -4,7 +4,10 @@
     "target": "ESNext",
     "module": "commonjs",
     "skipLibCheck": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@boktor-apps/features/boktor-portfolio": ["libs/features/boktor-portfolio/src/index.ts"]
+    }
   },
   "exclude": ["node_modules"]
 }

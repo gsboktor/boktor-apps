@@ -12,12 +12,29 @@
         "buildTarget": "boktor-portfolio:build",
         "hmr": true,
         "webpackConfig": "packages/boktor-portfolio/webpack.config.js"
+        
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "boktor-portfolio:build:development"
+        },
+        "production": {
+          "buildTarget": "boktor-portfolio:build:production"
+        }
       }
     },
     "build": {
       "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development":{
+          "optimization": false
+        },
+        "production": {
+          "optimization": true
+        }
+      },
       "options": {
         "compiler": "babel",
         "outputPath": "dist/packages/boktor-portfolio",
@@ -29,7 +46,6 @@
           "packages/boktor-portfolio/src/favicon.ico",
           "packages/boktor-portfolio/src/assets"
         ],
-        "styles": ["packages/boktor-portfolio/src/styles.css"],
         "scripts": [],
         "webpackConfig": "packages/boktor-portfolio/webpack.config.js"
       }

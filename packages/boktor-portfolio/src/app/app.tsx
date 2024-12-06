@@ -1,10 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from "./app.module.css";
+import { PortfolioTabBar } from '@boktor-apps/features/boktor-portfolio';
 
 export function App() {
   return (
     <div>
-      <div className={styles.poo}>Testing 123</div>
+      <PortfolioTabBar/>
     </div>
   );
 }
