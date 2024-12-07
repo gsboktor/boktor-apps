@@ -1,12 +1,37 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.css';
-import NxWelcome from './nx-welcome';
+import {
+  DataTreeContainer,
+  FolderBlobProvider,
+  RichForm,
+  SpotifySearch,
+} from '@boktor-apps/features/boktor-playground';
+import styled from 'styled-components';
+const RootContainer = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+`;
+
+const f = {
+  name: undefined,
+  phoneNumber: undefined,
+  email: undefined,
+};
 
 export function App() {
   return (
-    <div>
-      <NxWelcome title="boktor-playground" />
-    </div>
+    <RootContainer>
+      <FolderBlobProvider>
+        <SpotifySearch />
+        <DataTreeContainer />
+        <RichForm values={f} />
+      </FolderBlobProvider>
+    </RootContainer>
   );
 }
 
