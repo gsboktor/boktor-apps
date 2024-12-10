@@ -1,19 +1,24 @@
+import { useSetAtom } from 'jotai';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { userInfoAtomSelector } from '../news-feed-app-practice/store/userStateAtom';
 import './form-styles.css';
 import { useForm } from './hooks';
 
 export type MyForm = {
   name?: string;
-  phoneNumber?: number;
+  phoneNumber?: string;
   email?: string;
 };
 
 export const RichForm = ({ values }: { values: MyForm }) => {
   const [success, setSuccess] = useState<boolean>(false);
+  const useSetUserState = useSetAtom(userInfoAtomSelector);
+
   const { onChange, onSubmit, fieldErrors, fieldValues } = useForm<MyForm>(
     values,
     () => {
       setSuccess(true);
+      useSetUserState({ ...fieldValues });
     },
     () => {
       setSuccess(false);

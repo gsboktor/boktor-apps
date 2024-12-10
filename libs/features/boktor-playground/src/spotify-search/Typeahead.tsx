@@ -1,3 +1,4 @@
+import { debounce } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -30,9 +31,11 @@ const ResultsBox = styled.div`
   flex-direction: column;
   gap: 0px;
   box-shadow: 0px 10px 24px 2px lightgray;
+  background-color: white;
   border-radius: 16px;
   overflow: scroll;
   max-height: 400px;
+  z-index: 100;
 `;
 
 const ResultContent = styled.p`
@@ -73,7 +76,8 @@ const TypeaheadResult = styled.div`
 `;
 
 let lock = false;
-const debounce = (fn: () => void | undefined, timer?: number) => {
+
+const myDebounce = (fn: () => void | undefined, timer?: number) => {
   if (!lock) {
     lock = true;
     setTimeout(() => {
@@ -94,7 +98,7 @@ const useDebounce = (cf: () => void, timer: number) => {
     const fn = () => {
       functionRef.current?.();
     };
-    debounce(fn, timer);
+    myDebounce(fn, timer);
   }, [timer]);
 
   return { debounceRequest };
@@ -169,11 +173,32 @@ export const Typeahead = ({ token }: { token?: string }) => {
 
   useMemo(() => {
     if (searchState.value?.tracks?.items) {
-      setResults((prev) => [...prev, ...(searchState.value?.tracks.items ?? [])]);
+      setResults(searchState.value?.tracks.items ?? []);
     } else {
       setResults([]);
     }
   }, [searchState, inputRef.current]);
+
+  const getHighlightedString = useCallback((str: string) => {
+    if (inputRef.current && str.includes(inputRef.current.value)) {
+      let firstIdx = str.indexOf(inputRef.current.value[0]);
+      let lastIdx = str.indexOf(inputRef.current.value[inputRef.current.value.length - 1]);
+
+      let segment1 = str.slice(0, firstIdx);
+      let highlightedSegment = str.slice(firstIdx, lastIdx + 1);
+      let segment2 = str.slice(lastIdx + 1, str.length);
+
+      return (
+        <>
+          <>{segment1}</>
+          <b style={{ color: 'red' }}>{highlightedSegment}</b>
+          <>{segment2}</>
+        </>
+      );
+    }
+
+    return <>{str}</>;
+  }, []);
 
   return (
     <TypeheadAndResultsContainer ref={tRef}>
@@ -181,9 +206,7 @@ export const Typeahead = ({ token }: { token?: string }) => {
         ref={inputRef}
         placeholder="Enter text"
         // value={inputRef.current?.value}
-        onChange={() => {
-          debounceRequest();
-        }}
+        onChange={debounce(() => matchResults(), 750)}
       />
       {results.length > 0 && !dismiss && (
         <ResultsBox role="listbox" ref={scrollContainerRef}>
@@ -198,7 +221,7 @@ export const Typeahead = ({ token }: { token?: string }) => {
                   setDismiss(true);
                 }}
               >
-                <ResultContent>{res.artists[0].name}</ResultContent>
+                <ResultContent>{getHighlightedString(res.artists[0].name)}</ResultContent>
                 <ResultSubContent>{res.album.name}</ResultSubContent>
               </TypeaheadResult>
             );

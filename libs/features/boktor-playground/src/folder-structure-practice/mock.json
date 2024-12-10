@@ -1,0 +1,65 @@
+{
+  "files": [
+    {
+      "id": 1,
+      "type": "file",
+      "name": "read.md"
+    },
+    {
+      "id": 2,
+      "type": "folder",
+      "name": "src",
+      "children": [
+        {
+          "id": 3,
+          "type": "file",
+          "name": "index.ts"
+        },
+        {
+          "id": 4,
+          "type": "file",
+          "name": "types.ts"
+        },
+        {
+          "id": 5,
+          "type": "folder",
+          "name": "components",
+          "children": [
+            {
+              "id": 6,
+              "type": "file",
+              "name": "Button.tsx"
+            },
+            {
+              "id": 7,
+              "type": "file",
+              "name": "Input.tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "type": "file",
+      "name": "package.json"
+    },
+    {
+      "id": 9,
+      "type": "folder",
+      "name": "public",
+      "children": [
+        {
+          "id": 10,
+          "type": "file",
+          "name": "favicon.ico"
+        },
+        {
+          "id": 11,
+          "type": "file",
+          "name": "index.html"
+        }
+      ]
+    }
+  ]
+}

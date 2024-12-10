@@ -14,8 +14,6 @@ export const Folder = ({ data, padding }: { data: FileData[]; padding: number })
     return data.reduce((acc, curr) => ({ ...acc, [curr.id]: false }), {} as Record<number, boolean>);
   });
 
-  console.log(data);
-
   const handleSetOpen = useCallback(
     (id: number) => {
       const curr = openObj[id];
