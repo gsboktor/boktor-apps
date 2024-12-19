@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
+import { animated, easings, useSpring } from 'react-spring';
 import styled from 'styled-components';
 
 const Button = styled.button<{ $bg?: string }>`
@@ -30,10 +31,6 @@ const NavBarContainer = styled.div`
   width: 100%;
 `;
 
-import { useCallback } from 'react';
-import { animated, easings, useSpring } from 'react-spring';
-
-
 const ToggleButtonContainer = styled(animated.div)`
   display: flex;
   position: relative;
@@ -52,7 +49,6 @@ const Toggle = styled(animated.div)`
   width: 24px;
   height: 24px;
   top: 4px;
-  /* left: 4px; */
   z-index: 1;
 `;
 
@@ -86,16 +82,10 @@ export const PortfolioTabBar = () => {
 
   return (
     <NavBarContainer>
-      <Button  ref={buttonRef}>
-        Go to About
-      </Button>
-      <Button ref={buttonRef}>
-        More about me
-      </Button> 
-      <Button ref={buttonRef}>
-        Projects
-      </Button>
-      <Button $bg={'#202020'}ref={buttonRef}>
+      <Button ref={buttonRef}>Go to About</Button>
+      <Button ref={buttonRef}>More about me</Button>
+      <Button ref={buttonRef}>Projects</Button>
+      <Button $bg={'#202020'} ref={buttonRef}>
         <p style={{ display: 'inline', color: 'white' }}>Contact Me</p>
       </Button>
       <ToggleButton />

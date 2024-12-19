@@ -11,17 +11,6 @@
       }
     },
     {
-      "plugin": "@nx/vite/plugin",
-      "options": {
-        "buildTargetName": "build",
-        "testTargetName": "test",
-        "serveTargetName": "serve",
-        "previewTargetName": "preview",
-        "serveStaticTargetName": "serve-static",
-        "typecheckTargetName": "typecheck"
-      }
-    },
-    {
       "plugin": "@nx/playwright/plugin",
       "options": {
         "targetName": "e2e"
@@ -54,7 +43,7 @@
       "library": {
         "style": "css",
         "linter": "eslint",
-        "unitTestRunner": "vitest"
+        "unitTestRunner": "jest"
       }
     }
   }

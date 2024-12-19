@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { PortfolioTabBar } from '@boktor-apps/features/boktor-portfolio';
+import { MainLayout, PortfolioTabBar } from '@boktor-apps/features/boktor-portfolio';
 import styled from 'styled-components';
 
 const RootContainer = styled.div`
@@ -15,7 +15,8 @@ const RootContainer = styled.div`
 export function App() {
   return (
     <RootContainer>
-      <PortfolioTabBar/>
+      <PortfolioTabBar />
+      <MainLayout />
     </RootContainer>
   );
 }
