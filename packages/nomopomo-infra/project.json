@@ -1,0 +1,58 @@
+{
+  "name": "nomopomo-infra",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nomopomo-infra/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/packages/nomopomo-infra",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "packages/nomopomo-infra/src/main.ts",
+        "tsConfig": "packages/nomopomo-infra/tsconfig.app.json",
+        "assets": ["packages/nomopomo-infra/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "nomopomo-infra:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "nomopomo-infra:build:development"
+        },
+        "production": {
+          "buildTarget": "nomopomo-infra:build:production"
+        }
+      }
+    }
+  }
+}
