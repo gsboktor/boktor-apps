@@ -7,8 +7,9 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "paths": {
+      "@boktor-apps/features/boktor-playground": ["libs/features/boktor-playground/src/index.ts"],
       "@boktor-apps/features/boktor-portfolio": ["libs/features/boktor-portfolio/src/index.ts"],
-      "@boktor-apps/features/boktor-playground": ["libs/features/boktor-playground/src/index.ts"]
+      "@boktor-apps/nomopomo/features/nomopomo-dashboard": ["libs/nomopomo/features/nomopomo-dashboard/src/index.ts"]
     }
   },
   "exclude": ["node_modules"]

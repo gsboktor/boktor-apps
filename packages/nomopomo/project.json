@@ -1,0 +1,51 @@
+{
+  "name": "nomopomo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nomopomo/src",
+  "projectType": "application",
+  "tags": ["scope:client"],
+  "targets": {
+    "serve": {
+      "dependsOn": ["nomopomo:build"],
+      "executor": "@nx/webpack:dev-server",
+      "options": {
+        "buildTarget": "nomopomo:build",
+        "hmr": true,
+        "webpackConfig": "packages/nomopomo/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "nomopomo:build:development"
+        },
+        "production": {
+          "buildTarget": "nomopomo:build:production"
+        }
+      }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "optimization": false
+        },
+        "production": {
+          "optimization": true
+        }
+      },
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/packages/nomopomo",
+        "index": "packages/nomopomo/src/index.html",
+        "baseHref": "/",
+        "main": "packages/nomopomo/src/main.tsx",
+        "tsConfig": "packages/nomopomo/tsconfig.app.json",
+        "assets": ["packages/nomopomo/src/favicon.ico", "packages/nomopomo/src/assets"],
+        "styles": ["packages/nomopomo/src/styles.css"],
+        "scripts": [],
+        "webpackConfig": "packages/nomopomo/webpack.config.js"
+      }
+    }
+  }
+}
