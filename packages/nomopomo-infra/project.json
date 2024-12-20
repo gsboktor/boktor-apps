@@ -8,16 +8,16 @@
     "build": {
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+      "defaultConfiguration": "development",
       "options": {
         "platform": "node",
-        "outputPath": "dist/packages/nomopomo-infra",
+        "outputPath": "../../../dist/packages/nomopomo-infra",
         "format": ["cjs"],
         "bundle": false,
         "main": "packages/nomopomo-infra/src/main.ts",
         "tsConfig": "packages/nomopomo-infra/tsconfig.app.json",
-        "assets": ["packages/nomopomo-infra/src/assets"],
         "generatePackageJson": true,
+        "treeShaking": true,
         "esbuildOptions": {
           "sourcemap": true,
           "outExtension": {
