@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import noise from './assets/noise.svg';
 import { ReactComponent as Nomopomo } from './assets/nomopomo-letters.svg';
@@ -41,9 +42,11 @@ const NomopomoSun = styled.div`
 
 export const NomopomoDashboard = () => {
   return (
-    <AnimationContainer>
-      <StyledNomopomo id="logo" />
-      <NomopomoSun id="sun" />
-    </AnimationContainer>
+    <React.Fragment>
+      <AnimationContainer>
+        <StyledNomopomo id="logo" />
+        <NomopomoSun id="sun" />
+      </AnimationContainer>
+    </React.Fragment>
   );
 };
