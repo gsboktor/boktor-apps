@@ -24,6 +24,7 @@
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@testing-library/react": "15.0.6",
+    "@types/aws-lambda": "^8.10.146",
     "@types/jest": "^29.5.12",
     "@types/lodash": "^4.17.13",
     "@types/node": "18.16.9",
@@ -61,7 +62,9 @@
   },
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.716.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
     "jotai": "^2.10.3",
     "lodash": "^4.17.21",
     "react": "18.3.1",
@@ -76,6 +79,8 @@
   },
   "scripts": {
     "start": "nx serve",
-    "build": "nx build"
+    "build": "nx build",
+    "deploy": "nx deploy",
+    "synth": "nx synth"
   }
 }

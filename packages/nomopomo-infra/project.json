@@ -1,0 +1,123 @@
+{
+  "name": "nomopomo-infra",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nomopomo-infra/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "diff": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build", "build-assets"],
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "cwd": "packages/nomopomo-infra",
+          "command": "cdk diff --context env=development"
+        },
+        "production": {
+          "cwd": "packages/nomopomo-infra",
+          "command": "cdk diff --context env=production"
+        }
+      }
+    },
+    "deploy": {
+      "dependsOn": ["build", "build-assets"],
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "cwd": "packages/nomopomo-infra",
+          "command": "cdk deploy --context env=development --all"
+        },
+        "production": {
+          "cwd": "packages/nomopomo-infra",
+          "command": "cdk deploy --context env=production --all"
+        }
+      }
+    },
+    "synth": {
+      "dependsOn": ["build", "build-assets"],
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "cwd": "packages/nomopomo-infra",
+          "command": "cdk synth --context env=development"
+        },
+        "production": {
+          "cwd": "packages/nomopomo-infra",
+          "command": "cdk synth --context env=production"
+        }
+      }
+    },
+    "build-assets": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "main": "packages/nomopomo-infra/src/functions/index.ts",
+        "tsConfig": "packages/nomopomo-infra/tsconfig.app.json",
+        "outputPath": "./dist/packages/nomopomo-infra/functions",
+        "minify": true,
+        "bundle": true,
+        "additionalEntryPoints": ["packages/nomopomo-infra/src/functions/auth-handler/index.ts"],
+        "format": ["cjs"],
+        "esbuildOptions": {
+          "outExtension": {
+            ".js": ".js"
+          },
+          "platform": "node"
+        }
+      }
+    },
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "development",
+      "options": {
+        "platform": "node",
+        "outputPath": "./dist/packages/nomopomo-infra",
+        "format": ["cjs"],
+        "bundle": true,
+        "main": "packages/nomopomo-infra/src/main.ts",
+        "tsConfig": "packages/nomopomo-infra/tsconfig.app.json",
+        "treeShaking": true,
+        "external": ["aws-cdk", "aws-cdk-lib", "constructs"],
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          },
+          "platform": "node"
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "nomopomo-infra:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "nomopomo-infra:build:development"
+        },
+        "production": {
+          "buildTarget": "nomopomo-infra:build:production"
+        }
+      }
+    }
+  }
+}
