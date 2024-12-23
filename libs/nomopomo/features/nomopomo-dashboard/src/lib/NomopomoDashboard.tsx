@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MainTimer, NomopomoBlurLogo } from './components';
+import { BuyMeACoffee, MainTimer, NomopomoBlurLogo } from './components';
 
 const NomopomoDashHeader = styled.div`
   position: relative;
@@ -12,9 +12,12 @@ const NomopomoDashHeader = styled.div`
 
 export const NomopomoDashboard = () => {
   return (
-    <NomopomoDashHeader>
-      <NomopomoBlurLogo />
-      <MainTimer />
-    </NomopomoDashHeader>
+    <>
+      <NomopomoDashHeader>
+        <NomopomoBlurLogo />
+        <MainTimer />
+      </NomopomoDashHeader>
+      <BuyMeACoffee />
+    </>
   );
 };
