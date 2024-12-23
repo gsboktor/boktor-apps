@@ -36,6 +36,7 @@ jobs:
           fi
         env:
           NODE_ENV: ${{ github.base_ref == 'main' && 'production' || 'development' }}
+          NX_PUBLIC_TEST_STRING: 'Test from github pt. 2'
       - name: CDK Synth
         run: |
           if [ "${{ github.base_ref }}" = "main" ]; then
@@ -48,4 +49,3 @@ jobs:
           CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
           LAMBDA_BASIC_AUTH_USERNAME: ${{ secrets.LAMBDA_BASIC_AUTH_USERNAME }}
           LAMBDA_BASIC_AUTH_PASSWORD: ${{ secrets.LAMBDA_BASIC_AUTH_PASSWORD }}
-          NX_PUBLIC_TEST_STRING: 'This is a github test'
