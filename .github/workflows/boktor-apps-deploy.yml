@@ -19,14 +19,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          bun-version: latest
 
       - name: Install dependencies
-        run: npm ci
+        run: bun install
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -38,9 +37,9 @@ jobs:
       - name: Build nomopomo app
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            npx nx build nomopomo --configuration=production
+            bunx nx build nomopomo --configuration=production
           else
-            npx nx build nomopomo --configuration=development
+            bunx nx build nomopomo --configuration=development
           fi
         env:
           NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
@@ -48,9 +47,9 @@ jobs:
       - name: Deploy infrastructure
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            npx nx deploy nomopomo-infra --configuration=production
+            bunx nx deploy nomopomo-infra --configuration=production
           else
-            npx nx deploy nomopomo-infra --configuration=development
+            bunx nx deploy nomopomo-infra --configuration=development
           fi
         env:
           CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
