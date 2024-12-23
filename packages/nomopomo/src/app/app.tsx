@@ -5,9 +5,11 @@ import styled from 'styled-components';
 const AppContainer = styled.div``;
 
 export function App() {
+  const string = process.env.NX_PUBLIC_TEST_STRING;
   return (
     <AppContainer id="app-container">
       <NomopomoDashboard />
+      <p>{string}</p>
     </AppContainer>
   );
 }

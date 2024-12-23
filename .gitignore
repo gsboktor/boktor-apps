@@ -2,7 +2,7 @@ node_modules/
 .nx/
 dist/
 vite.config.*.timestamp*
-**.env.local
+**.env.*
 **tmp/
 **env
 **cdk.out/

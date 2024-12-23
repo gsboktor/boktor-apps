@@ -1,0 +1,59 @@
+name: boktor-apps-deploy
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: 18
+  AWS_REGION: us-east-1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Build nomopomo app
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            npx nx build nomopomo --configuration=production
+          else
+            npx nx build nomopomo --configuration=development
+          fi
+        env:
+          NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+
+      - name: Deploy infrastructure
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            npx nx deploy nomopomo-infra --configuration=production
+          else
+            npx nx deploy nomopomo-infra --configuration=development
+          fi
+        env:
+          CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+          CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
+          LAMBDA_BASIC_AUTH_USERNAME: ${{ secrets.LAMBDA_BASIC_AUTH_USERNAME }}
+          LAMBDA_BASIC_AUTH_PASSWORD: ${{ secrets.LAMBDA_BASIC_AUTH_PASSWORD }}
