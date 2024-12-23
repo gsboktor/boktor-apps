@@ -23,8 +23,6 @@ export const getEnvironmentConfig = (context: any): EnvironmentConfig => {
     ['production']: {
       environment: 'prod',
       domainName: 'nomopomo.io',
-      basicAuthUsername: process.env.LAMBDA_BASIC_AUTH_USERNAME,
-      basicAuthPassword: process.env.LAMBDA_BASIC_AUTH_PASSWORD,
     },
   };
 

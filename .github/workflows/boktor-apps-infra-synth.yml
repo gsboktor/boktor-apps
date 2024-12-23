@@ -1,0 +1,50 @@
+name: boktor-apps-infra-synth
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    types: [opened, synchronize, reopened]
+
+env:
+  NODE_VERSION: 18
+  AWS_REGION: us-east-1
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    environment: ${{ github.base_ref == 'main' && 'production' || 'development' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build nomopomo app
+        run: |
+          if [ "${{ github.base_ref }}" = "main" ]; then
+            bunx nx build nomopomo --configuration=production
+          else
+            bunx nx build nomopomo --configuration=development
+          fi
+        env:
+          NODE_ENV: ${{ github.base_ref == 'main' && 'production' || 'development' }}
+      - name: CDK Synth
+        run: |
+          if [ "${{ github.base_ref }}" = "main" ]; then
+            bunx nx synth nomopomo-infra --configuration=production
+          else
+            bunx nx synth nomopomo-infra --configuration=development
+          fi
+        env:
+          CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+          CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
+          LAMBDA_BASIC_AUTH_USERNAME: ${{ secrets.LAMBDA_BASIC_AUTH_USERNAME }}
+          LAMBDA_BASIC_AUTH_PASSWORD: ${{ secrets.LAMBDA_BASIC_AUTH_PASSWORD }}

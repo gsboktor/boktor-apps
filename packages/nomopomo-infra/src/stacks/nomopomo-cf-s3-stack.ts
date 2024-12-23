@@ -108,7 +108,13 @@ export class NomopomoCfS3Stack extends cdk.Stack {
       },
     );
 
-    // Output the CloudFront URL
+    new s3deploy.BucketDeployment(this, `DeployNomopomoStaticAssets-${props.environmentConfig.environment}`, {
+      sources: [s3deploy.Source.asset('../../dist/packages/nomopomo')],
+      destinationBucket: websiteBucket,
+      distribution: distribution,
+      distributionPaths: ['/*'],
+    });
+
     new cdk.CfnOutput(this, 'DistributionDomainName', {
       value: distribution.distributionDomainName,
       description: 'Website URL',
@@ -117,13 +123,6 @@ export class NomopomoCfS3Stack extends cdk.Stack {
     new cdk.CfnOutput(this, 'S3ObjectDomainName', {
       value: websiteBucket.bucketDomainName,
       description: 'Bucket URL',
-    });
-
-    new s3deploy.BucketDeployment(this, `DeployNomopomoStaticAssets-${props.environmentConfig.environment}`, {
-      sources: [s3deploy.Source.asset('../../dist/packages/nomopomo')],
-      destinationBucket: websiteBucket,
-      distribution: distribution,
-      distributionPaths: ['/*'],
     });
 
     cdk.Tags.of(this).add('Environment', props.environmentConfig.environment);
