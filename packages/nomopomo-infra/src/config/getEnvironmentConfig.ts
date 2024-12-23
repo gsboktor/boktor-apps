@@ -10,7 +10,7 @@ export interface EnvironmentConfig {
 }
 
 export const getEnvironmentConfig = (context: any): EnvironmentConfig => {
-  const contextEnv = context.environment ?? 'development';
+  const contextEnv = context.environment;
 
   const enviornmentMapper: Record<string, EnvironmentConfig> = {
     ['development']: {
