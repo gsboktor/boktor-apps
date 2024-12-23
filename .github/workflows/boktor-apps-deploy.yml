@@ -56,3 +56,4 @@ jobs:
           CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
           LAMBDA_BASIC_AUTH_USERNAME: ${{ secrets.LAMBDA_BASIC_AUTH_USERNAME }}
           LAMBDA_BASIC_AUTH_PASSWORD: ${{ secrets.LAMBDA_BASIC_AUTH_PASSWORD }}
+          NX_PUBLIC_TEST_STRING: 'This is a github test'
