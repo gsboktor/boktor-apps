@@ -46,6 +46,7 @@ export const NomopomoDashboard = () => {
       <AnimationContainer>
         <StyledNomopomo id="logo" />
         <NomopomoSun id="sun" />
+        <p>This needs to be visible</p>
       </AnimationContainer>
     </React.Fragment>
   );
