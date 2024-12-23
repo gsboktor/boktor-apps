@@ -27,7 +27,7 @@
       "configurations": {
         "development": {
           "cwd": "packages/nomopomo-infra",
-          "command": "cdk deploy --context env=development --all"
+          "command": "cdk deploy --context env=development --all --require-approval never"
         },
         "production": {
           "cwd": "packages/nomopomo-infra",
