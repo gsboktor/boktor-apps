@@ -9,7 +9,7 @@ dotenv.config();
 
 const app = new cdk.App();
 
-const envConfig = getEnvironmentConfig(app.node.tryGetContext('env'));
+const envConfig = getEnvironmentConfig(process.env.NODE_ENV);
 
 new NomopomoCfS3Stack(app, `NomopomoCfS3Stack-${envConfig.environment}`, {
   env: {

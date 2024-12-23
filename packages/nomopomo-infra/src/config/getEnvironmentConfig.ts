@@ -9,8 +9,8 @@ export interface EnvironmentConfig {
   basicAuthPassword?: string;
 }
 
-export const getEnvironmentConfig = (context: any): EnvironmentConfig => {
-  const contextEnv = context.environment;
+export const getEnvironmentConfig = (context: string): EnvironmentConfig => {
+  const contextEnv = context;
 
   const enviornmentMapper: Record<string, EnvironmentConfig> = {
     ['development']: {
