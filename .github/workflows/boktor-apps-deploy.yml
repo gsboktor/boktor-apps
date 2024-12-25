@@ -43,7 +43,6 @@ jobs:
           fi
         env:
           NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
-          NX_PUBLIC_TEST_STRING: 'Test from github pt. 2'
 
       - name: Deploy infrastructure
         run: |
