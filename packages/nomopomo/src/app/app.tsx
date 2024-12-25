@@ -1,15 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { NomopomoDashboard } from '@boktor-apps/nomopomo/features/nomopomo-dashboard';
 import styled from 'styled-components';
+import { GlobalStyles } from './globalStyles';
 
 const AppContainer = styled.div``;
 
 export function App() {
-  const string2 = process.env.NX_PUBLIC_TEST_STRING;
   return (
     <AppContainer id="app-container">
+      <GlobalStyles />
       <NomopomoDashboard />
-      <p>{string2}</p>
     </AppContainer>
   );
 }

@@ -1,7 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-body {
-  background-color: bisque;
-}
 
 #app-container {
   position: absolute;
@@ -9,5 +6,5 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 36px;
+  padding: 18px;
 }
