@@ -3,6 +3,9 @@ import noise from '../assets/noise.svg';
 import { ReactComponent as Nomopomo } from '../assets/nomopomo-letters.svg';
 
 const AnimationContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
   align-items: center;
   justify-content: center;
   width: fit-content;
