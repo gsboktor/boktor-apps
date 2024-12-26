@@ -3,8 +3,8 @@ import { BuyMeACoffee } from './components';
 
 const FooterContainer = styled.div`
   position: absolute;
-  bottom: 18px;
-  width: calc(100% - 36px);
+  bottom: 0px;
+  width: 100%;
   margin: auto;
   display: flex;
   align-items: flex-end;
