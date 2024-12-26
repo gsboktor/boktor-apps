@@ -1,4 +1,3 @@
-import { NomopomoFooter } from '@boktor-apps/nomopomo/features/nomopomo-footer';
 import { useMedia } from 'react-use';
 import styled from 'styled-components';
 import { MainTimer, NomopomoBlurLogo } from './components';
@@ -22,7 +21,6 @@ export const NomopomoDashboard = () => {
         {!isTablet && <NomopomoBlurLogo />}
         <MainTimer />
       </NomopomoDashHeader>
-      <NomopomoFooter />
     </>
   );
 };

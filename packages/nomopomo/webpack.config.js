@@ -7,5 +7,7 @@ module.exports = composePlugins(withNx(), withReact(), (config, { options, conte
   // e.g. config.plugins.push(new MyPlugin())
   // For more information on webpack config and Nx see:
   // https://nx.dev/packages/webpack/documents/webpack-config-setup
+  // Add our new rule
+
   return config;
 });

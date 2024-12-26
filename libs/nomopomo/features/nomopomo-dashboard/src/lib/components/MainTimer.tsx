@@ -1,6 +1,7 @@
-import { timerSelectorAtom } from '@boktor-apps/nomopomo/data-access/store';
+import { useTimer } from '@boktor-apps/nomopomo/data-access/hooks';
+import { PomoTimerMode, timerSelectorAtom } from '@boktor-apps/nomopomo/data-access/store';
 import { useAtom } from 'jotai';
-import { useEffect } from 'react';
+import { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { TimerControls } from './TimerControls';
 
@@ -73,27 +74,35 @@ const TimerColon = styled.p`
 `;
 
 export const MainTimer = () => {
-  const [timeLeft, setTimeLeft] = useAtom(timerSelectorAtom); // 30 minutes in seconds
+  const [timeSelector, setTimeSelector] = useAtom(timerSelectorAtom);
+  const elapsedRef = useRef<number>(0);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      timeLeft.active && setTimeLeft({ newTime: timeLeft.time - 1 });
-    }, 1000);
-
-    if (!timeLeft.active || timeLeft.time <= 0) {
-      clearInterval(intervalId);
-      return;
+  useTimer((elapsed: number) => {
+    if (!timeSelector.active || timeSelector.time < 0) return;
+    elapsedRef.current += elapsed;
+    if (elapsedRef.current >= 1000) {
+      const secondsToDecrease = Math.floor(elapsedRef.current / 1000);
+      setTimeSelector({ newTime: timeSelector.time - secondsToDecrease });
+      elapsedRef.current = elapsedRef.current % 1000; // Keep remainder
     }
+  });
 
-    return () => clearInterval(intervalId);
-  }, [timeLeft]);
+  const getDocumentTitle = useCallback(() => {
+    if (timeSelector.active && timeSelector.mode === PomoTimerMode.WORK)
+      return `⏱️ ${displayHour}:${displayMinute} • Nomopomo.io`;
 
-  const minutes = Math.floor(timeLeft.time / 60);
-  const seconds = timeLeft.time % 60;
+    if (timeSelector.active && timeSelector.mode === PomoTimerMode.BREAK)
+      return `🏖️ ${displayHour}:${displayMinute} • Nomopomo.io`;
+
+    return `⏸️ Paused • Nomopomo.io`;
+  }, [timeSelector]);
+
+  const minutes = Math.floor(timeSelector.time / 60);
+  const seconds = timeSelector.time % 60;
   const displayHour = `${minutes.toString().padStart(2, '0')}`;
   const displayMinute = `${seconds.toString().padStart(2, '0')}`;
 
-  document.title = `${displayHour}:${displayMinute}`;
+  document.title = getDocumentTitle();
 
   return (
     <TimerLayoutContainer>
