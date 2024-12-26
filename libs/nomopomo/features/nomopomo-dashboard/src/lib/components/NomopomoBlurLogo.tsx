@@ -12,14 +12,19 @@ const AnimationContainer = styled.div`
   &:hover {
     cursor: pointer;
     > #logo {
-      transform: scale(1.25);
+      transform: scale(1.5);
     }
     > #sun {
-      transform: scale(0.75);
-      box-shadow: 0px 0px 64px 32px #ffc039a9;
+      transform: scale(0.6);
+      box-shadow: 0px 0px 76px 64px #ffc039a9;
       background: #ffcd62a8;
     }
   }
+  @media screen and (width <= 768px) {
+    top: calc(100% - 96px);
+  }
+
+  transition: top cubic-bezier(0.455, 0.03, 0.515, 0.955) 400ms;
 `;
 
 const StyledNomopomo = styled(Nomopomo)`
@@ -29,7 +34,7 @@ const StyledNomopomo = styled(Nomopomo)`
   border-radius: 30px;
   z-index: 1;
   transform: translateX(-1.5px) translateY(1.5px);
-  transition: transform ease-in-out 150ms;
+  transition: transform var(--bounce-effect) 150ms;
 `;
 
 const NomopomoSun = styled.div`
@@ -38,7 +43,7 @@ const NomopomoSun = styled.div`
   height: 90px;
   border-radius: 50%;
   box-shadow: 0px 0px 0px 0px transparent;
-  transition: transform ease-in-out 150ms, box-shadow ease-in-out 150ms;
+  transition: transform var(--bounce-effect) 150ms, box-shadow var(--bounce-effect) 150ms;
   background: linear-gradient(#ffcd62a8, #ffcd62a8), url(${noise});
 `;
 
