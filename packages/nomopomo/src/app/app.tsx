@@ -5,7 +5,9 @@ import { NomopomoFooter } from '@boktor-apps/nomopomo/features/nomopomo-footer';
 import styled from 'styled-components';
 import { GlobalStyles } from './globalStyles';
 
-const AppContainer = styled.div``;
+const AppContainer = styled.div`
+  position: relative;
+`;
 
 export function App() {
   return (

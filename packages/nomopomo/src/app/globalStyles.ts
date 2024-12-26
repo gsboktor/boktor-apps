@@ -58,6 +58,7 @@ export const GlobalStyles = createGlobalStyle`
             #ffff00,
             #ff0000
         );
+        --bounce-effect: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     margin: 0;
     padding: 0;
     background-color: #FFEAD2;
