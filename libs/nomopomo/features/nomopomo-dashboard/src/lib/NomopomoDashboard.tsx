@@ -14,11 +14,11 @@ const NomopomoDashHeader = styled.div`
 `;
 
 export const NomopomoDashboard = () => {
-  const isTablet = useMedia('(max-width: 768px)');
+  const isMobile = useMedia('(max-width: 374px)');
   return (
     <>
+      {!isMobile && <NomopomoBlurLogo />}
       <NomopomoDashHeader>
-        {!isTablet && <NomopomoBlurLogo />}
         <MainTimer />
       </NomopomoDashHeader>
     </>
