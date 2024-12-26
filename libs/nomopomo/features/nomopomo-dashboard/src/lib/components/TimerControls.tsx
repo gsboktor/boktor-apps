@@ -3,6 +3,7 @@ import { useAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import styled from 'styled-components';
 import noise from '../assets/noise.svg';
+import { ReactComponent as PauseTimer } from '../assets/pause_timer.svg';
 import { ReactComponent as RestartTimer } from '../assets/restart_timer.svg';
 import { ReactComponent as SkipTimer } from '../assets/skip_timer.svg';
 import { ReactComponent as StartTimer } from '../assets/start_timer.svg';
@@ -29,6 +30,12 @@ const StyledTimerRestart = styled(RestartTimer)`
 const StyledTimerSkip = styled(SkipTimer)`
   width: 18px;
   height: 18px;
+  cursor: pointer;
+`;
+
+const StyledPauseTimer = styled(PauseTimer)`
+  width: 42px;
+  height: 42px;
   cursor: pointer;
 `;
 
@@ -68,10 +75,14 @@ export const TimerControls = () => {
   return (
     <TimerControlsContainer>
       <MainPlayButtonContainer>
-        <StyledTimerStart onClick={() => setTimerSelector({ active: !timerSelector.active })} />
+        {timerSelector.active ? (
+          <StyledPauseTimer onClick={() => setTimerSelector({ active: !timerSelector.active })} />
+        ) : (
+          <StyledTimerStart onClick={() => setTimerSelector({ active: !timerSelector.active })} />
+        )}
       </MainPlayButtonContainer>
       <ComplementaryButtonsContainer>
-        <StyledTimerRestart onClick={() => setTimerSelector({ newTime: RESET })} />
+        <StyledTimerRestart onClick={() => setTimerSelector({ newTime: RESET, active: false })} />
         <StyledTimerSkip
           onClick={() =>
             setTimerSelector({

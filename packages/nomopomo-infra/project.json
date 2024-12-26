@@ -31,7 +31,7 @@
         },
         "production": {
           "cwd": "packages/nomopomo-infra",
-          "command": "cdk deploy --context env=production --all"
+          "command": "cdk deploy --context env=production --all --require-approval never"
         }
       }
     },
