@@ -7,7 +7,7 @@ export const GlobalStyles = createGlobalStyle`
     src: url('/assets/fonts/Inter_18pt-Light.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
-    font-display: swap;
+    /* font-display: swap; */
   }
 
   @font-face {
@@ -15,7 +15,7 @@ export const GlobalStyles = createGlobalStyle`
     src: url('/assets/fonts/Inter_18pt-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
-    font-display: swap;
+    /* font-display: swap; */
   }
 
   @font-face {
@@ -23,7 +23,7 @@ export const GlobalStyles = createGlobalStyle`
     src: url('/assets/fonts/Inter_18pt-SemiBold.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
-    font-display: swap;
+    /* font-display: swap; */
   }
 
   @font-face {
@@ -31,7 +31,7 @@ export const GlobalStyles = createGlobalStyle`
     src: url('/assets/fonts/Inter_18pt-Bold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
-    font-display: swap;
+    /* font-display: swap; */
   }
 
 
