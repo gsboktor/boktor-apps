@@ -54,7 +54,7 @@ const TimerMinute = styled.p`
   justify-content: flex-start;
   align-items: center;
   text-transform: uppercase;
-  background: #ffffff;
+  background: white;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
