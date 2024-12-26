@@ -18,7 +18,11 @@ module.exports = [
           depConstraints: [
             {
               sourceTag: 'scope:client',
-              onlyDependOnLibsWithTags: ['scope:client'],
+              onlyDependOnLibsWithTags: ['scope:client', 'scope:data-access'],
+            },
+            {
+              sourceTag: 'scope:data-access',
+              onlyDependOnLibsWithTags: ['scope:data-access'],
             },
           ],
         },
@@ -28,7 +32,6 @@ module.exports = [
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     // Override or add rules here
-    rules: {
-    },
+    rules: {},
   },
 ];
