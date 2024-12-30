@@ -21,13 +21,13 @@ const ModalPageContainer = styled(motion.div)`
 `;
 
 type ModalSkeletonRenderProps = {
-  setShow: (show: boolean) => void;
+  setShow: () => void;
   ref: React.RefObject<HTMLDivElement>;
 };
 
 type ModalSkeletonProps = {
   show: boolean;
-  setShow: (show: boolean) => void;
+  setShow: () => void;
   render: (p: ModalSkeletonRenderProps) => JSX.Element;
 };
 
@@ -35,7 +35,7 @@ export const ModalSkeleton = ({ show, setShow, render }: ModalSkeletonProps) => 
   const modalRef = useRef<HTMLDivElement>(null);
 
   const closeModal = useCallback(() => {
-    setShow(false);
+    setShow();
   }, [setShow]);
 
   useEffect(() => {

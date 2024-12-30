@@ -1,19 +1,21 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { NomopomoDashboard } from '@boktor-apps/nomopomo/features/nomopomo-dashboard';
 import { NomopomoFooter } from '@boktor-apps/nomopomo/features/nomopomo-footer';
-import { NomopomoSideModal } from '@boktor-apps/nomopomo/features/nomopomo-side-modal';
 import { ModalSkeleton } from '@boktor-apps/shared/ui/modal';
 
-import { useState } from 'react';
+import { activeModalAtom } from '@boktor-apps/nomopomo/data-access/store';
+import { useAtom } from 'jotai';
 import styled from 'styled-components';
 import { GlobalStyles } from './globalStyles';
 
 const AppContainer = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
 `;
 
 export function App() {
-  const [show, setShow] = useState<boolean>(false);
+  const [modalState, setModalState] = useAtom(activeModalAtom);
 
   return (
     <>
@@ -21,12 +23,17 @@ export function App() {
       <AppContainer id="app-container">
         <NomopomoDashboard />
         <NomopomoFooter />
-        <button onClick={() => setShow(!show)}>show</button>
       </AppContainer>
       <ModalSkeleton
-        show={show}
-        setShow={setShow}
-        render={(p) => <NomopomoSideModal ref={p.ref} closeModal={p.setShow} />}
+        show={modalState?.show ?? false}
+        setShow={() => {
+          setModalState(null);
+        }}
+        render={(p) => {
+          if (!modalState?.Component) return <></>;
+          const ModalComponent = modalState.Component;
+          return <ModalComponent ref={p.ref} closeModal={p.setShow} />;
+        }}
       />
     </>
   );

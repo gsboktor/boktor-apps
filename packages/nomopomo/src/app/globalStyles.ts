@@ -60,6 +60,22 @@ export const GlobalStyles = createGlobalStyle`
             #fbb3b3,
             #a7d6c8
         );
+        --silver-gradient: 
+        linear-gradient(
+            45deg,
+            #f4f4f4,
+            #e0e0e0,
+            #ffffff,
+            #d1d1d1,
+            #f4f4f4,
+            #ffffff,
+            #e0e0e0,
+            #d1d1d1,
+            #f4f4f4,
+            #ffffff,
+            #e0e0e0,
+            #d1d1d1
+        );
         --bounce-effect: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     margin: 0;
     padding: 0;
