@@ -8,6 +8,7 @@ const AnimationContainer = styled.div`
   left: 0;
   align-items: center;
   justify-content: center;
+  z-index: 1000;
   width: fit-content;
   &:hover {
     cursor: pointer;

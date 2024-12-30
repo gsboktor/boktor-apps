@@ -18,12 +18,13 @@ const animate = keyframes`
 
 const ModalDimensions = css`
   @media screen and (width < 748px) {
-    width: 100%;
+    width: calc(100% - 48px);
     height: 75%;
   }
   width: 500px;
-  height: 92vh;
+  height: 94vh;
 `;
+
 const ModalAnimatedWrapper = styled(motion.div)`
   position: absolute;
   left: 24px;
@@ -33,13 +34,12 @@ const ModalAnimatedWrapper = styled(motion.div)`
   ${ModalDimensions}
   @media screen and (width < 748px) {
     bottom: 0;
-    left: 0;
   }
 `;
 
 const ModalGradient = styled.div`
   position: absolute;
-  width: calc(100% + 24px);
+  width: calc(100% + 48px);
   height: calc(100% + 48px);
   border-radius: 36px;
   filter: blur(64px);
@@ -50,21 +50,24 @@ const ModalGradient = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  position: relative; // Add this
+  display: flex;
+  position: relative;
   padding: 16px;
   background: linear-gradient(#f5deb36a, #f5deb36a), url(${noise});
+  justify-content: center;
   box-shadow: 0px 0px 64px 12px #00000015;
   border-radius: 36px;
   width: 100%;
   height: 100%;
-  z-index: 1001; // Increase z-index to be above the blur
+  z-index: 1001;
   @media screen and (width < 748px) {
     border-radius: 36px 36px 0px 0px;
+    padding: 16px 32px;
   }
 `;
 
 type NomopomoSideModalProps = {
-  closeModal: (p: boolean) => void;
+  closeModal: (show: boolean) => void;
 };
 
 export const NomopomoSideModal = React.forwardRef<HTMLDivElement, NomopomoSideModalProps>((props, modalRef) => {
