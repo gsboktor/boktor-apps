@@ -1,5 +1,6 @@
 import { atomWithStorage } from 'jotai/utils';
 import { atom } from 'jotai/vanilla';
+import { kanbanConfigAtom } from './kanbanConfigAtom';
 import { DefaultKanbanBoards, PublicBoardOperations, Task } from './types';
 import { generateKey, getBoardTasksByKey, storage } from './utils';
 
@@ -16,6 +17,7 @@ export const kanbanBoardsAtom = atomWithStorage<DefaultKanbanBoards>(
 export const boardOperations = atom<PublicBoardOperations>((get) => ({
   getBoardTasksByKey: (key: keyof DefaultKanbanBoards) => getBoardTasksByKey(key, get),
   getAllBoards: () => get(kanbanBoardsAtom),
+  getBoardConfigByKey: (key: keyof DefaultKanbanBoards) => get(kanbanConfigAtom)[key],
 }));
 
 export const addBoardTaskAtom = atom<null, [{ boardKey: string; newTask: Task }], void>(null, (get, set, update) => {
