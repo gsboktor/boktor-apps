@@ -13,12 +13,14 @@
       "@boktor-apps/nomopomo/data-access/store": ["libs/nomopomo/data-access/store/src/index.ts"],
       "@boktor-apps/nomopomo/features/nomopomo-dashboard": ["libs/nomopomo/features/nomopomo-dashboard/src/index.ts"],
       "@boktor-apps/nomopomo/features/nomopomo-footer": ["libs/nomopomo/features/nomopomo-footer/src/index.ts"],
+      "@boktor-apps/nomopomo/features/nomopomo-kanban": ["libs/nomopomo/features/nomopomo-kanban/src/index.ts"],
       "@boktor-apps/nomopomo/features/nomopomo-side-modal": ["libs/nomopomo/features/nomopomo-side-modal/src/index.ts"],
       "@boktor-apps/shared/ui/buttons": ["libs/shared/ui/buttons/src/index.ts"],
       "@boktor-apps/shared/ui/cards": ["libs/shared/ui/cards/src/index.ts"],
+      "@boktor-apps/shared/ui/fields": ["libs/shared/ui/fields/src/index.ts"],
       "@boktor-apps/shared/ui/modal": ["libs/shared/ui/modal/src/index.ts"],
       "@boktor-apps/shared/ui/scroll-carousel": ["libs/shared/ui/scroll-carousel/src/index.ts"],
-      "@boktor-apps/nomopomo/features/nomopomo-kanban": ["libs/nomopomo/features/nomopomo-kanban/src/index.ts"]
+      "@boktor-apps/shared/ui/hooks": ["libs/shared/ui/hooks/src/index.ts"]
     }
   },
   "exclude": ["node_modules"]
