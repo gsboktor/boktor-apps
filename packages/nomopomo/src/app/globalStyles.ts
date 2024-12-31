@@ -1,49 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
-
-  @font-face {
-    font-family: 'Inter';
-    src: url('/assets/fonts/Inter_18pt-Light.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
-    /* font-display: swap; */
-  }
-
-  @font-face {
-    font-family: 'Inter';
-    src: url('/assets/fonts/Inter_18pt-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-    /* font-display: swap; */
-  }
-
-  @font-face {
-    font-family: 'Inter';
-    src: url('/assets/fonts/Inter_18pt-SemiBold.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
-    /* font-display: swap; */
-  }
-
-  @font-face {
-    font-family: 'Inter';
-    src: url('/assets/fonts/Inter_18pt-Bold.ttf') format('truetype');
-    font-weight: 600;
-    font-style: normal;
-    /* font-display: swap; */
-  }
-
-
-  @font-face {
-    font-family: 'Inter';
-    src: url('/assets/fonts/Inter_18pt-ExtraBold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
-
   body {
+        font-family: "Inter";
         --gradient-shadow: 
         linear-gradient(
             45deg,
