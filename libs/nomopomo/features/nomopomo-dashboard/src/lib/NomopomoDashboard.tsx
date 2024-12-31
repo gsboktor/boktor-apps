@@ -1,9 +1,13 @@
 import { activeModalAtom, boardOperations } from '@boktor-apps/nomopomo/data-access/store';
 import { KanbanBoard } from '@boktor-apps/nomopomo/features/nomopomo-kanban';
 import { NomopomoSideModal } from '@boktor-apps/nomopomo/features/nomopomo-side-modal';
+import { Dropdown } from '@boktor-apps/shared/ui/dropdowns';
 import { BaseFormField, BaseTextArea } from '@boktor-apps/shared/ui/fields';
+import { ReactComponent as SkipTimer } from './assets/skip_timer.svg';
 
+import { SelectionCard } from '@boktor-apps/shared/ui/cards';
 import { useAtomValue, useSetAtom } from 'jotai';
+import { useState } from 'react';
 import { useMedia } from 'react-use';
 import styled from 'styled-components';
 import { MainTimer, NomopomoBlurLogo } from './components';
@@ -56,6 +60,11 @@ export const NomopomoDashboard = () => {
   const setModalState = useSetAtom(activeModalAtom);
   const { getAllBoards, getBoardConfigByKey } = useAtomValue(boardOperations);
 
+  const [dropdownOpen, setOpen] = useState<boolean>(false);
+  const [optionLabel, setOptionLabel] = useState<{ id: number; label: string }>();
+
+  const Icon = <SkipTimer width={24} height={24} />;
+
   return (
     <DashboardRootContainer>
       {!isMobile && <NomopomoBlurLogo />}
@@ -81,6 +90,46 @@ export const NomopomoDashboard = () => {
             </BoardContainer>
           );
         })}
+        <div style={{ display: 'flex', paddingTop: 200, width: '100%' }}>
+          <Dropdown
+            items={[
+              { id: 1, label: 'Test' },
+              { id: 2, label: 'Test' },
+              { id: 3, label: 'Test' },
+              { id: 4, label: 'Test' },
+              { id: 5, label: 'Test' },
+              { id: 1, label: 'Test' },
+              { id: 2, label: 'Test' },
+              { id: 3, label: 'Test' },
+              { id: 4, label: 'Test' },
+              { id: 5, label: 'Test' },
+            ]}
+            placeholder={optionLabel?.label}
+            onClose={() => {
+              setOpen(false);
+            }}
+            onOpen={() => {
+              setOpen(true);
+            }}
+            Icon={Icon}
+            open={dropdownOpen}
+            onOptionSelect={(option) => {
+              if (optionLabel?.id === option.id) {
+                setOptionLabel(undefined);
+              } else {
+                setOptionLabel(option);
+              }
+            }}
+            render={(item, idx, onSelect) => (
+              <SelectionCard
+                key={idx}
+                label={item.label}
+                toggled={optionLabel?.id === item.id}
+                onSelection={() => onSelect(item)}
+              />
+            )}
+          ></Dropdown>
+        </div>
       </NomopomoMainDashboard>
       <div
         style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center', justifyContent: 'center' }}

@@ -77,7 +77,7 @@ export const SideModalBody = () => {
         </ModalSubHeader>
         <div style={{ height: 'fit-content' }}>
           <ScrollCarousel
-            gap={24}
+            gap={12}
             direction="right"
             marginFactor={32}
             animationDelay={200}
@@ -89,7 +89,7 @@ export const SideModalBody = () => {
                     onSelection={() => handleSelection(item.id)}
                     label={item.label}
                     toggled={localSelections.includes(item.id)}
-                    selectionCardAttr={{ tabIndex: 0, style: { padding: '6px' } }}
+                    selectionCardAttr={{ tabIndex: 0, style: { padding: '4px 10px' } }}
                     cardColor={item.mainColor}
                     labelAttr={{ style: { fontSize: 14, fontWeight: '400', letterSpacing: '-0.5px' } }}
                     toggleContainerAttr={{ style: { transform: `scale(0.6)` } }}
@@ -99,7 +99,7 @@ export const SideModalBody = () => {
             }}
           />
           <ScrollCarousel
-            gap={24}
+            gap={12}
             direction="right"
             marginFactor={12}
             animationDelay={500}
@@ -110,7 +110,7 @@ export const SideModalBody = () => {
                   <SelectionCard
                     onSelection={() => handleSelection(item.id)}
                     label={item.label}
-                    selectionCardAttr={{ tabIndex: 0, style: { padding: '6px' } }}
+                    selectionCardAttr={{ tabIndex: 0, style: { padding: '4px 10px' } }}
                     toggled={localSelections.includes(item.id)}
                     cardColor={item.mainColor}
                     labelAttr={{ style: { fontSize: 14, fontWeight: '400', letterSpacing: '-0.5px' } }}
