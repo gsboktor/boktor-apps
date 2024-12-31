@@ -17,6 +17,7 @@ type SelectionCardProps = {
 
 const StyledSelectionCardContainer = styled.div<{ $mainColor: string }>`
   position: relative;
+  box-sizing: border-box;
   display: flex;
   width: 100%;
   height: 100%;
