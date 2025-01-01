@@ -1,11 +1,12 @@
 import { activeModalAtom, boardOperations } from '@boktor-apps/nomopomo/data-access/store';
 import { KanbanBoard } from '@boktor-apps/nomopomo/features/nomopomo-kanban';
 import { NomopomoSideModal } from '@boktor-apps/nomopomo/features/nomopomo-side-modal';
+import { AnimatedSelectionCard } from '@boktor-apps/nomopomo/ui/cards';
+
 import { Dropdown } from '@boktor-apps/shared/ui/dropdowns';
-import { BaseFormField, BaseTextArea } from '@boktor-apps/shared/ui/fields';
+import { BaseFormField, BaseNumericInput, BaseTextArea } from '@boktor-apps/shared/ui/fields';
 import { ReactComponent as SkipTimer } from './assets/skip_timer.svg';
 
-import { SelectionCard } from '@boktor-apps/shared/ui/cards';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useState } from 'react';
 import { useMedia } from 'react-use';
@@ -38,7 +39,6 @@ const NomopomoMainDashboard = styled.div`
   height: calc(100% - 64px);
 
   gap: 16px;
-  /* margin-bottom: 88px; */
   padding: 16px 0px;
   overflow-x: scroll;
   -webkit-mask-image: linear-gradient(to top, transparent, black 5%);
@@ -90,20 +90,16 @@ export const NomopomoDashboard = () => {
             </BoardContainer>
           );
         })}
-        <div style={{ display: 'flex', paddingTop: 200, width: '100%' }}>
+        <div style={{ display: 'flex', paddingTop: 400, width: '100%' }}>
           <Dropdown
             items={[
-              { id: 1, label: 'Test' },
-              { id: 2, label: 'Test' },
-              { id: 3, label: 'Test' },
-              { id: 4, label: 'Test' },
-              { id: 5, label: 'Test' },
-              { id: 1, label: 'Test' },
-              { id: 2, label: 'Test' },
-              { id: 3, label: 'Test' },
-              { id: 4, label: 'Test' },
-              { id: 5, label: 'Test' },
+              { id: 1, label: 'Backlog' },
+              { id: 2, label: 'Done' },
+              { id: 3, label: 'Todo' },
+              { id: 4, label: 'Cruft' },
+              { id: 5, label: 'Whatever' },
             ]}
+            length={5}
             placeholder={optionLabel?.label}
             onClose={() => {
               setOpen(false);
@@ -121,7 +117,11 @@ export const NomopomoDashboard = () => {
               }
             }}
             render={(item, idx, onSelect) => (
-              <SelectionCard
+              <AnimatedSelectionCard
+                selectionCardAttr={{ style: { padding: 6, gap: 8 } }}
+                labelAttr={{ style: { fontSize: 14, textAlign: 'start', fontWeight: 400, letterSpacing: -1 } }}
+                toggleContainerAttr={{ style: { transform: `scale(0.6)` } }}
+                delay={0.2 * idx}
                 key={idx}
                 label={item.label}
                 toggled={optionLabel?.id === item.id}
@@ -129,7 +129,16 @@ export const NomopomoDashboard = () => {
               />
             )}
           ></Dropdown>
-        </div>
+        </div>{' '}
+        <BaseNumericInput
+          onInputChange={() => {}}
+          placeholder="0"
+          inputAttr={{ style: { fontWeight: 600, letterSpacing: -1, fontSize: 18 } }}
+          affixLeft={Icon}
+          inputContainerAttr={{
+            style: { backgroundColor: '#ffffff45', padding: `6px 12px` },
+          }}
+        />
       </NomopomoMainDashboard>
       <div
         style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center', justifyContent: 'center' }}

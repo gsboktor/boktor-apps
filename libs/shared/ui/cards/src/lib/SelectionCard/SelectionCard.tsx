@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import styled from 'styled-components';
 import { AnimatedToggle } from './AnimatedToggle';
 
-type SelectionCardProps = {
+export type SelectionCardProps = {
   toggleFill?: string;
   toggled?: boolean;
   label: string;

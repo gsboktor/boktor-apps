@@ -1,5 +1,6 @@
+import { useOutOfBounds } from '@boktor-apps/shared/ui/hooks';
 import { AnimatePresence, motion } from 'motion/react';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 
 const ModalPageContainer = styled(motion.div)`
@@ -38,17 +39,9 @@ export const ModalSkeleton = ({ show, setShow, render }: ModalSkeletonProps) => 
     setShow();
   }, [setShow]);
 
-  useEffect(() => {
-    const handleMouseDown = (ev: MouseEvent) => {
-      if (modalRef && !modalRef.current?.contains(ev.target as Node)) {
-        closeModal();
-      }
-    };
-    document.addEventListener('mousedown', handleMouseDown);
-    return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-    };
-  }, []);
+  useOutOfBounds(modalRef, () => {
+    closeModal();
+  });
 
   return (
     <AnimatePresence>
