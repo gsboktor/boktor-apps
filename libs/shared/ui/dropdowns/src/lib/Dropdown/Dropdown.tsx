@@ -1,8 +1,11 @@
+import { useOutOfBounds } from '@boktor-apps/shared/ui/hooks';
+import { AnimatePresence } from 'motion/react';
 import React, { useCallback, useRef } from 'react';
 import styled, { css } from 'styled-components';
 
 export type DropdownProps<T> = {
   items: T[];
+  length: number;
   Icon: React.ReactNode;
   open?: boolean;
   onClose: () => void;
@@ -77,6 +80,10 @@ export const Dropdown = <T,>({ placeholder = 'Select an option', ...props }: Dro
   const dropdownRootRef = useRef<HTMLDivElement>(null);
   const dropdownRenderDirection = useRef<'up' | 'down'>();
 
+  useOutOfBounds(dropdownRootRef, () => {
+    props.onClose();
+  });
+
   const handleDropdownOpen = useCallback(() => {
     if (!dropdownRootRef.current?.getBoundingClientRect) return;
 
@@ -91,21 +98,20 @@ export const Dropdown = <T,>({ placeholder = 'Select an option', ...props }: Dro
 
   return (
     <DropdownRootContainer id="dropdown-root" ref={dropdownRootRef}>
-      <DropdownFieldContainer>
+      <DropdownFieldContainer onClick={() => (!props.open ? handleDropdownOpen() : props.onClose())}>
         <DropdownFieldLabel>{placeholder}</DropdownFieldLabel>
-        {props.Icon && (
-          <DropdownFieldIconContainer onClick={() => (props.open ? props.onClose() : handleDropdownOpen())}>
-            {props.Icon}
-          </DropdownFieldIconContainer>
-        )}
+        {props.Icon && <DropdownFieldIconContainer>{props.Icon}</DropdownFieldIconContainer>}
       </DropdownFieldContainer>
-      {props.open && (
-        <DropdownContainer $dir={dropdownRenderDirection.current}>
-          {props.items.map((item, idx) => {
-            return props.render(item, idx, props.onOptionSelect);
-          })}
-        </DropdownContainer>
-      )}
+      <AnimatePresence>
+        {props.open && (
+          <DropdownContainer $dir={dropdownRenderDirection.current}>
+            {props.items.map((item, idx) => {
+              const isReversed = dropdownRenderDirection.current === 'up';
+              return props.render(item, isReversed ? props.length - 1 - idx : idx, props.onOptionSelect);
+            })}
+          </DropdownContainer>
+        )}
+      </AnimatePresence>
     </DropdownRootContainer>
   );
 };
