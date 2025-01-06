@@ -1,6 +1,7 @@
 import { PrimaryButton, SecondaryButton } from '@boktor-apps/shared/ui/buttons';
 import styled from 'styled-components';
 import { SideModalBody } from './SideModalBody';
+
 const SideModalContentContainer = styled.div`
   display: flex;
   width: 100%;
@@ -53,13 +54,13 @@ export const SideModalMainContent = () => {
       <ModalHeader>
         ⏱️ Welcome to <b>Nomopomo.io!</b>
       </ModalHeader>
-      <ModalHeader style={{ textAlign: 'start', fontSize: 28 }}>
+      {/* <ModalHeader style={{ textAlign: 'center', fontSize: 22 }}>
         The last{' '}
-        <em style={{ letterSpacing: -0.5, fontSize: 30 }}>
+        <em style={{ letterSpacing: -0.5, fontSize: 24 }}>
           <b>pomodoro app</b>
         </em>{' '}
         you will ever need.
-      </ModalHeader>
+      </ModalHeader> */}
       <SideModalBody />
       <ButtonGroupContainer>
         <StyledPrimaryButton>

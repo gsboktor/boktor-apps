@@ -2,11 +2,14 @@ import { PomoTimerMode, timerSelectorAtom } from '@boktor-apps/nomopomo/data-acc
 import { useAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import styled from 'styled-components';
-import noise from '../assets/noise.svg';
-import { ReactComponent as PauseTimer } from '../assets/pause_timer.svg';
-import { ReactComponent as RestartTimer } from '../assets/restart_timer.svg';
-import { ReactComponent as SkipTimer } from '../assets/skip_timer.svg';
-import { ReactComponent as StartTimer } from '../assets/start_timer.svg';
+
+import {
+  Noise,
+  PauseTimerComponent,
+  RestartTimerComponent,
+  SkipTimerComponent,
+  StartTimerComponent,
+} from '@boktor-apps/shared/ui/assets';
 
 const TimerControlsContainer = styled.div`
   display: flex;
@@ -15,25 +18,25 @@ const TimerControlsContainer = styled.div`
   gap: 12px;
 `;
 
-const StyledTimerStart = styled(StartTimer)`
+const StyledTimerStart = styled(StartTimerComponent)`
   width: 18px;
   height: 18px;
   cursor: pointer;
 `;
 
-const StyledTimerRestart = styled(RestartTimer)`
+const StyledTimerRestart = styled(RestartTimerComponent)`
   width: 18px;
   height: 18px;
   cursor: pointer;
 `;
 
-const StyledTimerSkip = styled(SkipTimer)`
+const StyledTimerSkip = styled(SkipTimerComponent)`
   width: 18px;
   height: 18px;
   cursor: pointer;
 `;
 
-const StyledPauseTimer = styled(PauseTimer)`
+const StyledPauseTimer = styled(PauseTimerComponent)`
   width: 42px;
   height: 42px;
   cursor: pointer;
@@ -47,7 +50,7 @@ const MainPlayButtonContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 8px;
-  background: linear-gradient(#ffcd62a8, #ffcd62a8), url(${noise});
+  background: linear-gradient(#ffcd62a8, #ffcd62a8), url(${Noise});
   &:hover {
     transform: scale(1.075);
     box-shadow: 0px 0px 16px 8px #ffc039a9;
@@ -62,7 +65,7 @@ const ComplementaryButtonsContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 24px;
-  background: linear-gradient(#ffcd62a8, #ffcd62a8), url(${noise});
+  background: linear-gradient(#ffcd62a8, #ffcd62a8), url(${Noise});
   &:hover {
     transform: scale(1.075);
     box-shadow: 0px 0px 16px 8px #ffc039a9;
