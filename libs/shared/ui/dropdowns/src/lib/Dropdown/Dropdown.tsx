@@ -33,10 +33,16 @@ const DropdownFieldContainer = styled.div`
   background-color: #ffffff45;
   border-radius: 24px;
   justify-content: space-between;
-  width: calc(100% - 16px);
+  width: 100%;
+  box-sizing: border-box;
   height: fit-content;
   padding: 8px;
   gap: 8px;
+  &:hover {
+    background-color: #ffffff70;
+    transform: scale(1.025);
+  }
+  transition: background-color ease-in-out 200ms, transform ease-in-out 200ms;
 `;
 
 const DropdownFieldLabel = styled.p`

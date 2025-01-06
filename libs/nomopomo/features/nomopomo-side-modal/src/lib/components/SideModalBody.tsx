@@ -1,8 +1,10 @@
+import { SideModalTicketForm } from '@boktor-apps/nomopomo/features/nomopomo-forms';
 import { ChipCard, SelectionCard } from '@boktor-apps/shared/ui/cards';
 import { ScrollCarousel } from '@boktor-apps/shared/ui/scroll-carousel';
+
+import { CloseComponent } from '@boktor-apps/shared/ui/assets';
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as Close } from '../assets/close.svg';
 import { DEFAULTS } from './consts';
 
 const ModalSubHeader = styled.p`
@@ -21,6 +23,8 @@ const ModalSubHeader = styled.p`
 const ModalBody = styled.div`
   display: flex;
   flex-grow: 1;
+  gap: 16px;
+  overflow: scroll;
   width: 100%;
   margin: 24px 0px;
   align-items: center;
@@ -31,7 +35,7 @@ const ModalSection = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 12px;
+  gap: 16px;
 `;
 
 const CardContainer = styled.div`
@@ -46,7 +50,7 @@ const SelectionsContainer = styled.div`
   gap: 4px;
 `;
 
-const Closed = styled(Close)`
+const Closed = styled(CloseComponent)`
   display: flex;
   width: 12px;
   height: 12px;
@@ -138,6 +142,7 @@ export const SideModalBody = () => {
         <ModalSubHeader>
           Step 2<b style={{ marginLeft: 6, letterSpacing: -1 }}> • Create your first ticket!</b>
         </ModalSubHeader>
+        <SideModalTicketForm />
       </ModalSection>
       <ModalSection>
         <ModalSubHeader>

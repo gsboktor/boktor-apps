@@ -5,6 +5,8 @@ import { useAtomValue } from 'jotai';
 import { motion, useAnimate } from 'motion/react';
 import { useMemo, useRef } from 'react';
 
+import { Turbulence } from '@boktor-apps/shared/ui/assets';
+
 import styled from 'styled-components';
 
 export type KanbanBoardProps = {
@@ -26,9 +28,11 @@ const KanbanContainer = styled.div`
 
 const MockCard = styled.div`
   width: 100%;
-  min-height: 300px;
+  min-height: 225px;
   border-radius: 20px;
   background-color: #ffdfbb;
+  background: linear-gradient(#ffc27c62, #ffc27c62), url(${Turbulence});
+
   box-shadow: 0px 0px 0px 1px inset #4f4f4f2c;
 `;
 

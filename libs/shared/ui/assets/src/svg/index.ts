@@ -1,0 +1,16 @@
+export { default as AddIcon, ReactComponent as AddIconComponent } from './AddIcon.svg';
+export { default as ArrowDown, ReactComponent as ArrowDownComponent } from './ArrowDown.svg';
+export { default as ArrowSide, ReactComponent as ArrowSideComponent } from './ArrowSide.svg';
+export { default as Board, ReactComponent as BoardComponent } from './Board.svg';
+export { default as Clock, ReactComponent as ClockComponent } from './Clock.svg';
+export { default as Close, ReactComponent as CloseComponent } from './close.svg';
+export { default as Colon, ReactComponent as ColonComponent } from './colon.svg';
+export { default as HelpIcon, ReactComponent as HelpIconComponent } from './HelpIcon.svg';
+export { default as Noise, ReactComponent as NoiseComponent } from './noise.svg';
+export { default as NomopomoLetters, ReactComponent as NomopomoLettersComponent } from './nomopomo-letters.svg';
+export { default as Nomopomo, ReactComponent as NomopomoComponent } from './nomopomo.svg';
+export { default as PauseTimer, ReactComponent as PauseTimerComponent } from './pause_timer.svg';
+export { default as RestartTimer, ReactComponent as RestartTimerComponent } from './restart_timer.svg';
+export { default as SkipTimer, ReactComponent as SkipTimerComponent } from './skip_timer.svg';
+export { default as StartTimer, ReactComponent as StartTimerComponent } from './start_timer.svg';
+export { default as Turbulence, ReactComponent as TurbulenceComponent } from './Turbulence.svg';

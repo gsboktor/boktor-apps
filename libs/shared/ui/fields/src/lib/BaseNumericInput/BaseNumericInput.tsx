@@ -64,32 +64,6 @@ const Input = styled.input<{ $placeholderColor?: string }>`
     `}
 `;
 
-const ValidationText = styled.p<{ $severity?: string }>`
-  margin: 0;
-  font-family: Inter;
-  display: flex;
-  align-self: flex-start;
-  font-weight: 300;
-  font-size: 14px;
-  padding-left: 16px;
-  color: ${({ $severity }) => {
-    switch ($severity) {
-      case 'info': {
-        return `black`;
-      }
-      case 'warn': {
-        return `yellow`;
-      }
-      case 'error': {
-        return `red`;
-      }
-      default: {
-        return `black`;
-      }
-    }
-  }};
-`;
-
 const IconContainer = styled.div`
   display: flex;
   width: 24px;

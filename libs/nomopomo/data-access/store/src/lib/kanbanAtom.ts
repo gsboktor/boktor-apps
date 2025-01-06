@@ -7,8 +7,8 @@ import { generateKey, getBoardTasksByKey, storage } from './utils';
 export const kanbanBoardsAtom = atomWithStorage<DefaultKanbanBoards>(
   generateKey('boards'),
   {
-    backlog: {},
-    done: {},
+    Backlog: {},
+    Done: {},
   } as DefaultKanbanBoards,
   storage<DefaultKanbanBoards>(),
   { getOnInit: true },

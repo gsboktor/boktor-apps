@@ -80,7 +80,7 @@ const IconContainer = styled.button<{ $mainColor: string }>`
   background-color: transparent;
   padding: 8px;
   &:hover {
-    background-color: ${({ $mainColor }) => $mainColor + `33`};
+    background-color: ${({ $mainColor }) => $mainColor + `22`};
     cursor: pointer;
   }
   transition: background-color ease-in-out 200ms;

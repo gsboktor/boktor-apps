@@ -7,8 +7,8 @@ export type PublicBoardOperations = {
 };
 
 export interface DefaultKanbanBoards {
-  backlog: AccessibleTaskMap;
-  done: AccessibleTaskMap;
+  Backlog: AccessibleTaskMap;
+  Done: AccessibleTaskMap;
   [boardName: string]: AccessibleTaskMap;
 }
 

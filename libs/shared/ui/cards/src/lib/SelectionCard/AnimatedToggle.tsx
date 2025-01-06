@@ -7,6 +7,8 @@ const ToggleBoundary = styled(motion.div)`
   justify-content: center;
   width: 100%;
   height: 100%;
+  min-height: 20px;
+  min-width: 20px;
   border-radius: 50%;
   background-color: white;
   cursor: pointer;

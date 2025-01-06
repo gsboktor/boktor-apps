@@ -2,10 +2,10 @@ import { atom } from 'jotai';
 import { BoardConfig } from './types';
 
 export const kanbanConfigAtom = atom<BoardConfig>({
-  backlog: {
+  Backlog: {
     theme: '#a6d6c9',
   },
-  done: {
+  Done: {
     theme: '#e0c7bf',
   },
 });
