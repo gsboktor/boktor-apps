@@ -1,5 +1,5 @@
 import { useOutOfBounds } from '@boktor-apps/shared/ui/hooks';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 import { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 
@@ -43,9 +43,5 @@ export const ModalSkeleton = ({ show, setShow, render }: ModalSkeletonProps) => 
     closeModal();
   });
 
-  return (
-    <AnimatePresence>
-      {show && <ModalPageContainer exit={{ opacity: 0 }}>{render({ setShow, ref: modalRef })}</ModalPageContainer>}
-    </AnimatePresence>
-  );
+  return <ModalPageContainer exit={{ opacity: 0 }}>{render({ setShow, ref: modalRef })}</ModalPageContainer>;
 };
