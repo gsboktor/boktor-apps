@@ -1,5 +1,3 @@
-// apps/infrastructure/src/stacks/website-stack.ts
-
 import * as cdk from 'aws-cdk-lib';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
