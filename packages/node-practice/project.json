@@ -1,0 +1,75 @@
+{
+  "name": "node-practice",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/node-practice/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "packages/node-practice/jest.config.ts",
+        "passWithNoTests": true,
+        "clearCache": true,
+        "testPathPattern": [".*\\.test\\.ts$"]
+      },
+      "dependsOn": ["node-practice:build"],
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/packages/node-practice",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "packages/node-practice/src/main.ts",
+        "tsConfig": "packages/node-practice/tsconfig.app.json",
+        "assets": ["packages/node-practice/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "node-practice:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "node-practice:build:development"
+        },
+        "production": {
+          "buildTarget": "node-practice:build:production"
+        }
+      }
+    }
+  }
+}
