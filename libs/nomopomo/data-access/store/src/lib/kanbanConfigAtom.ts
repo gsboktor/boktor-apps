@@ -1,11 +1,19 @@
-import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 import { BoardConfig } from './types';
+import { storage } from './utils';
 
-export const kanbanConfigAtom = atom<BoardConfig>({
-  Backlog: {
-    theme: '#a6d6c9',
+export const kanbanConfigAtom = atomWithStorage<BoardConfig>(
+  'nomo-board-configs',
+  {
+    Backlog: {
+      theme: '#a6d6c9',
+      taskCount: 0,
+    },
+    Done: {
+      theme: '#e0c7bf',
+      taskCount: 0,
+    },
   },
-  Done: {
-    theme: '#e0c7bf',
-  },
-});
+  storage<BoardConfig>(),
+  { getOnInit: true },
+);

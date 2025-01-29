@@ -7,7 +7,7 @@ type BaseTextAreaProps = {
   placeholder?: string;
   placeholderColor?: string;
   disabled?: boolean;
-  textareaAttr?: React.HTMLAttributes<HTMLTextAreaElement>;
+  textareaAttr?: React.InputHTMLAttributes<HTMLTextAreaElement>;
   textareaContainerAttr?: React.HTMLAttributes<HTMLDivElement>;
   validationMessage?: string;
   severity?: 'info' | 'warning' | 'error';

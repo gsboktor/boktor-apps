@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useState } from 'react';
+import { MutableRefObject, useEffect, useState } from 'react';
 
 export type ScrollDirectionConfig = {
   threshold?: number;
@@ -11,18 +11,18 @@ export enum Direction {
 }
 
 export const useScrollDirection = (
-  scrollContainerRef: RefObject<HTMLElement>,
   { threshold = 0, topThreshold = 10 }: ScrollDirectionConfig,
+  scrollContainerRef?: MutableRefObject<HTMLElement | undefined>,
 ) => {
   const [scrollDirection, setScrollDirection] = useState<Direction | undefined>(undefined);
   const [withinTop, setWithinTop] = useState<boolean>(false);
 
   useEffect(() => {
-    let lastScrollY = scrollContainerRef.current?.scrollTop!;
+    let lastScrollY = scrollContainerRef?.current?.scrollTop!;
     let ticking = false;
 
     const updateScrollDir = () => {
-      const scrollY = scrollContainerRef.current?.scrollTop!;
+      const scrollY = scrollContainerRef?.current?.scrollTop!;
 
       if (Math.abs(scrollY - lastScrollY) < threshold) {
         ticking = false;
@@ -46,9 +46,9 @@ export const useScrollDirection = (
       }
     };
 
-    scrollContainerRef.current?.addEventListener('scroll', onScroll);
+    scrollContainerRef?.current?.addEventListener('scroll', onScroll);
 
-    return () => scrollContainerRef.current?.removeEventListener('scroll', onScroll);
+    return () => scrollContainerRef?.current?.removeEventListener('scroll', onScroll);
   }, [scrollDirection]);
 
   return { scrollDirection, withinTop };

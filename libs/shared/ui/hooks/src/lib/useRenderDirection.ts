@@ -1,20 +1,30 @@
 import { RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
+import { Direction } from './useScrollDirection';
 
-export const useRenderDirection = (objRef: RefObject<HTMLElement>) => {
-  const direction = useRef<'up' | 'down'>();
+export const useRenderDirection = (objRef: RefObject<HTMLElement>, id?: string) => {
+  const direction = useRef<Direction>();
+  const directionHorizontal = useRef<'left' | 'right'>();
 
   useMemo(() => {
     if (objRef.current?.getBoundingClientRect) {
       objRef.current?.getBoundingClientRect().y > window.innerHeight / 2
-        ? (direction.current = 'up')
-        : (direction.current = 'down');
+        ? (direction.current = Direction.UP)
+        : (direction.current = Direction.DOWN);
+
+      objRef.current.getBoundingClientRect().x > window.innerWidth / 2
+        ? (directionHorizontal.current = 'left')
+        : (directionHorizontal.current = 'right');
     }
   }, [objRef.current]);
 
   const handleDirectionChange = useCallback(() => {
     objRef.current?.getBoundingClientRect && objRef.current?.getBoundingClientRect().y > window.innerHeight / 2
-      ? (direction.current = 'up')
-      : (direction.current = 'down');
+      ? (direction.current = Direction.UP)
+      : (direction.current = Direction.DOWN);
+
+    objRef.current?.getBoundingClientRect && objRef.current?.getBoundingClientRect().x > window.innerWidth / 2
+      ? (directionHorizontal.current = 'left')
+      : (directionHorizontal.current = 'right');
   }, []);
 
   useEffect(() => {
@@ -24,5 +34,5 @@ export const useRenderDirection = (objRef: RefObject<HTMLElement>) => {
     };
   }, []);
 
-  return { direction };
+  return { direction, directionHorizontal };
 };

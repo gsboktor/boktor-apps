@@ -7,7 +7,7 @@ type BaseFormFieldProps = {
   placeholder?: string;
   placeholderColor?: string;
   disabled?: boolean;
-  inputAttr?: React.HTMLAttributes<HTMLInputElement>;
+  inputAttr?: React.InputHTMLAttributes<HTMLInputElement>;
   inputContainerAttr?: React.HTMLAttributes<HTMLDivElement>;
   validationMessage?: string;
   severity?: 'info' | 'warning' | 'error';
