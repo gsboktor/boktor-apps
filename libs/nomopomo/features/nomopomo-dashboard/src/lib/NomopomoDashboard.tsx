@@ -4,7 +4,7 @@ import {
   boardOperations,
   kanbanBoardsAtom,
   moveBoardTaskAtom,
-  sortBoardTasksAtom,
+  setBoardTasksByKey,
 } from '@boktor-apps/nomopomo/data-access/store';
 import { KanbanBoard } from '@boktor-apps/nomopomo/features/nomopomo-kanban';
 import { NomopomoSideModal } from '@boktor-apps/nomopomo/features/nomopomo-side-modal';
@@ -67,14 +67,12 @@ export const NomopomoDashboard = () => {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   const setModalState = useSetAtom(activeModalAtom);
-  const { getAllBoards, getBoardConfigByKey, getBoardTasksByKey, getBoardTasksAsArray } = useAtomValue(boardOperations);
-  const sortBoardTasks = useSetAtom(sortBoardTasksAtom);
+  const { getAllBoards, getBoardConfigByKey, getBoardTasksAsArray } = useAtomValue(boardOperations);
+  const setBoardTasks = useSetAtom(setBoardTasksByKey);
   const moveBoardTask = useSetAtom(moveBoardTaskAtom);
   const boardEnum = useAtomValue(boardEnumAtom);
   const [activeTask, setActiveTask] = useAtom(activeDragTaskAtom);
   const [allBoards, setAllBoards] = useAtom(kanbanBoardsAtom);
-
-  // console.log('activeTask!', activeTask);
 
   return (
     <DashboardRootContainer>
@@ -97,15 +95,12 @@ export const NomopomoDashboard = () => {
         <DndContext
           collisionDetection={closestCorners}
           onDragStart={(e) => {
-            console.log('starting', e);
             setActiveTask(getBoardTasksAsArray(e.active.data.current?.prevBoardKey).find((t) => t.id === e.active.id));
           }}
           onDragEnd={(e) => {
-            console.log('EVENT', e);
             if (!e.over?.id) return;
 
             if (boardEnum.includes(String(e.over?.id))) {
-              console.log('when do I do this move board task?');
               moveBoardTask({
                 oldBoardKey: e.active.data.current?.prevBoardKey,
                 newBoardKey: String(e.over?.id),
@@ -113,7 +108,6 @@ export const NomopomoDashboard = () => {
                 insertPosition: Number(e.over?.data.current?.insertPosition),
               });
               setActiveTask(RESET);
-
               return;
             }
 
@@ -126,20 +120,20 @@ export const NomopomoDashboard = () => {
             if (e.active.id !== e.over?.id) {
               const newIdx = newTasks.findIndex((t) => t.id === e.over?.id);
               const oldIdx = oldTasks.findIndex((t) => t.id === e.active.id);
+              console.log('in dashboard overlay?', overlayRef?.current);
 
-              const isBelowItem = overlayRef.current?.getBoundingClientRect().top! > e.over.rect.top;
+              const isBelowItem = overlayRef?.current?.getBoundingClientRect().top! > e.over.rect.top;
 
               let insertIdx = newIdx >= 0 ? (isBelowItem ? newIdx + 1 : newIdx) : newTasks.length + 1;
 
               if (oldBoardKey === newBoardKey) {
                 let newArr = arrayMove(newTasks, oldIdx, newIdx);
 
-                sortBoardTasks({
+                setBoardTasks({
                   boardKey: newBoardKey,
                   tasks: newArr,
                 });
               } else {
-                console.log('in diff boards');
                 let removeOldIdxArr = oldTasks.filter((t) => t.id !== oldTasks[oldIdx].id);
                 let newInsertedArr = [
                   ...newTasks.slice(0, insertIdx),
@@ -157,8 +151,6 @@ export const NomopomoDashboard = () => {
                   }, {}),
                 });
               }
-
-              console.log('after sorted', newTasks);
             }
             setActiveTask(RESET);
           }}
@@ -166,11 +158,17 @@ export const NomopomoDashboard = () => {
           {Object.keys(getAllBoards()).map((id) => {
             return (
               <BoardContainer key={id}>
-                <KanbanBoard boardId={id} theme={getBoardConfigByKey(id)?.theme} />
+                <KanbanBoard overlayRef={overlayRef} boardId={id} theme={getBoardConfigByKey(id)?.theme} />
               </BoardContainer>
             );
           })}
-          <DragOverlay>{activeTask?.id && <TaskCardStatic ref={overlayRef} task={activeTask} />}</DragOverlay>
+          <DragOverlay
+            dropAnimation={{
+              duration: 250,
+            }}
+          >
+            {activeTask?.id && <TaskCardStatic ref={overlayRef} task={activeTask} />}
+          </DragOverlay>
         </DndContext>
       </NomopomoMainDashboard>
     </DashboardRootContainer>

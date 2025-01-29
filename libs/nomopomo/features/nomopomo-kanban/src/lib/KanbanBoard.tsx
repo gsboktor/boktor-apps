@@ -1,9 +1,9 @@
-import { boardOperations, deleteBoardTaskAtom } from '@boktor-apps/nomopomo/data-access/store';
+import { activeDragTaskAtom, boardOperations, deleteBoardTaskAtom } from '@boktor-apps/nomopomo/data-access/store';
 import { Direction, useScrollDirection } from '@boktor-apps/shared/ui/hooks';
 
 import { useAtomValue, useSetAtom } from 'jotai';
 import { AnimatePresence, motion, useAnimate } from 'motion/react';
-import { useMemo, useRef } from 'react';
+import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Turbulence } from '@boktor-apps/shared/ui/assets';
 
@@ -15,6 +15,7 @@ import styled from 'styled-components';
 export type KanbanBoardProps = {
   boardId: string;
   theme?: string;
+  overlayRef: RefObject<HTMLDivElement>;
 };
 
 const KanbanContainer = styled(motion.div)`
@@ -85,21 +86,79 @@ const BoardCountHint = styled.div<{ $theme: string }>`
   padding: 2px;
 `;
 
-export const KanbanBoard = ({ boardId, theme = '#d3d3d3' }: KanbanBoardProps) => {
-  const { isOver, setNodeRef } = useDroppable({
+const PlaceholderCard = styled(motion.div)`
+  width: 100%;
+  height: 100px;
+  background-color: #ffdfbb;
+  opacity: 0.8;
+  border-radius: 20px;
+`;
+
+export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBoardProps) => {
+  const { isOver, over, setNodeRef, node } = useDroppable({
     id: boardId,
   });
+  const activeTask = useAtomValue(activeDragTaskAtom);
+
+  console.log('ACTIVE TASK IN KANBAN', activeTask);
 
   const containeRef = useRef<HTMLDivElement | undefined>();
   const { getBoardTasksAsArray } = useAtomValue(boardOperations);
   const deletTask = useSetAtom(deleteBoardTaskAtom);
 
   const boardTasks = useMemo(() => getBoardTasksAsArray(boardId), [getBoardTasksAsArray]);
+  console.log('task', boardTasks[boardTasks.findIndex((t) => t.id === over?.id)]);
 
   const { scrollDirection, withinTop } = useScrollDirection({ threshold: 30, topThreshold: 50 }, containeRef);
   const [ref, animate] = useAnimate();
+  const [placeholderPosition, setPlaceholderPosition] = useState<{
+    taskId: string;
+    position: 'above' | 'below';
+  } | null>(() => null);
 
   const boardTheme = theme;
+
+  useMemo(() => {
+    if (!activeTask) {
+      setPlaceholderPosition(null);
+    }
+  }, [activeTask]);
+
+  useEffect(() => {
+    if (!activeTask || !overlayRef.current) return;
+
+    let animationFrameId: number;
+    let isThrottled = false;
+
+    const updatePlaceholder = () => {
+      console.log('update over and active id', over?.id, activeTask.id);
+      if (!over?.id || over.id === activeTask.id) {
+        setPlaceholderPosition(null);
+        return;
+      }
+
+      const isBelowTask = overlayRef.current!.getBoundingClientRect().top > over.rect.top;
+      setPlaceholderPosition({
+        taskId: over.id as string,
+        position: isBelowTask ? 'below' : 'above',
+      });
+      isThrottled = false;
+    };
+
+    const handleMouseMove = () => {
+      if (isThrottled) return;
+      isThrottled = true;
+      animationFrameId = window.requestAnimationFrame(updatePlaceholder);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [activeTask, over, overlayRef]);
 
   useMemo(() => {
     if (!ref.current) return;
@@ -144,7 +203,17 @@ export const KanbanBoard = ({ boardId, theme = '#d3d3d3' }: KanbanBoardProps) =>
       >
         <AnimatePresence>
           {boardTasks.map((task) => {
-            return <TaskCard task={task} key={task.id} />;
+            return (
+              <div key={task.id} style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
+                {activeTask && placeholderPosition?.taskId === task.id && placeholderPosition.position === 'above' && (
+                  <PlaceholderCard initial={{ height: 0 }} exit={{ height: 0 }} animate={{ height: 100 }} />
+                )}
+                <TaskCard id={task.id} task={task} key={task.id} />
+                {activeTask && placeholderPosition?.taskId === task.id && placeholderPosition.position === 'below' && (
+                  <PlaceholderCard initial={{ height: 0 }} exit={{ height: 0 }} animate={{ height: 100 }} />
+                )}
+              </div>
+            );
           })}
         </AnimatePresence>
       </SortableContext>
