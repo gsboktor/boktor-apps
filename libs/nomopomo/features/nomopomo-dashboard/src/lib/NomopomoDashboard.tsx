@@ -100,66 +100,170 @@ export const NomopomoDashboard = () => {
             console.log('starting', e);
             setActiveTask(getBoardTasksAsArray(e.active.data.current?.prevBoardKey).find((t) => t.id === e.active.id));
           }}
-          onDragEnd={(e) => {
-            console.log('EVENT', e);
-            if (!e.over?.id) return;
+          onDragOver={(e) => {
+            // console.log('CURRENT EVENT', e);
+            const { active, over } = e;
+            const { id } = active;
 
-            if (boardEnum.includes(String(e.over?.id))) {
-              console.log('when do I do this move board task?');
-              moveBoardTask({
-                oldBoardKey: e.active.data.current?.prevBoardKey,
-                newBoardKey: String(e.over?.id),
-                taskId: String(e.active.id),
-                insertPosition: Number(e.over?.data.current?.insertPosition),
-              });
-              setActiveTask(RESET);
+            if (!over || !activeTask || active.id === over.id) return;
 
+            const overId = over?.id;
+
+            const activeContainer = active.data.current?.prevBoardKey;
+            const overContainer = boardEnum.includes(String(overId)) ? overId : over?.data.current?.prevBoardKey;
+
+            console.log('ACTIVE (prev), container,', activeContainer);
+            console.log('OVER (target), container and/or ID,', overContainer, overId);
+
+            if (!activeContainer || !overContainer) {
               return;
             }
 
-            const newBoardKey = String(e.over?.data.current?.prevBoardKey);
-            const oldBoardKey = String(e.active.data.current?.prevBoardKey);
+            setAllBoards((prev) => {
+              const activeItems = Object.values(prev[activeContainer]);
+              let overItems = Object.values(prev[overContainer]);
 
-            const newTasks = getBoardTasksAsArray(newBoardKey);
-            const oldTasks = getBoardTasksAsArray(oldBoardKey);
+              if (activeContainer === overContainer) {
+                const activeIndex = activeItems.findIndex((t) => t.id === id);
+                const overIndex = overItems.findIndex((t) => t.id === overId);
+                const newArray = arrayMove(activeItems, activeIndex, overIndex);
 
-            if (e.active.id !== e.over?.id) {
-              const newIdx = newTasks.findIndex((t) => t.id === e.over?.id);
-              const oldIdx = oldTasks.findIndex((t) => t.id === e.active.id);
-
-              const isBelowItem = overlayRef.current?.getBoundingClientRect().top! > e.over.rect.top;
-
-              let insertIdx = newIdx >= 0 ? (isBelowItem ? newIdx + 1 : newIdx) : newTasks.length + 1;
-
-              if (oldBoardKey === newBoardKey) {
-                let newArr = arrayMove(newTasks, oldIdx, newIdx);
-
-                sortBoardTasks({
-                  boardKey: newBoardKey,
-                  tasks: newArr,
-                });
-              } else {
-                console.log('in diff boards');
-                let removeOldIdxArr = oldTasks.filter((t) => t.id !== oldTasks[oldIdx].id);
-                let newInsertedArr = [
-                  ...newTasks.slice(0, insertIdx),
-                  { ...oldTasks[oldIdx], parentBoardKey: newBoardKey },
-                  ...newTasks.slice(insertIdx),
-                ];
-
-                setAllBoards({
-                  ...allBoards,
-                  [oldBoardKey]: removeOldIdxArr.reduce((acc, curr) => {
-                    return { ...acc, [curr.id]: curr };
-                  }, {}),
-                  [newBoardKey]: newInsertedArr.reduce((acc, curr) => {
-                    return { ...acc, [curr.id]: curr };
-                  }, {}),
-                });
+                return {
+                  ...prev,
+                  [activeContainer]: newArray.reduce((acc, curr) => ({ ...acc, [curr.id]: curr }), {}),
+                };
               }
 
-              console.log('after sorted', newTasks);
-            }
+              const activeIdx = activeItems.findIndex((t) => t.id === id);
+              const overIdx = overItems.findIndex((t) => t.id === overId);
+
+              let newIdx;
+
+              if (boardEnum.includes(String(overId))) {
+                newIdx = overItems.length;
+              } else {
+                const isBelowItem = overlayRef.current?.getBoundingClientRect().top! > e.over!.rect.top;
+                console.log('below item', isBelowItem);
+                newIdx = overIdx >= 0 ? (isBelowItem ? overIdx + 1 : overIdx) : overItems.length + 1;
+                console.log('over item index,', overIdx);
+                console.log('new idx splice,', newIdx);
+              }
+
+              let activeArray = activeItems.filter((item) => item.id !== active.id);
+
+              if (overItems.find((t) => t.id === String(active.id))) {
+                overItems = overItems.filter((t) => t.id !== active.id);
+              }
+
+              let overArray = [
+                ...overItems.slice(0, newIdx),
+                { ...activeItems[activeIdx], parentBoardKey: overContainer },
+                ...overItems.slice(newIdx),
+              ];
+
+              console.log('ACTIVE ARR', activeArray);
+              console.log('OVER ARR', overArray);
+
+              return {
+                ...prev,
+                [activeContainer]: activeArray.reduce((acc, curr) => {
+                  return { ...acc, [curr.id]: curr };
+                }, {}),
+                [overContainer]: overArray.reduce((acc, curr) => {
+                  return { ...acc, [curr.id]: curr };
+                }, {}),
+              };
+            });
+          }}
+          onDragEnd={(e) => {
+            // debugger;
+            // // console.log('END EVENT', e);
+            // const { active, over } = e;
+            // const { id } = active;
+            // const overId = over?.id;
+
+            // const activeContainer = active.data.current?.prevBoardKey;
+            // const overContainer = boardEnum.includes(String(overId)) ? overId : over?.data.current?.prevBoardKey;
+            // if (!activeContainer || !overContainer || activeContainer !== overContainer) {
+            //   setActiveTask(RESET);
+            //   return;
+            // }
+
+            // const activeIndex = Object.values(allBoards[activeContainer]).findIndex((t) => t.id === id);
+            // const overIndex = Object.values(allBoards[overContainer]).findIndex((t) => t.id === overId);
+
+            // const arrayToShuffle = Object.values(allBoards[overContainer]);
+            // const shuffledArray = arrayMove(arrayToShuffle, activeIndex, overIndex);
+
+            // setAllBoards((items) => ({
+            //   ...items,
+            //   [overContainer]: shuffledArray.reduce((acc, curr) => {
+            //     return { ...acc, [curr.id]: curr };
+            //   }, {}),
+            // }));
+
+            // console.log('EVENT', e);
+            // if (!e.over?.id) return;
+
+            // if (boardEnum.includes(String(e.over?.id))) {
+            //   console.log('when do I do this move board task?');
+            //   moveBoardTask({
+            //     oldBoardKey: e.active.data.current?.prevBoardKey,
+            //     newBoardKey: String(e.over?.id),
+            //     taskId: String(e.active.id),
+            //     insertPosition: Number(e.over?.data.current?.insertPosition),
+            //   });
+            //   setActiveTask(RESET);
+
+            //   return;
+            // }
+
+            // const newBoardKey = String(e.over?.data.current?.prevBoardKey);
+            // const oldBoardKey = String(e.active.data.current?.prevBoardKey);
+
+            // const newTasks = getBoardTasksAsArray(newBoardKey);
+            // const oldTasks = getBoardTasksAsArray(oldBoardKey);
+
+            // if (e.active.id !== e.over?.id) {
+            //   const newIdx = newTasks.findIndex((t) => t.id === e.over?.id);
+            //   const oldIdx = oldTasks.findIndex((t) => t.id === e.active.id);
+
+            //   const isBelowItem = overlayRef.current?.getBoundingClientRect().top! > e.over.rect.top;
+
+            //   let insertIdx = newIdx >= 0 ? (isBelowItem ? newIdx + 1 : newIdx) : newTasks.length + 1;
+
+            //   if (oldBoardKey === newBoardKey) {
+            //     let newArr = arrayMove(newTasks, oldIdx, newIdx);
+
+            //     sortBoardTasks({
+            //       boardKey: newBoardKey,
+            //       tasks: newArr,
+            //     });
+            //   } else {
+            //     console.log('in diff boards');
+            //     let removeOldIdxArr = oldTasks.filter((t) => t.id !== oldTasks[oldIdx].id);
+            //     let newInsertedArr = [
+            //       ...newTasks.slice(0, insertIdx),
+            //       { ...oldTasks[oldIdx], parentBoardKey: newBoardKey },
+            //       ...newTasks.slice(insertIdx),
+            //     ];
+
+            //     console.log('OLD BOARD AFTER REMOVe => ', removeOldIdxArr);
+            //     console.log('NEW BOARD AFTER INSERT =>', newInsertedArr);
+
+            //     setAllBoards({
+            //       ...allBoards,
+            //       [oldBoardKey]: removeOldIdxArr.reduce((acc, curr) => {
+            //         return { ...acc, [curr.id]: curr };
+            //       }, {}),
+            //       [newBoardKey]: newInsertedArr.reduce((acc, curr) => {
+            //         return { ...acc, [curr.id]: curr };
+            //       }, {}),
+            //     });
+            //   }
+
+            //   console.log('after sorted', newTasks);
+            // }
             setActiveTask(RESET);
           }}
         >

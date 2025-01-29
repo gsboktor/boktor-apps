@@ -67,7 +67,7 @@ export const TaskCard = ({ task }: { task: Task }) => {
   const theme = useMemo(() => getBoardConfigByKey(task.parentBoardKey).theme, [getBoardConfigByKey, task]);
 
   return (
-    <NodeRoot exit={{ height: `0px`, transition: { duration: 0.2, ease: easeOut } }}>
+    <NodeRoot layout initial={false} exit={{ height: `0px`, transition: { duration: 0.2, ease: easeOut } }}>
       <CardContainer
         $theme={theme}
         ref={setNodeRef}
