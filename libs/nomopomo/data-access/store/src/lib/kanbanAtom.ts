@@ -91,10 +91,8 @@ export const deleteBoardTaskAtom = atom<null, [{ boardKey: string; taskId: strin
   },
 );
 
-export const sortBoardTasksAtom = atom<null, [{ boardKey: string; tasks: Task[] }], void>(null, (get, set, update) => {
+export const setBoardTasksByKey = atom<null, [{ boardKey: string; tasks: Task[] }], void>(null, (get, set, update) => {
   const kanbanBoards = get(kanbanBoardsAtom);
-
-  console.log('NEW TASKS', update.tasks);
 
   const updatedBoards = {
     ...kanbanBoards,
@@ -107,13 +105,3 @@ export const sortBoardTasksAtom = atom<null, [{ boardKey: string; tasks: Task[] 
 
   set(kanbanBoardsAtom, updatedBoards);
 });
-
-// export const boards = atom<DefaultKanbanBoards, [DefaultKanbanBoards], null>(
-//   (get) => {
-//     let boards = get(kanbanBoardsAtom);
-//     return boards;
-//   },
-//   (_, set, update) => {
-//     set(kanbanBoardsAtom, update);
-//   },
-// );

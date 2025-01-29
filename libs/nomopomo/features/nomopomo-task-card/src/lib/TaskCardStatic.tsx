@@ -7,9 +7,12 @@ import styled from 'styled-components';
 
 const CardContainer = styled.div<{ $theme?: string }>`
   max-width: 300px;
+  max-height: 125px;
+
   height: fit-content;
   position: fixed;
   display: flex;
+  opacity: 0.8;
   flex-direction: column;
   border-radius: 20px;
   background-color: #ffe7cc;
@@ -56,10 +59,10 @@ export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task
         <ChipCard label="Out-of-date" onActionClick={() => {}} />
         <ChipCard label="Overflow" onActionClick={() => {}} />
       </TaskTagContainer>
-      <p>{task.name}</p>
-      <p>{task.desc}</p>
-      <p>{task.id}</p>
-      <p>{task.parentBoardKey}</p>
+      <p style={{ margin: 0 }}>{task.name}</p>
+      {/* <p>{task.desc}</p> */}
+      <p style={{ margin: 0 }}>{task.id}</p>
+      {/* <p>{task.parentBoardKey}</p> */}
       <DragWrapper>
         <DragAndDropComponent width={24} height={24} />
       </DragWrapper>

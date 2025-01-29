@@ -5,6 +5,7 @@ export * from './defaultStore';
 export * from './kanbanAtom';
 export * from './kanbanConfigAtom';
 export * from './notificationAtom';
+export * from './overlayRefAtom';
 export * from './taskAtom';
 export * from './timerAtom';
 export * from './types';
