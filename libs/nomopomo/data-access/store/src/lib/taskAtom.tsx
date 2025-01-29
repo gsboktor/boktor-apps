@@ -3,7 +3,7 @@ import { Task, TaskCheckList } from './types';
 
 const _taskIdAtom = atom<string | undefined>(undefined);
 const _taskNameAtom = atom<string | undefined>(undefined);
-const _taskCreatedAtAtom = atom<string | undefined>(undefined);
+const _taskCreatedAtAtom = atom<number | undefined>(undefined);
 const _taskDescAtom = atom<string | undefined>(undefined);
 const _taskCompletedCyclesAtom = atom<number | undefined>(undefined);
 const _taskTagsAtom = atom<string[] | undefined>(undefined);

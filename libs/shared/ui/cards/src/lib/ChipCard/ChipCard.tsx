@@ -68,6 +68,7 @@ const ChipLabel = styled.p`
   font-size: 16px;
   line-height: 16px;
   font-family: Inter;
+  white-space: nowrap;
   font-weight: 300;
   color: #000000;
 `;
@@ -78,6 +79,8 @@ const IconContainer = styled.button<{ $mainColor: string }>`
   width: fit-content;
   height: fit-content;
   background-color: transparent;
+  box-sizing: border-box;
+  margin: 0;
   padding: 8px;
   &:hover {
     background-color: ${({ $mainColor }) => $mainColor + `22`};

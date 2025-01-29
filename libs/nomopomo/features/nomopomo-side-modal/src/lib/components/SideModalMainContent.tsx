@@ -1,4 +1,6 @@
+import { validateFormAtom } from '@boktor-apps/nomopomo/data-access/store';
 import { PrimaryButton, SecondaryButton } from '@boktor-apps/shared/ui/buttons';
+import { useSetAtom } from 'jotai';
 import styled from 'styled-components';
 import { SideModalBody } from './SideModalBody';
 
@@ -49,22 +51,23 @@ const ButtonIcon = styled.p`
   color: #3a3a3a;
 `;
 export const SideModalMainContent = () => {
+  const validateForm = useSetAtom(validateFormAtom);
+
   return (
     <SideModalContentContainer>
       <ModalHeader>
         ⏱️ Welcome to <b>Nomopomo.io!</b>
       </ModalHeader>
-      {/* <ModalHeader style={{ textAlign: 'center', fontSize: 22 }}>
-        The last{' '}
-        <em style={{ letterSpacing: -0.5, fontSize: 24 }}>
-          <b>pomodoro app</b>
-        </em>{' '}
-        you will ever need.
-      </ModalHeader> */}
       <SideModalBody />
       <ButtonGroupContainer>
         <StyledPrimaryButton>
-          <PrimaryButton affixLeft={<ButtonIcon>✏️</ButtonIcon>} label="Get started" onClick={() => {}} />
+          <PrimaryButton
+            affixLeft={<ButtonIcon>✏️</ButtonIcon>}
+            label="Get started"
+            onClick={() => {
+              validateForm(undefined);
+            }}
+          />
         </StyledPrimaryButton>
         <StyledSecondaryButton>
           <SecondaryButton label="Skip" onClick={() => {}} />

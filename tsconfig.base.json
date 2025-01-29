@@ -26,8 +26,9 @@
       "@boktor-apps/shared/ui/fields": ["libs/shared/ui/fields/src/index.ts"],
       "@boktor-apps/shared/ui/hooks": ["libs/shared/ui/hooks/src/index.ts"],
       "@boktor-apps/shared/ui/modal": ["libs/shared/ui/modal/src/index.ts"],
+      "@boktor-apps/shared/ui/pop-over": ["libs/shared/ui/pop-over/src/index.ts"],
       "@boktor-apps/shared/ui/scroll-carousel": ["libs/shared/ui/scroll-carousel/src/index.ts"],
-      "@boktor-apps/shared/ui/pop-over": ["libs/shared/ui/pop-over/src/index.ts"]
+      "@boktor-apps/nomopomo/features/nomopomo-task-card": ["libs/nomopomo/features/nomopomo-task-card/src/index.ts"]
     }
   },
   "exclude": ["node_modules"]

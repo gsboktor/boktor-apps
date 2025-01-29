@@ -1,9 +1,9 @@
-import { boardOperations } from '@boktor-apps/nomopomo/data-access/store';
+import { boardOperations, setTaskFormValues, taskFieldErrors } from '@boktor-apps/nomopomo/data-access/store';
 import { AnimatedSelectionCard } from '@boktor-apps/nomopomo/ui/cards';
 import { ChipCard } from '@boktor-apps/shared/ui/cards';
 import { Dropdown } from '@boktor-apps/shared/ui/dropdowns';
 import { BaseFormField, BaseNumericInput, BaseTextArea } from '@boktor-apps/shared/ui/fields';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 
 import {
   AddIconComponent,
@@ -14,7 +14,8 @@ import {
   HelpIconComponent,
 } from '@boktor-apps/shared/ui/assets';
 
-import { useMemo, useState } from 'react';
+import { Popover } from '@boktor-apps/shared/ui/pop-over';
+import { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 const TicketFormContainer = styled.div`
@@ -100,21 +101,47 @@ const NumericPickerContainer = styled.div`
   width: 78px;
 `;
 
+const HelpInnerContent = styled.p`
+  color: white;
+  display: flex;
+  margin: 0px;
+  flex-wrap: wrap;
+  width: 164px;
+  font-size: 12px;
+  font-weight: 300;
+`;
+
 export const SideModalTicketForm = () => {
   const [dropdownOpen, setOpen] = useState<boolean>(false);
   const { getAllBoards, getBoardConfigByKey } = useAtomValue(boardOperations);
+  const setTaskForm = useSetAtom(setTaskFormValues);
+  const taskErrors = useAtomValue(taskFieldErrors);
 
   const boardDropDownItems = useMemo(
     () =>
       Object.keys(getAllBoards()).map((boardKey, idx) => ({
         id: idx,
         label: boardKey,
-        boardTheme: getBoardConfigByKey(boardKey).theme,
+        boardTheme: getBoardConfigByKey(boardKey)?.theme,
       })),
     [getAllBoards, getBoardConfigByKey],
   );
 
   const [optionLabel, setOptionLabel] = useState<{ id: number; label: string }>();
+
+  const handleFormChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setTaskForm({ [e.target.name]: e.target.value === '' ? undefined : e.target.value });
+    },
+    [setTaskForm],
+  );
+
+  const handleOptionSelect = useCallback(
+    (board: string) => {
+      setTaskForm({ ['parentBoardKey']: board });
+    },
+    [setTaskForm],
+  );
 
   return (
     <TicketFormContainer>
@@ -122,13 +149,20 @@ export const SideModalTicketForm = () => {
         <Field>
           <HeaderRow>
             <HeaderLabel>Task name</HeaderLabel>
-            <HelpIconComponent width={24} height={24} />
+            <Popover
+              renderHorizontal="left"
+              Icon={<HelpIconComponent width={24} height={24} />}
+              Content={<HelpInnerContent>Task names will help you uniquely identify your ticket!</HelpInnerContent>}
+            />
           </HeaderRow>
           <BaseFormField
+            validationMessage={taskErrors['name']?.message}
+            severity={taskErrors['name'] ? 'error' : undefined}
             inputAttr={{
               style: { backgroundColor: '#ffffff45' },
+              name: 'name',
             }}
-            onInputChange={() => {}}
+            onInputChange={handleFormChange}
             placeholder="Enter a task name"
             placeholderColor="#2b2b2be6"
           />
@@ -136,13 +170,24 @@ export const SideModalTicketForm = () => {
         <Field>
           <HeaderRow>
             <HeaderLabel>Task description</HeaderLabel>
-            <HelpIconComponent width={24} height={24} />
+            <Popover
+              renderHorizontal="left"
+              Icon={<HelpIconComponent width={24} height={24} />}
+              Content={
+                <HelpInnerContent>
+                  Add additional information about the scope of your ticket! Details help!
+                </HelpInnerContent>
+              }
+            />
           </HeaderRow>
           <BaseTextArea
+            validationMessage={taskErrors['desc']?.message}
+            severity={taskErrors['desc'] ? 'error' : undefined}
             textareaAttr={{
               style: { backgroundColor: '#ffffff45' },
+              name: 'desc',
             }}
-            onInputChange={() => {}}
+            onInputChange={handleFormChange}
             placeholder="Enter a task description"
             placeholderColor="#2b2b2be6"
           />
@@ -179,6 +224,7 @@ export const SideModalTicketForm = () => {
                   setOptionLabel(undefined);
                 } else {
                   setOptionLabel(option);
+                  handleOptionSelect(option.label);
                 }
               }}
               render={(item, idx, onSelect) => (
@@ -208,7 +254,16 @@ export const SideModalTicketForm = () => {
               }}
             />
           </NumericPickerContainer>
-          <HelpIconComponent width={24} height={24} />
+          <Popover
+            renderHorizontal="left"
+            Icon={<HelpIconComponent width={24} height={24} />}
+            Content={
+              <HelpInnerContent>
+                Pick the kanban board you want this ticket to start in. And select the number of pomodoro cycles you
+                estimate it will require to finish this task!
+              </HelpInnerContent>
+            }
+          />
         </BoardPickerRow>
       </FieldsContainer>
     </TicketFormContainer>
