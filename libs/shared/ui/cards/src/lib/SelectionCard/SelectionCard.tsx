@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import styled from 'styled-components';
 import { AnimatedToggle } from './AnimatedToggle';
 
-type SelectionCardProps = {
+export type SelectionCardProps = {
   toggleFill?: string;
   toggled?: boolean;
   label: string;
@@ -17,6 +17,7 @@ type SelectionCardProps = {
 
 const StyledSelectionCardContainer = styled.div<{ $mainColor: string }>`
   position: relative;
+  box-sizing: border-box;
   display: flex;
   width: 100%;
   height: 100%;

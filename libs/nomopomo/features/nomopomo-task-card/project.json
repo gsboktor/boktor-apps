@@ -1,0 +1,9 @@
+{
+  "name": "libs/nomopomo/features/nomopomo-task-card",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nomopomo/features/nomopomo-task-card/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project libs/nomopomo/features/nomopomo-task-card --web",
+  "targets": {}
+}
