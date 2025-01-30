@@ -31,6 +31,7 @@ const KanbanContainer = styled(motion.div)`
   padding-right: 12px;
   overflow-y: scroll;
   scrollbar-width: none;
+  padding-bottom: 100px;
 `;
 
 const MockCard = styled.div`
@@ -87,8 +88,9 @@ const BoardCountHint = styled.div<{ $theme: string }>`
 `;
 
 const PlaceholderCard = styled(motion.div)`
+  position: 'fixed';
   width: 100%;
-  height: 100px;
+  /* height: 100px; */
   background-color: #ffdfbb;
   opacity: 0.8;
   border-radius: 20px;
@@ -100,14 +102,11 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
   });
   const activeTask = useAtomValue(activeDragTaskAtom);
 
-  console.log('ACTIVE TASK IN KANBAN', activeTask);
-
   const containeRef = useRef<HTMLDivElement | undefined>();
   const { getBoardTasksAsArray } = useAtomValue(boardOperations);
   const deletTask = useSetAtom(deleteBoardTaskAtom);
 
   const boardTasks = useMemo(() => getBoardTasksAsArray(boardId), [getBoardTasksAsArray]);
-  console.log('task', boardTasks[boardTasks.findIndex((t) => t.id === over?.id)]);
 
   const { scrollDirection, withinTop } = useScrollDirection({ threshold: 30, topThreshold: 50 }, containeRef);
   const [ref, animate] = useAnimate();
@@ -134,6 +133,7 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
       console.log('update over and active id', over?.id, activeTask.id);
       if (!over?.id || over.id === activeTask.id) {
         setPlaceholderPosition(null);
+        isThrottled = false;
         return;
       }
 
@@ -147,9 +147,15 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
 
     const handleMouseMove = () => {
       if (isThrottled) return;
-      isThrottled = true;
       animationFrameId = window.requestAnimationFrame(updatePlaceholder);
+      isThrottled = true;
     };
+
+    console.log(
+      'IN KANBAN BOARD: OVERLAY TOP AND OVER TASK TOP: ',
+      overlayRef.current?.getBoundingClientRect().top,
+      over?.rect.top,
+    );
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => {
@@ -182,6 +188,8 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
     }
   }, [scrollDirection, withinTop]);
 
+  console.log('ISOVER!', boardId, isOver, over?.id);
+
   return (
     <KanbanContainer
       initial={{ height: '100%' }}
@@ -205,13 +213,31 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
           {boardTasks.map((task) => {
             return (
               <div key={task.id} style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
-                {activeTask && placeholderPosition?.taskId === task.id && placeholderPosition.position === 'above' && (
-                  <PlaceholderCard initial={{ height: 0 }} exit={{ height: 0 }} animate={{ height: 100 }} />
-                )}
+                <AnimatePresence>
+                  {activeTask &&
+                    placeholderPosition?.taskId === task.id &&
+                    placeholderPosition.position === 'above' && (
+                      <PlaceholderCard
+                        initial={{ height: 0, opacity: 0 }}
+                        exit={{ height: 0, display: 'none', opacity: 0 }}
+                        animate={{ height: overlayRef.current?.getBoundingClientRect().height, opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    )}
+                </AnimatePresence>
                 <TaskCard id={task.id} task={task} key={task.id} />
-                {activeTask && placeholderPosition?.taskId === task.id && placeholderPosition.position === 'below' && (
-                  <PlaceholderCard initial={{ height: 0 }} exit={{ height: 0 }} animate={{ height: 100 }} />
-                )}
+                {/* <AnimatePresence>
+                  {activeTask &&
+                    placeholderPosition?.taskId === task.id &&
+                    placeholderPosition.position === 'below' && (
+                      <PlaceholderCard
+                        initial={{ height: 0, opacity: 0 }}
+                        exit={{ height: 0, display: 'none', opacity: 0 }}
+                        animate={{ height: 100, opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    )}
+                </AnimatePresence> */}
               </div>
             );
           })}
