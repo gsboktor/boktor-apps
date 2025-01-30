@@ -7,7 +7,7 @@ import { kanbanConfigAtom } from './kanbanConfigAtom';
 import { createTaskSchema } from './schema';
 import { Task } from './types';
 
-export type RequiredTaskKeys = Pick<Task, 'name' | 'desc' | 'parentBoardKey'>;
+export type RequiredTaskKeys = Pick<Task, 'name' | 'desc' | 'parentBoardKey' | 'tags'>;
 
 type TaskFormRequiredFieldsErrors = Record<keyof RequiredTaskKeys, { valid: boolean; message?: string }>;
 
@@ -15,11 +15,15 @@ const _taskForm = atomWithReset<RequiredTaskKeys>({} as RequiredTaskKeys);
 const _taskFieldErrors = atomWithReset<TaskFormRequiredFieldsErrors>({} as TaskFormRequiredFieldsErrors);
 const _taskFormComplete = atom<boolean>(false);
 
-export const setTaskFormValues = atom<null, [Partial<RequiredTaskKeys>], void>(null, (get, set, update) => {
-  if (update) {
-    set(_taskForm, { ...get(_taskForm), ...update });
-  }
-});
+export const setTaskFormValues = atom<RequiredTaskKeys, [Partial<RequiredTaskKeys>], void>(
+  (get) => get(_taskForm),
+  (get, set, update) => {
+    if (update) {
+      console.log('tags?', update.tags);
+      set(_taskForm, { ...get(_taskForm), ...update });
+    }
+  },
+);
 
 export const taskFieldErrors = atom<TaskFormRequiredFieldsErrors, [TaskFormRequiredFieldsErrors], void>(
   (get) => get(_taskFieldErrors),
@@ -45,7 +49,7 @@ export const validateFormAtom = atom<null, [undefined], void>(null, (get, set, _
         name: formValues.name,
         desc: formValues.desc,
         createdAt: Date.now(),
-        tags: [],
+        tags: formValues.tags,
         completedCycles: 0,
         parentBoardKey: formValues.parentBoardKey,
         checklist: [],
