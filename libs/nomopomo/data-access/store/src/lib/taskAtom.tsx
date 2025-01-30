@@ -1,12 +1,12 @@
 import { atom } from 'jotai/vanilla';
-import { Task, TaskCheckList } from './types';
+import { Task, TaskCheckList, TaskTag } from './types';
 
 const _taskIdAtom = atom<string | undefined>(undefined);
 const _taskNameAtom = atom<string | undefined>(undefined);
 const _taskCreatedAtAtom = atom<number | undefined>(undefined);
 const _taskDescAtom = atom<string | undefined>(undefined);
 const _taskCompletedCyclesAtom = atom<number | undefined>(undefined);
-const _taskTagsAtom = atom<string[] | undefined>(undefined);
+const _taskTagsAtom = atom<TaskTag[] | undefined>(undefined);
 const _taskParentBoardkeyAtom = atom<string | undefined>(undefined);
 const _taskCheckListAtom = atom<TaskCheckList[] | undefined>(undefined);
 const _taskIconAtom = atom<string | undefined>(undefined);

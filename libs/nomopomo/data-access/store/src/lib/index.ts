@@ -7,6 +7,7 @@ export * from './kanbanConfigAtom';
 export * from './notificationAtom';
 export * from './overlayRefAtom';
 export * from './taskAtom';
+export * from './taskBoardDndHandlersAtom';
 export * from './timerAtom';
 export * from './types';
 export * from './utils';

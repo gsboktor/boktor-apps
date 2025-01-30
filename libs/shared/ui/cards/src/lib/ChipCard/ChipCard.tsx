@@ -101,7 +101,7 @@ const ChipGradient = styled.div<{ $mainColor: string }>`
     return getComplementaryColors($mainColor);
   }};
   background-size: 400%;
-  transition: opacity ease-in-out 300ms;
+  transition: opacity ease-in-out 100ms;
   pointer-events: none;
 `;
 
@@ -122,7 +122,7 @@ const GradientContainer = styled.div`
   justify-content: center;
 `;
 
-export const ChipCard = ({ mainColor = '#f8b577', ...props }: ChipCardProps) => {
+export const ChipCard = ({ mainColor = '#d3d3d3', ...props }: ChipCardProps) => {
   return (
     <GradientContainer>
       <ChipGradient id="chip-gradient" $mainColor={mainColor} />

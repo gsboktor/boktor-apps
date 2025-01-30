@@ -5,6 +5,13 @@ export type TaskCheckList = {
   isCompleted: boolean;
 };
 
+export type TaskTag = {
+  id: number;
+  label: string;
+  mainColor: string;
+  icon: string;
+};
+
 export type Task = {
   id: string;
   icon?: string;
@@ -12,7 +19,7 @@ export type Task = {
   createdAt: number;
   desc: string;
   completedCycles: number;
-  tags: string[];
+  tags: TaskTag[];
   checklist?: TaskCheckList[];
   index: number;
   parentBoardKey: string;

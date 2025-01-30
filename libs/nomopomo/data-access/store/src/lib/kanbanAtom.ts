@@ -10,6 +10,7 @@ export const kanbanBoardsAtom = atomWithStorage<DefaultKanbanBoards>(
   {
     Backlog: {},
     Done: {},
+    Active: {},
   } as DefaultKanbanBoards,
   storage<DefaultKanbanBoards>(),
   { getOnInit: true },
