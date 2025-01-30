@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 const CardContainer = styled.div<{ $theme?: string }>`
   max-width: 300px;
-  max-height: 125px;
 
   height: fit-content;
   position: fixed;
@@ -60,9 +59,9 @@ export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task
         <ChipCard label="Overflow" onActionClick={() => {}} />
       </TaskTagContainer>
       <p style={{ margin: 0 }}>{task.name}</p>
-      {/* <p>{task.desc}</p> */}
+      <p>{task.desc}</p>
       <p style={{ margin: 0 }}>{task.id}</p>
-      {/* <p>{task.parentBoardKey}</p> */}
+      <p>{task.parentBoardKey}</p>
       <DragWrapper>
         <DragAndDropComponent width={24} height={24} />
       </DragWrapper>

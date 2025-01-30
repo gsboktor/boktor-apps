@@ -10,8 +10,7 @@ import { KanbanBoard } from '@boktor-apps/nomopomo/features/nomopomo-kanban';
 import { NomopomoSideModal } from '@boktor-apps/nomopomo/features/nomopomo-side-modal';
 
 import { TaskCardStatic } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
-import { closestCorners, DndContext, DragOverlay } from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
+import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { boardEnumAtom } from 'libs/nomopomo/data-access/store/src/lib/boardEnumAtom';
@@ -93,7 +92,6 @@ export const NomopomoDashboard = () => {
       </NomopomoDashHeader>
       <NomopomoMainDashboard>
         <DndContext
-          collisionDetection={closestCorners}
           onDragStart={(e) => {
             setActiveTask(getBoardTasksAsArray(e.active.data.current?.prevBoardKey).find((t) => t.id === e.active.id));
           }}
@@ -101,13 +99,26 @@ export const NomopomoDashboard = () => {
             if (!e.over?.id) return;
 
             if (boardEnum.includes(String(e.over?.id))) {
-              moveBoardTask({
-                oldBoardKey: e.active.data.current?.prevBoardKey,
-                newBoardKey: String(e.over?.id),
-                taskId: String(e.active.id),
-                insertPosition: Number(e.over?.data.current?.insertPosition),
-              });
-              setActiveTask(RESET);
+              if (e.over.id === e.active.data.current?.prevBoardKey) {
+                const newBoardTasks = [...getBoardTasksAsArray(String(e.over.id))];
+                const taskIndex = newBoardTasks.findIndex((t) => t.id === e.active.id);
+                const taskToAdd = newBoardTasks[taskIndex];
+
+                newBoardTasks.splice(taskIndex, 1);
+                newBoardTasks.push(taskToAdd);
+
+                setBoardTasks({
+                  boardKey: String(e.over.id),
+                  tasks: newBoardTasks,
+                });
+              } else {
+                moveBoardTask({
+                  oldBoardKey: e.active.data.current?.prevBoardKey,
+                  newBoardKey: String(e.over?.id),
+                  taskId: String(e.active.id),
+                  insertPosition: Number(e.over?.data.current?.insertPosition),
+                });
+              }
               return;
             }
 
@@ -120,14 +131,16 @@ export const NomopomoDashboard = () => {
             if (e.active.id !== e.over?.id) {
               const newIdx = newTasks.findIndex((t) => t.id === e.over?.id);
               const oldIdx = oldTasks.findIndex((t) => t.id === e.active.id);
-              console.log('in dashboard overlay?', overlayRef?.current);
 
               const isBelowItem = overlayRef?.current?.getBoundingClientRect().top! > e.over.rect.top;
 
               let insertIdx = newIdx >= 0 ? (isBelowItem ? newIdx + 1 : newIdx) : newTasks.length + 1;
 
               if (oldBoardKey === newBoardKey) {
-                let newArr = arrayMove(newTasks, oldIdx, newIdx);
+                const taskToMove = newTasks[oldIdx];
+                let newArr = [...newTasks];
+                newArr.splice(oldIdx, 1); // Remove from old position
+                newArr.splice(oldIdx < insertIdx ? insertIdx - 1 : insertIdx, 0, taskToMove); // Insert at new position
 
                 setBoardTasks({
                   boardKey: newBoardKey,
@@ -152,7 +165,6 @@ export const NomopomoDashboard = () => {
                 });
               }
             }
-            setActiveTask(RESET);
           }}
         >
           {Object.keys(getAllBoards()).map((id) => {
@@ -165,6 +177,9 @@ export const NomopomoDashboard = () => {
           <DragOverlay
             dropAnimation={{
               duration: 250,
+              sideEffects: () => {
+                setActiveTask(RESET);
+              },
             }}
           >
             {activeTask?.id && <TaskCardStatic ref={overlayRef} task={activeTask} />}

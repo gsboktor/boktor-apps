@@ -9,7 +9,6 @@ import styled from 'styled-components';
 
 const CardContainer = styled(motion.div)<{ $theme?: string }>`
   max-width: 300px;
-  max-height: 125px;
   position: relative;
   height: fit-content;
   display: flex;
@@ -91,7 +90,7 @@ export const TaskCard = ({ task, id }: { task: Task; id: string }) => {
   const dragStyle = useMemo(() => {
     return {
       transition: `${transition}, box-shadow ease-in-out 200ms`,
-      filter: isActive ? 'blur(4px) brightness(0.925)' : 'none',
+      filter: isActive ? 'blur(4px) brightness(1.01)' : 'none',
     };
   }, [transition, isActive]);
 
@@ -118,7 +117,7 @@ export const TaskCard = ({ task, id }: { task: Task; id: string }) => {
               backgroundPosition: ['-1000px 0', '1000px 0'],
             }}
             transition={{
-              duration: 1.75,
+              duration: 1.85,
               ease: 'anticipate',
               repeat: Infinity,
               repeatType: 'loop',
@@ -132,9 +131,9 @@ export const TaskCard = ({ task, id }: { task: Task; id: string }) => {
           <ChipCard label="Overflow" onActionClick={() => {}} />
         </TaskTagContainer>
         <p style={{ margin: 0 }}>{task.name}</p>
-        {/* <p>{task.desc}</p> */}
+        <p>{task.desc}</p>
         <p style={{ margin: 0 }}>{task.id}</p>
-        {/* <p>{task.parentBoardKey}</p> */}
+        <p>{task.parentBoardKey}</p>
         <DragWrapper>
           <DragAndDropComponent width={24} height={24} />
         </DragWrapper>
