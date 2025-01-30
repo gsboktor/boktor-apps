@@ -2,14 +2,16 @@ import { activeDragTaskAtom, boardOperations, Task } from '@boktor-apps/nomopomo
 import { DragAndDropComponent } from '@boktor-apps/shared/ui/assets';
 import { ChipCard } from '@boktor-apps/shared/ui/cards';
 import { useSortable } from '@dnd-kit/sortable';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { easeOut, motion } from 'motion/react';
 import { useMemo } from 'react';
 import styled from 'styled-components';
+import { EmojiTag } from './components';
 
 const CardContainer = styled(motion.div)<{ $theme?: string }>`
   max-width: 300px;
   position: relative;
+
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -18,37 +20,54 @@ const CardContainer = styled(motion.div)<{ $theme?: string }>`
   box-shadow: 0px 0px 0px 1px inset #4f4f4f2c;
   box-sizing: border-box;
   &:hover {
-    box-shadow: 0px 0px 0px 3px inset ${({ $theme }) => $theme ?? `black`};
+    box-shadow: 0px 0px 0px 3px inset ${({ $theme }) => $theme ?? `lightgray`};
   }
-  padding: 16px;
+  padding: 12px;
+  padding-top: 24px;
   position: relative;
 `;
 
 const DragWrapper = styled.div`
   position: absolute;
-  top: 20px;
-  right: 16px;
+  top: 4px;
+  align-self: center;
+  justify-content: center;
+  display: flex;
+  width: 90%;
+  margin: auto;
   z-index: 100;
   cursor: move;
 `;
 
 const TaskTagContainer = styled.div`
-  width: 90%;
-  padding: 4px;
-  padding-right: 16px;
-  border-radius: 20px;
-  overflow: hidden;
+  width: 100%;
+  padding: 4px 2px;
+  position: sticky;
+  top: 0;
+  flex: 1;
+  user-select: none;
+  flex-wrap: wrap;
+
   box-sizing: border-box;
-  overflow: scroll;
   scrollbar-width: none;
   display: flex;
   flex-direction: row;
   gap: 4px;
 `;
 
-const ShimmerThing = styled(motion.div)<{ $theme: string }>`
+const TaskPreviewBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  overflow: hidden;
+  max-height: 300px;
+  scrollbar-width: none;
+  margin-bottom: 36px;
+  gap: 2px;
+`;
+
+const ShimmerBackdrop = styled(motion.div)<{ $theme: string }>`
   position: absolute;
-  /* background-color: ${({ $theme }) => $theme}; */
   left: 0;
   top: 0;
   right: 0;
@@ -79,8 +98,9 @@ const NodeRoot = styled(motion.div)``;
 
 export const TaskCard = ({ task, id }: { task: Task; id: string }) => {
   const { getBoardConfigByKey } = useAtomValue(boardOperations);
-  const [activeTask, setActiveTask] = useAtom(activeDragTaskAtom);
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+  const activeTask = useAtomValue(activeDragTaskAtom);
+
+  const { attributes, listeners, setNodeRef, transition } = useSortable({
     id: task.id,
     data: { prevBoardKey: task.parentBoardKey, insertPosition: task.index },
   });
@@ -106,12 +126,9 @@ export const TaskCard = ({ task, id }: { task: Task; id: string }) => {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.7, opacity: 0, transition: { duration: 0.2 } }}
         style={dragStyle}
-        {...listeners}
-        {...attributes}
-        // onMouseDown={() => setActiveTask(task)}
       >
         {isActive && (
-          <ShimmerThing
+          <ShimmerBackdrop
             $theme={theme ?? 'black'}
             animate={{
               backgroundPosition: ['-1000px 0', '1000px 0'],
@@ -124,19 +141,56 @@ export const TaskCard = ({ task, id }: { task: Task; id: string }) => {
             }}
           />
         )}
-        <TaskTagContainer>
-          <ChipCard label="Urgent" onActionClick={() => {}} mainColor={theme} />
-          <ChipCard label="Done" onActionClick={() => {}} />
-          <ChipCard label="Out-of-date" onActionClick={() => {}} />
-          <ChipCard label="Overflow" onActionClick={() => {}} />
-        </TaskTagContainer>
-        <p style={{ margin: 0 }}>{task.name}</p>
-        <p>{task.desc}</p>
-        <p style={{ margin: 0 }}>{task.id}</p>
-        <p>{task.parentBoardKey}</p>
-        <DragWrapper>
+        <TaskPreviewBody>
+          <TaskTagContainer>
+            {task.tags &&
+              task.tags.map((tag) => (
+                <ChipCard
+                  labelAttr={{ style: { fontSize: 12 } }}
+                  key={tag.id}
+                  label={tag.label}
+                  mainColor={theme}
+                  onActionClick={() => {}}
+                />
+              ))}
+          </TaskTagContainer>
+          <p
+            style={{
+              margin: 0,
+              fontSize: 20,
+              fontWeight: 400,
+              color: '#242424',
+              display: '-webkit-box',
+              lineClamp: 3,
+              WebkitLineClamp: 3,
+              overflow: 'hidden',
+              WebkitBoxOrient: 'vertical',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {task.name}
+          </p>
+          <p
+            style={{
+              margin: 0,
+              fontSize: 16,
+              fontWeight: 300,
+              color: '#3a3a3a',
+              display: '-webkit-box',
+              lineClamp: 3,
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {task.desc}
+          </p>
+        </TaskPreviewBody>
+        <DragWrapper {...listeners} {...attributes}>
           <DragAndDropComponent width={24} height={24} />
         </DragWrapper>
+        <EmojiTag theme={theme ?? '#d3d3d3'} emoji={task.tags[0].icon ?? 'X'} />
       </CardContainer>
     </NodeRoot>
   );

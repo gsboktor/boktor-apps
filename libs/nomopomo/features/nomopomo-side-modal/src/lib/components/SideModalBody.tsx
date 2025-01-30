@@ -2,7 +2,9 @@ import { SideModalTicketForm } from '@boktor-apps/nomopomo/features/nomopomo-for
 import { ChipCard, SelectionCard } from '@boktor-apps/shared/ui/cards';
 import { ScrollCarousel } from '@boktor-apps/shared/ui/scroll-carousel';
 
+import { setTaskFormValues } from '@boktor-apps/nomopomo/data-access/store';
 import { CloseComponent } from '@boktor-apps/shared/ui/assets';
+import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { DEFAULTS } from './consts';
@@ -60,6 +62,7 @@ const Closed = styled(CloseComponent)`
 
 export const SideModalBody = () => {
   const [localSelections, setLocalSelections] = useState<number[]>([]);
+  const [taskForm, setTaskForm] = useAtom(setTaskFormValues);
 
   const handleSelection = useCallback(
     (id: number) => {
@@ -67,9 +70,39 @@ export const SideModalBody = () => {
         const spliced = localSelections;
         spliced.splice(localSelections.indexOf(id), 1);
         setLocalSelections([...spliced]);
+
+        const oldTags = taskForm.tags;
+        oldTags.splice(
+          oldTags.findIndex((t) => t.id === id),
+          1,
+        );
+
+        setTaskForm({
+          tags: [...oldTags],
+        });
         return;
       }
       setLocalSelections((prev) => [...prev, id]);
+      setTaskForm({
+        tags: taskForm.tags
+          ? [
+              ...taskForm.tags,
+              {
+                id: id,
+                mainColor: DEFAULTS['variant1'][id - 1].mainColor,
+                label: DEFAULTS['variant1'][id - 1].label,
+                icon: DEFAULTS['variant1'][id - 1].icon,
+              },
+            ]
+          : [
+              {
+                id: id,
+                mainColor: DEFAULTS['variant1'][id - 1].mainColor,
+                label: DEFAULTS['variant1'][id - 1].label,
+                icon: DEFAULTS['variant1'][id - 1].icon,
+              },
+            ],
+      });
     },
     [localSelections],
   );

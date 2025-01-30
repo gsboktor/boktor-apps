@@ -10,6 +10,7 @@ export type PublicBoardOperations = {
 export interface DefaultKanbanBoards {
   Backlog: AccessibleTaskMap;
   Done: AccessibleTaskMap;
+  Active: AccessibleTaskMap;
   [boardName: string]: AccessibleTaskMap;
 }
 

@@ -4,45 +4,64 @@ import { ChipCard } from '@boktor-apps/shared/ui/cards';
 import { useAtomValue } from 'jotai';
 import { forwardRef, useMemo } from 'react';
 import styled from 'styled-components';
+import { EmojiTag } from './components';
 
 const CardContainer = styled.div<{ $theme?: string }>`
   max-width: 300px;
-
+  position: relative;
+  opacity: 0.85;
   height: fit-content;
-  position: fixed;
   display: flex;
-  opacity: 0.8;
   flex-direction: column;
   border-radius: 20px;
   background-color: #ffe7cc;
-  box-shadow: 0px 0px 0px 3px inset ${({ $theme }) => $theme ?? `black`};
+  box-shadow: 0px 0px 0px 1px inset #4f4f4f2c;
   box-sizing: border-box;
-  transition: box-shadow ease-in-out 200ms;
-  padding: 16px;
+  &:hover {
+    box-shadow: 0px 0px 0px 3px inset ${({ $theme }) => $theme ?? `lightgray`};
+  }
+  padding: 12px;
+  padding-top: 24px;
   position: relative;
-  z-index: Infinity;
 `;
 
 const DragWrapper = styled.div`
   position: absolute;
-  top: 20px;
-  right: 16px;
+  top: 4px;
+  align-self: center;
+  justify-content: center;
+  display: flex;
+  width: 90%;
+  margin: auto;
   z-index: 100;
   cursor: move;
 `;
 
 const TaskTagContainer = styled.div`
-  width: 90%;
-  padding: 4px;
-  padding-right: 16px;
-  border-radius: 20px;
-  overflow: hidden;
+  width: 100%;
+  padding: 4px 2px;
+  position: sticky;
+  top: 0;
+  flex: 1;
+  user-select: none;
+  flex-wrap: wrap;
+
   box-sizing: border-box;
-  overflow: scroll;
   scrollbar-width: none;
   display: flex;
   flex-direction: row;
   gap: 4px;
+`;
+
+const TaskPreviewBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  overflow: hidden;
+  max-height: 300px;
+  scrollbar-width: none;
+  margin-bottom: 36px;
+  gap: 2px;
 `;
 
 export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task }: { task: Task }, ref) => {
@@ -52,19 +71,59 @@ export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task
 
   return (
     <CardContainer $theme={theme} ref={ref}>
-      <TaskTagContainer>
-        <ChipCard label="Urgent" onActionClick={() => {}} mainColor={theme} />
-        <ChipCard label="Done" onActionClick={() => {}} />
-        <ChipCard label="Out-of-date" onActionClick={() => {}} />
-        <ChipCard label="Overflow" onActionClick={() => {}} />
-      </TaskTagContainer>
-      <p style={{ margin: 0 }}>{task.name}</p>
-      <p>{task.desc}</p>
-      <p style={{ margin: 0 }}>{task.id}</p>
-      <p>{task.parentBoardKey}</p>
+      <TaskPreviewBody>
+        <TaskTagContainer>
+          {task.tags &&
+            task.tags.map((tag) => (
+              <ChipCard
+                labelAttr={{ style: { fontSize: 12 } }}
+                key={tag.id}
+                label={tag.label}
+                mainColor={theme}
+                onActionClick={() => {}}
+              />
+            ))}
+          {/* <ChipCard label="Urgent" onActionClick={() => {}} mainColor={theme} />
+            <ChipCard label="Done" onActionClick={() => {}} />
+            <ChipCard label="Out-of-date" onActionClick={() => {}} />
+            <ChipCard label="Overflow" onActionClick={() => {}} /> */}
+        </TaskTagContainer>
+        <p
+          style={{
+            margin: 0,
+            fontSize: 20,
+            fontWeight: 400,
+            color: '#242424',
+            display: '-webkit-box',
+            lineClamp: 3,
+            WebkitLineClamp: 3,
+            overflow: 'hidden',
+            WebkitBoxOrient: 'vertical',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {task.name}
+        </p>
+        <p
+          style={{
+            margin: 0,
+            fontSize: 16,
+            fontWeight: 300,
+            color: '#3a3a3a',
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {task.desc}
+        </p>
+      </TaskPreviewBody>
       <DragWrapper>
         <DragAndDropComponent width={24} height={24} />
       </DragWrapper>
+      <EmojiTag theme={theme ?? '#d3d3d3'} emoji={task.tags[0].icon ?? 'X'} />
     </CardContainer>
   );
 });
