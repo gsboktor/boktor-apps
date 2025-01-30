@@ -13,6 +13,9 @@ export const kanbanConfigAtom = atomWithStorage<BoardConfig>(
       theme: '#e0c7bf',
       taskCount: 0,
     },
+    Active: {
+      taskCount: 0,
+    },
   },
   storage<BoardConfig>(),
   { getOnInit: true },

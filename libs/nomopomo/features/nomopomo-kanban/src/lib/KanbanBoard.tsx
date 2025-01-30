@@ -8,6 +8,7 @@ import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { Turbulence } from '@boktor-apps/shared/ui/assets';
 
 import { TaskCard } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
+import { DropCardComponent } from '@boktor-apps/shared/ui/assets';
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import styled from 'styled-components';
@@ -87,11 +88,13 @@ const BoardCountHint = styled.div<{ $theme: string }>`
   padding: 2px;
 `;
 
-const PlaceholderCard = styled(motion.div)`
-  position: 'fixed';
+const PlaceholderCard = styled(motion.div)<{ $theme: string }>`
+  position: sticky;
   width: 100%;
-  /* height: 100px; */
-  background-color: #ffdfbb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ $theme }) => $theme};
   opacity: 0.8;
   border-radius: 20px;
 `;
@@ -212,17 +215,23 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
         <AnimatePresence>
           {boardTasks.map((task) => {
             return (
-              <div key={task.id} style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
+              <div
+                key={task.id}
+                style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', position: 'relative' }}
+              >
                 <AnimatePresence>
                   {activeTask &&
                     placeholderPosition?.taskId === task.id &&
                     placeholderPosition.position === 'above' && (
                       <PlaceholderCard
+                        $theme={theme + `88`}
                         initial={{ height: 0, opacity: 0 }}
                         exit={{ height: 0, display: 'none', opacity: 0 }}
                         animate={{ height: overlayRef.current?.getBoundingClientRect().height, opacity: 1 }}
                         transition={{ duration: 0.2 }}
-                      />
+                      >
+                        <DropCardComponent width={48} height={48} />
+                      </PlaceholderCard>
                     )}
                 </AnimatePresence>
                 <TaskCard id={task.id} task={task} key={task.id} />
@@ -231,11 +240,14 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
                     placeholderPosition?.taskId === task.id &&
                     placeholderPosition.position === 'below' && (
                       <PlaceholderCard
+                        $theme={theme + `88`}
                         initial={{ height: 0, opacity: 0 }}
-                        exit={{ height: 0, display: 'none', opacity: 0 }}
-                        animate={{ height: 100, opacity: 1 }}
+                        // exit={{ height: 0, display: 'none', opacity: 0 }}
+                        animate={{ height: overlayRef.current?.getBoundingClientRect().height, opacity: 1 }}
                         transition={{ duration: 0.2 }}
-                      />
+                      >
+                        <DropCardComponent width={48} height={48} />
+                      </PlaceholderCard>
                     )}
                 </AnimatePresence> */}
               </div>

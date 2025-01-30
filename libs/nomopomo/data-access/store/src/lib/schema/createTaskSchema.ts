@@ -9,4 +9,5 @@ export const createTaskSchema = z.object({
     let boards = store.get(boardEnumAtom);
     return boards.includes(data);
   }, "This board doesn't exist!"),
+  tags: z.optional(z.array(z.object({ id: z.number(), label: z.string(), mainColor: z.string(), icon: z.string() }))),
 });
