@@ -1,14 +1,16 @@
 import { atomWithStorage } from 'jotai/utils';
 import { atom } from 'jotai/vanilla';
 import { kanbanConfigAtom } from './kanbanConfigAtom';
-import { DefaultKanbanBoards, PublicBoardOperations, Task } from './types';
+import { AccessibleTaskMap, DefaultKanbanBoards, PublicBoardOperations, Task } from './types';
 import { generateKey, getBoardTasksByKey, storage } from './utils';
+import { getBoardTasksAsArray } from './utils/getBoardTasksAsArray';
 
 export const kanbanBoardsAtom = atomWithStorage<DefaultKanbanBoards>(
   generateKey('boards'),
   {
-    backlog: {},
-    done: {},
+    Backlog: {},
+    Done: {},
+    Active: {},
   } as DefaultKanbanBoards,
   storage<DefaultKanbanBoards>(),
   { getOnInit: true },
@@ -16,6 +18,7 @@ export const kanbanBoardsAtom = atomWithStorage<DefaultKanbanBoards>(
 
 export const boardOperations = atom<PublicBoardOperations>((get) => ({
   getBoardTasksByKey: (key: keyof DefaultKanbanBoards) => getBoardTasksByKey(key, get),
+  getBoardTasksAsArray: (key: keyof DefaultKanbanBoards) => getBoardTasksAsArray(key, get),
   getAllBoards: () => get(kanbanBoardsAtom),
   getBoardConfigByKey: (key: keyof DefaultKanbanBoards) => get(kanbanConfigAtom)[key],
 }));
@@ -53,26 +56,27 @@ export const updateBoardTaskAtom = atom<null, [{ boardKey: string; updateTask: P
     set(kanbanBoardsAtom, updatedBoards);
   },
 );
-export const moveBoardTaskAtom = atom<null, [{ oldBoardKey: string; newBoardKey: string; taskId: string }], void>(
+export const moveBoardTaskAtom = atom<
   null,
-  (get, set, update) => {
-    const boards = get(kanbanBoardsAtom);
+  [{ oldBoardKey: string; newBoardKey: string; taskId: string; insertPosition?: number }],
+  void
+>(null, (get, set, update) => {
+  const boards = get(kanbanBoardsAtom);
 
-    const taskToMove = boards[update.oldBoardKey][update.taskId];
+  const taskToMove = boards[update.oldBoardKey][update.taskId];
 
-    const updatedBoards = {
-      ...boards,
-      [update.newBoardKey]: {
-        ...boards[update.newBoardKey],
-        [update.taskId]: taskToMove,
-      },
-    };
+  const updatedBoards = {
+    ...boards,
+    [update.newBoardKey]: {
+      ...boards[update.newBoardKey],
+      [update.taskId]: { ...taskToMove, parentBoardKey: update.newBoardKey },
+    },
+  };
 
-    delete updatedBoards[update.oldBoardKey][update.taskId];
+  update.oldBoardKey !== update.newBoardKey && delete updatedBoards[update.oldBoardKey][update.taskId];
 
-    set(kanbanBoardsAtom, updatedBoards);
-  },
-);
+  set(kanbanBoardsAtom, updatedBoards);
+});
 
 export const deleteBoardTaskAtom = atom<null, [{ boardKey: string; taskId: string }], void>(
   null,
@@ -87,3 +91,18 @@ export const deleteBoardTaskAtom = atom<null, [{ boardKey: string; taskId: strin
     set(kanbanBoardsAtom, updatedBoards);
   },
 );
+
+export const setBoardTasksByKey = atom<null, [{ boardKey: string; tasks: Task[] }], void>(null, (get, set, update) => {
+  const kanbanBoards = get(kanbanBoardsAtom);
+
+  const updatedBoards = {
+    ...kanbanBoards,
+    [update.boardKey]: {
+      ...update.tasks.reduce((acc, curr) => {
+        return { ...acc, [curr.id]: curr } as AccessibleTaskMap;
+      }, {}),
+    },
+  };
+
+  set(kanbanBoardsAtom, updatedBoards);
+});

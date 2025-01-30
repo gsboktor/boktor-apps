@@ -5,16 +5,24 @@ export type TaskCheckList = {
   isCompleted: boolean;
 };
 
+export type TaskTag = {
+  id: number;
+  label: string;
+  mainColor: string;
+  icon: string;
+};
+
 export type Task = {
   id: string;
   icon?: string;
   name: string;
-  createdAt: string;
+  createdAt: number;
   desc: string;
   completedCycles: number;
-  tags: string[];
+  tags: TaskTag[];
   checklist?: TaskCheckList[];
+  index: number;
   parentBoardKey: string;
 };
 
-export type AccessibleTaskMap = { [id: string]: Omit<Task, 'id'> };
+export type AccessibleTaskMap = { [id: string]: Task };

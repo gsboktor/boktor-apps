@@ -1,8 +1,12 @@
+import { SideModalTicketForm } from '@boktor-apps/nomopomo/features/nomopomo-forms';
 import { ChipCard, SelectionCard } from '@boktor-apps/shared/ui/cards';
 import { ScrollCarousel } from '@boktor-apps/shared/ui/scroll-carousel';
+
+import { setTaskFormValues } from '@boktor-apps/nomopomo/data-access/store';
+import { CloseComponent } from '@boktor-apps/shared/ui/assets';
+import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as Close } from '../assets/close.svg';
 import { DEFAULTS } from './consts';
 
 const ModalSubHeader = styled.p`
@@ -21,6 +25,8 @@ const ModalSubHeader = styled.p`
 const ModalBody = styled.div`
   display: flex;
   flex-grow: 1;
+  gap: 16px;
+  overflow: scroll;
   width: 100%;
   margin: 24px 0px;
   align-items: center;
@@ -31,7 +37,7 @@ const ModalSection = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 12px;
+  gap: 16px;
 `;
 
 const CardContainer = styled.div`
@@ -46,7 +52,7 @@ const SelectionsContainer = styled.div`
   gap: 4px;
 `;
 
-const Closed = styled(Close)`
+const Closed = styled(CloseComponent)`
   display: flex;
   width: 12px;
   height: 12px;
@@ -56,6 +62,7 @@ const Closed = styled(Close)`
 
 export const SideModalBody = () => {
   const [localSelections, setLocalSelections] = useState<number[]>([]);
+  const [taskForm, setTaskForm] = useAtom(setTaskFormValues);
 
   const handleSelection = useCallback(
     (id: number) => {
@@ -63,9 +70,39 @@ export const SideModalBody = () => {
         const spliced = localSelections;
         spliced.splice(localSelections.indexOf(id), 1);
         setLocalSelections([...spliced]);
+
+        const oldTags = taskForm.tags;
+        oldTags.splice(
+          oldTags.findIndex((t) => t.id === id),
+          1,
+        );
+
+        setTaskForm({
+          tags: [...oldTags],
+        });
         return;
       }
       setLocalSelections((prev) => [...prev, id]);
+      setTaskForm({
+        tags: taskForm.tags
+          ? [
+              ...taskForm.tags,
+              {
+                id: id,
+                mainColor: DEFAULTS['variant1'][id - 1].mainColor,
+                label: DEFAULTS['variant1'][id - 1].label,
+                icon: DEFAULTS['variant1'][id - 1].icon,
+              },
+            ]
+          : [
+              {
+                id: id,
+                mainColor: DEFAULTS['variant1'][id - 1].mainColor,
+                label: DEFAULTS['variant1'][id - 1].label,
+                icon: DEFAULTS['variant1'][id - 1].icon,
+              },
+            ],
+      });
     },
     [localSelections],
   );
@@ -77,7 +114,7 @@ export const SideModalBody = () => {
         </ModalSubHeader>
         <div style={{ height: 'fit-content' }}>
           <ScrollCarousel
-            gap={24}
+            gap={12}
             direction="right"
             marginFactor={32}
             animationDelay={200}
@@ -89,7 +126,7 @@ export const SideModalBody = () => {
                     onSelection={() => handleSelection(item.id)}
                     label={item.label}
                     toggled={localSelections.includes(item.id)}
-                    selectionCardAttr={{ tabIndex: 0, style: { padding: '6px' } }}
+                    selectionCardAttr={{ tabIndex: 0, style: { padding: '4px 10px' } }}
                     cardColor={item.mainColor}
                     labelAttr={{ style: { fontSize: 14, fontWeight: '400', letterSpacing: '-0.5px' } }}
                     toggleContainerAttr={{ style: { transform: `scale(0.6)` } }}
@@ -99,7 +136,7 @@ export const SideModalBody = () => {
             }}
           />
           <ScrollCarousel
-            gap={24}
+            gap={12}
             direction="right"
             marginFactor={12}
             animationDelay={500}
@@ -110,7 +147,7 @@ export const SideModalBody = () => {
                   <SelectionCard
                     onSelection={() => handleSelection(item.id)}
                     label={item.label}
-                    selectionCardAttr={{ tabIndex: 0, style: { padding: '6px' } }}
+                    selectionCardAttr={{ tabIndex: 0, style: { padding: '4px 10px' } }}
                     toggled={localSelections.includes(item.id)}
                     cardColor={item.mainColor}
                     labelAttr={{ style: { fontSize: 14, fontWeight: '400', letterSpacing: '-0.5px' } }}
@@ -138,6 +175,7 @@ export const SideModalBody = () => {
         <ModalSubHeader>
           Step 2<b style={{ marginLeft: 6, letterSpacing: -1 }}> • Create your first ticket!</b>
         </ModalSubHeader>
+        <SideModalTicketForm />
       </ModalSection>
       <ModalSection>
         <ModalSubHeader>

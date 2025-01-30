@@ -1,6 +1,5 @@
+import { Noise, NomopomoLettersComponent } from '@boktor-apps/shared/ui/assets';
 import styled from 'styled-components';
-import noise from '../assets/noise.svg';
-import { ReactComponent as Nomopomo } from '../assets/nomopomo-letters.svg';
 
 const AnimationContainer = styled.div`
   position: absolute;
@@ -28,7 +27,7 @@ const AnimationContainer = styled.div`
   transition: top cubic-bezier(0.455, 0.03, 0.515, 0.955) 400ms;
 `;
 
-const StyledNomopomo = styled(Nomopomo)`
+const StyledNomopomo = styled(NomopomoLettersComponent)`
   position: absolute;
   width: 96px;
   height: 96px;
@@ -45,7 +44,7 @@ const NomopomoSun = styled.div`
   border-radius: 50%;
   box-shadow: 0px 0px 0px 0px transparent;
   transition: transform var(--bounce-effect) 150ms, box-shadow var(--bounce-effect) 150ms;
-  background: linear-gradient(#ffcd62a8, #ffcd62a8), url(${noise});
+  background: linear-gradient(#ffcd62a8, #ffcd62a8), url(${Noise});
 `;
 
 export const NomopomoBlurLogo = () => {

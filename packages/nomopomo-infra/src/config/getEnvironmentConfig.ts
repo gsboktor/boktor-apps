@@ -4,7 +4,6 @@ export interface EnvironmentConfig {
   subDomain?: string;
   hostedZoneId?: string;
   certificateArn?: string;
-  allowedIps?: string[]; // List of allowed IP CIDR ranges
   basicAuthUsername?: string; // Optional basic auth credentials
   basicAuthPassword?: string;
 }
