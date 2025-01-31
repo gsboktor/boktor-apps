@@ -1,32 +1,26 @@
-import {
-  activeDragBoardId,
-  activeDragTaskAtom,
-  boardOperations,
-  deleteBoardTaskAtom,
-} from '@boktor-apps/nomopomo/data-access/store';
-import { Direction, useScrollDirection } from '@boktor-apps/shared/ui/hooks';
+import { activeDragTaskAtom, boardOperations, deleteBoardTaskAtom } from '@boktor-apps/nomopomo/data-access/store';
+import { useScrollDirection } from '@boktor-apps/shared/ui/hooks';
 
 import { useAtomValue, useSetAtom } from 'jotai';
 import { AnimatePresence, motion, useAnimate } from 'motion/react';
-import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 import { Turbulence } from '@boktor-apps/shared/ui/assets';
 
 import { TaskCard } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
 import { DropCardComponent } from '@boktor-apps/shared/ui/assets';
-import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { boardEnumAtom } from 'libs/nomopomo/data-access/store/src/lib/boardEnumAtom';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import styled from 'styled-components';
 import { VacantBoard } from './components';
 
-export type KanbanBoardProps = {
+export type KanbanBoardStaticProps = {
   boardId: string;
   theme?: string;
-  overlayRef: RefObject<HTMLDivElement>;
 };
 
 const KanbanContainer = styled(motion.div)`
   position: relative;
+  opacity: 0.6;
   width: 100%;
   box-sizing: border-box;
   display: flex;
@@ -39,6 +33,7 @@ const KanbanContainer = styled(motion.div)`
   overflow-y: scroll;
   scrollbar-width: none;
   padding-bottom: 100px;
+  z-index: 10000;
 `;
 
 const MockCard = styled.div`
@@ -67,7 +62,7 @@ const BoardHeader = styled(motion.div)<{ $theme: string }>`
   align-items: center;
   justify-content: space-between;
   background-color: ${({ $theme }) => $theme + `99`};
-  z-index: 1000;
+  z-index: 10000;
 `;
 
 const Label = styled.p`
@@ -94,7 +89,7 @@ const BoardCountHint = styled.div<{ $theme: string }>`
   padding: 2px;
 `;
 
-export const PlaceholderCard = styled(motion.div)<{ $theme: string }>`
+const PlaceholderCard = styled(motion.div)<{ $theme: string }>`
   position: sticky;
   width: 100%;
   display: flex;
@@ -105,13 +100,8 @@ export const PlaceholderCard = styled(motion.div)<{ $theme: string }>`
   border-radius: 20px;
 `;
 
-export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBoardProps) => {
-  const { isOver, over, active, setNodeRef, node, attributes, listeners } = useSortable({
-    id: boardId,
-  });
+export const KanbanBoardStatic = ({ boardId, theme = '#d3d3d3' }: KanbanBoardStaticProps) => {
   const activeTask = useAtomValue(activeDragTaskAtom);
-  const activeBoard = useAtomValue(activeDragBoardId);
-  const boards = useAtomValue(boardEnumAtom);
 
   const containeRef = useRef<HTMLDivElement | undefined>();
   const { getBoardTasksAsArray } = useAtomValue(boardOperations);
@@ -127,13 +117,6 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
   } | null>(() => null);
 
   const boardTheme = theme;
-  const isActive = activeBoard === boardId;
-
-  const appliedFilterStyle = useMemo(() => {
-    return {
-      filter: isActive ? 'blur(4px) brightness(.95)' : 'none',
-    };
-  }, [isActive]);
 
   useMemo(() => {
     if (!activeTask) {
@@ -141,76 +124,15 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
     }
   }, [activeTask]);
 
-  useEffect(() => {
-    if (!activeTask || !overlayRef.current) return;
-
-    let animationFrameId: number;
-    let isThrottled = false;
-
-    const updatePlaceholder = () => {
-      if (!over?.id || over.id === activeTask.id) {
-        setPlaceholderPosition(null);
-        isThrottled = false;
-        return;
-      }
-
-      const isBelowTask = overlayRef.current!.getBoundingClientRect().top > over.rect.top;
-      setPlaceholderPosition({
-        taskId: over.id as string,
-        position: isBelowTask ? 'below' : 'above',
-      });
-      isThrottled = false;
-    };
-
-    const handleMouseMove = () => {
-      if (isThrottled) return;
-      animationFrameId = window.requestAnimationFrame(updatePlaceholder);
-      isThrottled = true;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      if (animationFrameId) {
-        window.cancelAnimationFrame(animationFrameId);
-      }
-    };
-  }, [activeTask, over, overlayRef]);
-
-  useMemo(() => {
-    if (!ref.current) return;
-    if (scrollDirection === Direction.UP && withinTop) {
-      animate(ref.current, {
-        y: 0,
-        width: `calc(100% - 48px)`,
-      });
-    } else if (scrollDirection === Direction.DOWN) {
-      animate(
-        ref.current,
-        {
-          y: 24,
-          width: `50%`,
-        },
-        {
-          type: 'spring',
-          damping: 10,
-        },
-      );
-    }
-  }, [scrollDirection, withinTop]);
-
   return (
     <KanbanContainer
-      layout
       initial={{ height: '100%' }}
       animate={{ height: 'auto' }}
-      style={appliedFilterStyle}
       ref={(ref) => {
-        setNodeRef(ref);
         containeRef.current = ref ?? undefined;
       }}
     >
-      <BoardHeader $theme={boardTheme} ref={ref} {...attributes} {...listeners}>
+      <BoardHeader $theme={boardTheme} ref={ref}>
         <Label style={{ flex: 1 }}>{boardId}</Label>
         <BoardCountHint $theme={boardTheme}>
           <Label style={{ fontSize: 16, overflow: 'visible' }}>{boardTasks.length}</Label>
@@ -221,14 +143,7 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
         items={boardTasks.reduce((acc, curr) => [...acc, curr.id], [] as string[])}
       >
         <AnimatePresence>
-          {boardTasks.length === 0 && (
-            <VacantBoard
-              expand={over?.id === boardId && !boards.includes(String(active?.id))}
-              theme={theme}
-              overlayRef={overlayRef}
-              boardId={boardId}
-            />
-          )}
+          {boardTasks.length === 0 && <VacantBoard expand={false} theme={theme} boardId={boardId} />}
           {boardTasks.map((task) => {
             return (
               <div
@@ -243,7 +158,6 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
                         $theme={theme + `88`}
                         initial={{ height: 0, opacity: 0 }}
                         exit={{ height: 0, display: 'none', opacity: 0 }}
-                        animate={{ height: overlayRef.current?.getBoundingClientRect().height, opacity: 1 }}
                         transition={{ duration: 0.2 }}
                       >
                         <DropCardComponent width={48} height={48} />
@@ -251,6 +165,21 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
                     )}
                 </AnimatePresence>
                 <TaskCard id={task.id} task={task} key={task.id} />
+                {/* <AnimatePresence>
+                  {activeTask &&
+                    placeholderPosition?.taskId === task.id &&
+                    placeholderPosition.position === 'below' && (
+                      <PlaceholderCard
+                        $theme={theme + `88`}
+                        initial={{ height: 0, opacity: 0 }}
+                        // exit={{ height: 0, display: 'none', opacity: 0 }}
+                        animate={{ height: overlayRef.current?.getBoundingClientRect().height, opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <DropCardComponent width={48} height={48} />
+                      </PlaceholderCard>
+                    )}
+                </AnimatePresence> */}
               </div>
             );
           })}

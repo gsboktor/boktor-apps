@@ -1,3 +1,9 @@
-import { atom } from 'jotai/vanilla';
+import { atomWithStorage } from 'jotai/utils';
+import { generateKey, storage } from './utils';
 
-export const boardEnumAtom = atom<string[]>(['Backlog', 'Done', 'Active']);
+export const boardEnumAtom = atomWithStorage<string[]>(
+  generateKey('board-order'),
+  ['Backlog', 'Done', 'Active'],
+  storage<string[]>(),
+  { getOnInit: true },
+);

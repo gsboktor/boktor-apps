@@ -52,7 +52,7 @@ export const VacantBoard = ({
   boardId,
 }: {
   expand: boolean;
-  overlayRef: RefObject<HTMLDivElement>;
+  overlayRef?: RefObject<HTMLDivElement>;
   theme: string;
   boardId: string;
 }) => {
@@ -69,10 +69,10 @@ export const VacantBoard = ({
   return (
     <>
       <VacantBoardContainer
-        initial={{ transform: 'scale(1)', height: `40%`, opacity: 0 }}
+        initial={{ transform: 'scale(1)', opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{
-          height: overlayRef.current?.getBoundingClientRect().height,
+          height: overlayRef?.current?.getBoundingClientRect().height,
           transition: {
             duration: 0.2,
           },
@@ -87,7 +87,7 @@ export const VacantBoard = ({
               $theme={theme}
               initial={{ height: 0, opacity: 0 }}
               exit={{ height: 0, display: 'none', opacity: 0 }}
-              animate={{ height: overlayRef.current?.getBoundingClientRect().height, opacity: 1 }}
+              animate={{ height: overlayRef?.current?.getBoundingClientRect().height, opacity: 1 }}
               transition={{ duration: 0.2 }}
             >
               <DropCardComponent width={48} height={48} />
