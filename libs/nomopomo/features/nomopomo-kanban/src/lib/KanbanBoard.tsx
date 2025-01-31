@@ -12,6 +12,7 @@ import { DropCardComponent } from '@boktor-apps/shared/ui/assets';
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import styled from 'styled-components';
+import { VacantBoard } from './components';
 
 export type KanbanBoardProps = {
   boardId: string;
@@ -52,8 +53,8 @@ const BoardHeader = styled(motion.div)<{ $theme: string }>`
   height: fit-content;
   margin-top: 4px;
   display: flex;
-  /* flex: 1; */
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   height: fit-content;
   padding: 6px 12px;
   border-radius: 12px;
@@ -88,7 +89,7 @@ const BoardCountHint = styled.div<{ $theme: string }>`
   padding: 2px;
 `;
 
-const PlaceholderCard = styled(motion.div)<{ $theme: string }>`
+export const PlaceholderCard = styled(motion.div)<{ $theme: string }>`
   position: sticky;
   width: 100%;
   display: flex;
@@ -213,6 +214,9 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
         items={boardTasks.reduce((acc, curr) => [...acc, curr.id], [] as string[])}
       >
         <AnimatePresence>
+          {boardTasks.length === 0 && (
+            <VacantBoard expand={over?.id === boardId} theme={theme} overlayRef={overlayRef} boardId={boardId} />
+          )}
           {boardTasks.map((task) => {
             return (
               <div

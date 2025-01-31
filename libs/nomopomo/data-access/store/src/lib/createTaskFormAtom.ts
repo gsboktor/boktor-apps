@@ -49,7 +49,7 @@ export const validateFormAtom = atom<null, [undefined], void>(null, (get, set, _
         name: formValues.name,
         desc: formValues.desc,
         createdAt: Date.now(),
-        tags: formValues.tags,
+        tags: formValues?.tags ? formValues.tags : [],
         completedCycles: 0,
         parentBoardKey: formValues.parentBoardKey,
         checklist: [],
