@@ -1,3 +1,4 @@
+export * from './activeDragBoard';
 export * from './activeDragTask';
 export * from './activeModalAtom';
 export * from './createTaskFormAtom';

@@ -72,9 +72,9 @@ export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task
   return (
     <CardContainer $theme={theme} ref={ref}>
       <TaskPreviewBody>
-        <TaskTagContainer>
-          {task.tags &&
-            task.tags.map((tag) => (
+        {task.tags.length > 0 && (
+          <TaskTagContainer>
+            {task.tags.map((tag) => (
               <ChipCard
                 labelAttr={{ style: { fontSize: 12 } }}
                 key={tag.id}
@@ -83,11 +83,8 @@ export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task
                 onActionClick={() => {}}
               />
             ))}
-          {/* <ChipCard label="Urgent" onActionClick={() => {}} mainColor={theme} />
-            <ChipCard label="Done" onActionClick={() => {}} />
-            <ChipCard label="Out-of-date" onActionClick={() => {}} />
-            <ChipCard label="Overflow" onActionClick={() => {}} /> */}
-        </TaskTagContainer>
+          </TaskTagContainer>
+        )}
         <p
           style={{
             margin: 0,
@@ -111,7 +108,8 @@ export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task
             fontWeight: 300,
             color: '#3a3a3a',
             display: '-webkit-box',
-            WebkitLineClamp: 3,
+            lineClamp: 4,
+            WebkitLineClamp: 4,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
@@ -123,7 +121,7 @@ export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task
       <DragWrapper>
         <DragAndDropComponent width={24} height={24} />
       </DragWrapper>
-      <EmojiTag theme={theme ?? '#d3d3d3'} emoji={task.tags[0].icon ?? 'X'} />
+      <EmojiTag theme={theme ?? '#d3d3d3'} emoji={task.tags.length > 0 ? task.tags[0].icon : '🕛'} />
     </CardContainer>
   );
 });
