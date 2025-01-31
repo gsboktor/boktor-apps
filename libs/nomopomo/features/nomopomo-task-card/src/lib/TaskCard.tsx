@@ -129,7 +129,7 @@ export const TaskCard = ({ task, id }: { task: Task; id: string }) => {
       >
         {isActive && (
           <ShimmerBackdrop
-            $theme={theme ?? 'black'}
+            $theme={theme ?? '#d3d3d3'}
             animate={{
               backgroundPosition: ['-1000px 0', '1000px 0'],
             }}
@@ -142,9 +142,9 @@ export const TaskCard = ({ task, id }: { task: Task; id: string }) => {
           />
         )}
         <TaskPreviewBody>
-          <TaskTagContainer>
-            {task.tags &&
-              task.tags.map((tag) => (
+          {task.tags.length > 0 && (
+            <TaskTagContainer>
+              {task.tags.map((tag) => (
                 <ChipCard
                   labelAttr={{ style: { fontSize: 12 } }}
                   key={tag.id}
@@ -153,7 +153,8 @@ export const TaskCard = ({ task, id }: { task: Task; id: string }) => {
                   onActionClick={() => {}}
                 />
               ))}
-          </TaskTagContainer>
+            </TaskTagContainer>
+          )}
           <p
             style={{
               margin: 0,
@@ -190,7 +191,7 @@ export const TaskCard = ({ task, id }: { task: Task; id: string }) => {
         <DragWrapper {...listeners} {...attributes}>
           <DragAndDropComponent width={24} height={24} />
         </DragWrapper>
-        <EmojiTag theme={theme ?? '#d3d3d3'} emoji={task.tags[0].icon ?? 'X'} />
+        <EmojiTag theme={theme ?? '#d3d3d3'} emoji={task.tags.length > 0 ? task.tags[0].icon : '🕛'} />
       </CardContainer>
     </NodeRoot>
   );
