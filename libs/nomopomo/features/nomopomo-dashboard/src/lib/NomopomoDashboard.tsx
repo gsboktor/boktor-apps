@@ -1,17 +1,20 @@
 import {
+  activeDragBoardId,
   activeDragTaskAtom,
   activeModalAtom,
   boardOperations,
   handleDragEndAtom,
   handleDragStartAtom,
 } from '@boktor-apps/nomopomo/data-access/store';
-import { KanbanBoard } from '@boktor-apps/nomopomo/features/nomopomo-kanban';
+import { KanbanBoard, KanbanBoardStatic } from '@boktor-apps/nomopomo/features/nomopomo-kanban';
 import { NomopomoSideModal } from '@boktor-apps/nomopomo/features/nomopomo-side-modal';
 
 import { TaskCardStatic } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
+import { horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
+import { boardEnumAtom } from 'libs/nomopomo/data-access/store/src/lib/boardEnumAtom';
 import { useRef } from 'react';
 import { useMedia } from 'react-use';
 import styled from 'styled-components';
@@ -41,12 +44,12 @@ const NomopomoMainDashboard = styled.div`
   position: relative;
   width: 100%;
   height: calc(100% - 64px);
-
+  margin-bottom: 52px;
   gap: 8px;
   padding: 16px 0px;
   overflow-x: scroll;
-  -webkit-mask-image: linear-gradient(to top, transparent, black 5%);
-  mask-image: linear-gradient(to top, transparent, black 5%);
+  -webkit-mask-image: linear-gradient(to top, transparent, black 15%);
+  mask-image: linear-gradient(to top, transparent, black 15%);
 `;
 
 const BoardContainer = styled.div`
@@ -64,7 +67,9 @@ export const NomopomoDashboard = () => {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   const [activeTask, setActiveTask] = useAtom(activeDragTaskAtom);
+  const [activeBoard, setActiveBoard] = useAtom(activeDragBoardId);
   const { getAllBoards, getBoardConfigByKey } = useAtomValue(boardOperations);
+  const boards = useAtomValue(boardEnumAtom);
 
   const setModalState = useSetAtom(activeModalAtom);
   const handleDragStart = useSetAtom(handleDragStartAtom);
@@ -94,13 +99,15 @@ export const NomopomoDashboard = () => {
             handleDragEnd({ ...e, overlayRef: overlayRef });
           }}
         >
-          {Object.keys(getAllBoards()).map((id) => {
-            return (
-              <BoardContainer key={id}>
-                <KanbanBoard overlayRef={overlayRef} boardId={id} theme={getBoardConfigByKey(id)?.theme} />
-              </BoardContainer>
-            );
-          })}
+          <SortableContext items={boards} strategy={horizontalListSortingStrategy}>
+            {boards.map((id) => {
+              return (
+                <BoardContainer key={id}>
+                  <KanbanBoard overlayRef={overlayRef} boardId={id} theme={getBoardConfigByKey(id)?.theme} />
+                </BoardContainer>
+              );
+            })}
+          </SortableContext>
           <DragOverlay
             dropAnimation={{
               duration: 250,
@@ -109,7 +116,12 @@ export const NomopomoDashboard = () => {
               },
             }}
           >
-            {activeTask?.id && <TaskCardStatic ref={overlayRef} task={activeTask} />}
+            {activeTask?.id && !activeBoard && <TaskCardStatic ref={overlayRef} task={activeTask} />}
+            {activeBoard && !activeTask?.id && (
+              <div style={{ display: 'flex', zIndex: 10000, height: `100%` }}>
+                <KanbanBoardStatic boardId={activeBoard} theme={getBoardConfigByKey(activeBoard).theme} />
+              </div>
+            )}
           </DragOverlay>
         </DndContext>
       </NomopomoMainDashboard>

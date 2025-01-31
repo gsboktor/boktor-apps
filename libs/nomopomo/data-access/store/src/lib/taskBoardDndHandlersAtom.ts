@@ -1,7 +1,9 @@
 import { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
+import { arrayMove } from '@dnd-kit/sortable';
 import { atom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { RefObject } from 'react';
+import { activeDragBoardId } from './activeDragBoard';
 import { activeDragTaskAtom } from './activeDragTask';
 import { boardEnumAtom } from './boardEnumAtom';
 import { boardOperations, kanbanBoardsAtom, moveBoardTaskAtom, setBoardTasksByKey } from './kanbanAtom';
@@ -12,6 +14,11 @@ type HandleDragEndEvent<T> = DragEndEvent & {
 
 export const handleDragStartAtom = atom<null, [DragStartEvent], void>(null, (get, set, e) => {
   const activeItemId = String(e.active.id);
+  if (get(boardEnumAtom).includes(activeItemId)) {
+    set(activeDragBoardId, activeItemId);
+    return;
+  }
+
   const activeItemBoard = String(e.active.data.current?.prevBoardKey);
 
   const { getBoardTasksAsArray } = get(boardOperations);
@@ -23,6 +30,18 @@ export const handleDragStartAtom = atom<null, [DragStartEvent], void>(null, (get
 });
 
 export const handleDragEndAtom = atom<null, [HandleDragEndEvent<HTMLDivElement>], void>(null, (get, set, e) => {
+  const boards = get(boardEnumAtom);
+  if (boards.includes(String(e.active?.id)) && e.over?.id) {
+    let startIdx = boards.indexOf(String(e.active.id));
+    let endIdx = boards.includes(String(e.over.id))
+      ? boards.indexOf(String(e.over?.id))
+      : boards.indexOf(String(e.over.data.current?.prevBoardKey));
+    set(boardEnumAtom, [...arrayMove(boards, startIdx, endIdx)]);
+    set(activeDragBoardId, RESET);
+
+    return;
+  }
+
   const overItemId = String(e.over?.id);
   const overItemBoard = String(e.over?.data.current?.prevBoardKey);
 
@@ -30,6 +49,7 @@ export const handleDragEndAtom = atom<null, [HandleDragEndEvent<HTMLDivElement>]
   const activeItemBoard = String(e.active.data.current?.prevBoardKey);
 
   set(activeDragTaskAtom, RESET);
+  set(activeDragBoardId, RESET);
 
   if (!overItemId || overItemId === activeItemId || !e.over) return;
 
