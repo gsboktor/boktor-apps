@@ -11,6 +11,7 @@ type BaseFormFieldProps = {
   inputContainerAttr?: React.HTMLAttributes<HTMLDivElement>;
   validationMessage?: string;
   severity?: 'info' | 'warning' | 'error';
+  limit?: number;
 };
 
 const FormFieldContainer = styled.div`
@@ -19,6 +20,12 @@ const FormFieldContainer = styled.div`
   height: fit-content;
   flex-direction: column;
   gap: 4px;
+  & > input {
+    transition: box-shadow ease-in-out 200ms;
+    &:focus {
+      box-shadow: 0px 0px 0px 2px inset #3a3a3a;
+    }
+  }
 `;
 
 const Input = styled.input<{ $placeholderColor?: string }>`
@@ -78,6 +85,7 @@ export const BaseFormField = forwardRef<HTMLInputElement, BaseFormFieldProps>(
           $placeholderColor={props.placeholderColor}
           placeholder={props.placeholder}
           ref={inputRef}
+          maxLength={props.limit}
           onChange={props.onInputChange}
           value={props?.inputValue}
           disabled={props.disabled}

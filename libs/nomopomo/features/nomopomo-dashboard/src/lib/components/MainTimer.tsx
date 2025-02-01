@@ -3,15 +3,17 @@ import { PomoTimerMode, timerSelectorAtom } from '@boktor-apps/nomopomo/data-acc
 import { useAtom } from 'jotai';
 import { useCallback, useRef } from 'react';
 import styled from 'styled-components';
-import { TimerControls } from './TimerControls';
 
 const TimerLayoutContainer = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: start;
   flex-direction: column;
+  margin-left: 112px;
   gap: 2px;
-  @media screen and (width < 368px) {
+  @media screen and (width < 768px) {
+    align-items: center;
+    margin-left: 0px;
     transform: scale(0.75);
   }
   transition: transform ease-in-out 200ms;
@@ -111,7 +113,7 @@ export const MainTimer = () => {
         <TimerColon>:</TimerColon>
         <TimerMinute>{displayMinute}</TimerMinute>
       </TimerContainer>
-      <TimerControls />
+      {/* <TimerControls /> */}
     </TimerLayoutContainer>
   );
 };

@@ -18,5 +18,7 @@ export const kanbanConfigAtom = atomWithStorage<BoardConfig>(
     },
   },
   storage<BoardConfig>(),
-  { getOnInit: true },
+  {
+    getOnInit: true,
+  },
 );
