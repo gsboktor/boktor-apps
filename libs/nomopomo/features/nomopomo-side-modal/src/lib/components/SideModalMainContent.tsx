@@ -1,8 +1,10 @@
 import { validateFormAtom } from '@boktor-apps/nomopomo/data-access/store';
 import { PrimaryButton, SecondaryButton } from '@boktor-apps/shared/ui/buttons';
 import { useSetAtom } from 'jotai';
+import React, { Suspense } from 'react';
 import styled from 'styled-components';
-import { SideModalBody } from './SideModalBody';
+
+const SideModalBody = React.lazy(() => import('./SideModalBody').then((module) => ({ default: module.SideModalBody })));
 
 const SideModalContentContainer = styled.div`
   display: flex;
@@ -58,7 +60,9 @@ export const SideModalMainContent = () => {
       <ModalHeader>
         ⏱️ Welcome to <b>Nomopomo.io!</b>
       </ModalHeader>
-      <SideModalBody />
+      <Suspense fallback={<p>Loading...</p>}>
+        <SideModalBody />
+      </Suspense>
       <ButtonGroupContainer>
         <StyledPrimaryButton>
           <PrimaryButton

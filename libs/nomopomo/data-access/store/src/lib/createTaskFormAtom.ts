@@ -19,7 +19,6 @@ export const setTaskFormValues = atom<RequiredTaskKeys, [Partial<RequiredTaskKey
   (get) => get(_taskForm),
   (get, set, update) => {
     if (update) {
-      console.log('tags?', update.tags);
       set(_taskForm, { ...get(_taskForm), ...update });
     }
   },

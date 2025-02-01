@@ -1,13 +1,12 @@
 import {
   activeDragBoardId,
   activeDragTaskAtom,
-  activeModalAtom,
   boardOperations,
+  handleBoardsDragOver,
   handleDragEndAtom,
   handleDragStartAtom,
 } from '@boktor-apps/nomopomo/data-access/store';
 import { KanbanBoard, KanbanBoardStatic } from '@boktor-apps/nomopomo/features/nomopomo-kanban';
-import { NomopomoSideModal } from '@boktor-apps/nomopomo/features/nomopomo-side-modal';
 
 import { TaskCardStatic } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
@@ -18,13 +17,30 @@ import { boardEnumAtom } from 'libs/nomopomo/data-access/store/src/lib/boardEnum
 import { useRef } from 'react';
 import { useMedia } from 'react-use';
 import styled from 'styled-components';
-import { MainTimer, NomopomoBlurLogo } from './components';
+import { MainTimer, NomopomoBlurLogo, TimerControls } from './components';
 
 const DashboardRootContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
+`;
+
+const MainControllersContainer = styled.div`
+  position: absolute;
+  bottom: 32px;
+  padding: 4px;
+  box-sizing: border-box;
+  width: fit-content;
+  min-width: 100px;
+  height: fit-content;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  border-radius: 24px;
+  backdrop-filter: blur(8px);
+  background-color: #d3d3d39c;
+  z-index: 10000;
 `;
 
 const NomopomoDashHeader = styled.div`
@@ -67,34 +83,24 @@ export const NomopomoDashboard = () => {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   const [activeTask, setActiveTask] = useAtom(activeDragTaskAtom);
-  const [activeBoard, setActiveBoard] = useAtom(activeDragBoardId);
-  const { getAllBoards, getBoardConfigByKey } = useAtomValue(boardOperations);
+  const activeBoard = useAtomValue(activeDragBoardId);
+  const { getBoardConfigByKey } = useAtomValue(boardOperations);
   const boards = useAtomValue(boardEnumAtom);
 
-  const setModalState = useSetAtom(activeModalAtom);
   const handleDragStart = useSetAtom(handleDragStartAtom);
   const handleDragEnd = useSetAtom(handleDragEndAtom);
+  const handleDragOver = useSetAtom(handleBoardsDragOver);
 
   return (
     <DashboardRootContainer>
       {!isMobile && <NomopomoBlurLogo />}
       <NomopomoDashHeader>
         <MainTimer />
-        <button
-          style={{ position: 'absolute', right: 0 }}
-          onClick={() =>
-            setModalState({
-              Component: NomopomoSideModal,
-              show: true,
-            })
-          }
-        >
-          show
-        </button>
       </NomopomoDashHeader>
       <NomopomoMainDashboard>
         <DndContext
           onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
           onDragEnd={(e) => {
             handleDragEnd({ ...e, overlayRef: overlayRef });
           }}
@@ -109,6 +115,7 @@ export const NomopomoDashboard = () => {
             })}
           </SortableContext>
           <DragOverlay
+            style={{ zIndex: Number.MAX_SAFE_INTEGER }}
             dropAnimation={{
               duration: 250,
               sideEffects: () => {
@@ -118,13 +125,16 @@ export const NomopomoDashboard = () => {
           >
             {activeTask?.id && !activeBoard && <TaskCardStatic ref={overlayRef} task={activeTask} />}
             {activeBoard && !activeTask?.id && (
-              <div style={{ display: 'flex', zIndex: 10000, height: `100%` }}>
+              <div style={{ display: 'flex', height: `100%` }}>
                 <KanbanBoardStatic boardId={activeBoard} theme={getBoardConfigByKey(activeBoard).theme} />
               </div>
             )}
           </DragOverlay>
         </DndContext>
       </NomopomoMainDashboard>
+      <MainControllersContainer>
+        <TimerControls />
+      </MainControllersContainer>
     </DashboardRootContainer>
   );
 };

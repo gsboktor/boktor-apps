@@ -1,6 +1,6 @@
 import { Direction, useRenderDirection } from '@boktor-apps/shared/ui/hooks';
 import { AnimatePresence, motion } from 'motion/react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 type PopoverProps = {
@@ -58,27 +58,13 @@ export const Popover = ({ ...props }: PopoverProps) => {
   const popOverRef = useRef<HTMLDivElement>(null);
   const { direction, directionHorizontal } = useRenderDirection(popOverRef, 'popover');
 
-  useEffect(() => {
-    popOverRef.current?.addEventListener('mouseenter', () => {
-      setShowPopover(true);
-    });
-
-    popOverRef.current?.addEventListener('mouseleave', () => {
-      setShowPopover(false);
-    });
-
-    return () => {
-      popOverRef.current?.removeEventListener('mouseenter', () => {
-        setShowPopover(true);
-      });
-      popOverRef.current?.removeEventListener('mouseleave', () => {
-        setShowPopover(false);
-      });
-    };
-  }, []);
-
   return (
-    <PopoverRoot ref={popOverRef} {...props.containerAttr}>
+    <PopoverRoot
+      onMouseEnter={() => setShowPopover(true)}
+      onMouseLeave={() => setShowPopover(false)}
+      ref={popOverRef}
+      {...props.containerAttr}
+    >
       <AnimatePresence>
         {showPopover && (
           <PopoverBox

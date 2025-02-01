@@ -1,24 +1,38 @@
 import { atomWithStorage } from 'jotai/utils';
 import { atom } from 'jotai/vanilla';
+import { boardEnumAtom } from './boardEnumAtom';
 import { kanbanConfigAtom } from './kanbanConfigAtom';
 import { AccessibleTaskMap, DefaultKanbanBoards, PublicBoardOperations, Task } from './types';
 import { generateKey, getBoardTasksByKey, storage } from './utils';
 import { getBoardTasksAsArray } from './utils/getBoardTasksAsArray';
 
+const default_id = crypto.randomUUID();
+
 export const kanbanBoardsAtom = atomWithStorage<DefaultKanbanBoards>(
   generateKey('boards'),
   {
-    Backlog: {},
-    Done: {},
+    Backlog: {
+      [default_id]: {
+        id: default_id,
+        name: 'Welcome to Nomopomo!',
+        desc: 'Open this task to learn the ropes of Nomopomo!',
+        createdAt: Date.now(),
+        parentBoardKey: 'Backlog',
+        completedCycles: 0,
+        index: 0,
+        tags: [],
+      } as Task,
+    },
     Active: {},
-  } as DefaultKanbanBoards,
+    Done: {},
+  },
   storage<DefaultKanbanBoards>(),
   { getOnInit: true },
 );
 
 export const boardOperations = atom<PublicBoardOperations>((get) => ({
   getBoardTasksByKey: (key: keyof DefaultKanbanBoards) => getBoardTasksByKey(key, get),
-  getBoardTasksAsArray: (key: keyof DefaultKanbanBoards) => getBoardTasksAsArray(key, get),
+  getBoardTasksAsArray: (key: string) => getBoardTasksAsArray(key, get),
   getAllBoards: () => get(kanbanBoardsAtom),
   getBoardConfigByKey: (key: keyof DefaultKanbanBoards) => get(kanbanConfigAtom)[key],
 }));
@@ -106,3 +120,20 @@ export const setBoardTasksByKey = atom<null, [{ boardKey: string; tasks: Task[] 
 
   set(kanbanBoardsAtom, updatedBoards);
 });
+
+export const createNewBoardAtom = atom<null, [{ boardName: string; boardTheme?: string }], void>(
+  null,
+  (get, set, update) => {
+    const updatedBoards = {
+      ...get(kanbanBoardsAtom),
+      [update.boardName]: {} as AccessibleTaskMap,
+    } as DefaultKanbanBoards;
+
+    set(kanbanBoardsAtom, { ...updatedBoards });
+    set(boardEnumAtom, [...get(boardEnumAtom), update.boardName]);
+    set(kanbanConfigAtom, {
+      ...get(kanbanConfigAtom),
+      [update.boardName]: { theme: update.boardTheme ?? '#D6D6D6', taskCount: 0 },
+    });
+  },
+);
