@@ -9,7 +9,7 @@ const ModalPageContainer = styled(motion.div)`
   align-items: center;
   width: 100%;
   height: 100%;
-  z-index: 1000;
+  z-index: ${Number.MAX_SAFE_INTEGER};
   background-color: rgba(64, 64, 64, 0.24);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(8px);

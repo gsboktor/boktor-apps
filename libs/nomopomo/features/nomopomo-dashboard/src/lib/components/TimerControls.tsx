@@ -1,5 +1,5 @@
-import { PomoTimerMode, timerSelectorAtom } from '@boktor-apps/nomopomo/data-access/store';
-import { useAtom } from 'jotai';
+import { activeModalAtom, PomoTimerMode, timerSelectorAtom } from '@boktor-apps/nomopomo/data-access/store';
+import { useAtom, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import styled from 'styled-components';
 
@@ -10,6 +10,16 @@ import {
   SkipTimerComponent,
   StartTimerComponent,
 } from '@boktor-apps/shared/ui/assets';
+import React from 'react';
+
+const BoardModal = React.lazy(() =>
+  import('@boktor-apps/nomopomo/features/nomopomo-board-modal').then((module) => ({ default: module.BoardModal })),
+);
+const NomopomoSideModal = React.lazy(() =>
+  import('@boktor-apps/nomopomo/features/nomopomo-side-modal').then((module) => ({
+    default: module.NomopomoSideModal,
+  })),
+);
 
 const TimerControlsContainer = styled.div`
   display: flex;
@@ -75,6 +85,8 @@ const ComplementaryButtonsContainer = styled.div`
 
 export const TimerControls = () => {
   const [timerSelector, setTimerSelector] = useAtom(timerSelectorAtom);
+  const setModalState = useSetAtom(activeModalAtom);
+
   return (
     <TimerControlsContainer>
       <MainPlayButtonContainer>
@@ -94,6 +106,28 @@ export const TimerControls = () => {
           }
         />
       </ComplementaryButtonsContainer>
+      <button
+        style={{ position: 'relative', borderRadius: 16 }}
+        onClick={() =>
+          setModalState({
+            Component: BoardModal,
+            show: true,
+          })
+        }
+      >
+        Show board modal
+      </button>
+      <button
+        style={{ position: 'relative', borderRadius: 16 }}
+        onClick={() =>
+          setModalState({
+            Component: NomopomoSideModal,
+            show: true,
+          })
+        }
+      >
+        Show start modal
+      </button>
     </TimerControlsContainer>
   );
 };

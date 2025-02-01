@@ -1,16 +1,22 @@
 import { atom } from 'jotai';
-import { ForwardRefExoticComponent, RefAttributes } from 'react';
+import { ForwardRefExoticComponent, LazyExoticComponent, RefAttributes } from 'react';
 
 export interface ModalComponentProps {
   closeModal: (show: boolean) => void;
 }
 
 export type ModalConfig = {
-  Component: ForwardRefExoticComponent<ModalComponentProps & RefAttributes<HTMLDivElement>> | null;
+  Component:
+    | ForwardRefExoticComponent<ModalComponentProps & RefAttributes<HTMLDivElement>>
+    | LazyExoticComponent<ForwardRefExoticComponent<ModalComponentProps & RefAttributes<HTMLDivElement>>>
+    | null;
   show: boolean;
 };
 
-type ModalComponentType = ForwardRefExoticComponent<ModalComponentProps & RefAttributes<HTMLDivElement>> | null;
+type ModalComponentType =
+  | ForwardRefExoticComponent<ModalComponentProps & RefAttributes<HTMLDivElement>>
+  | LazyExoticComponent<ForwardRefExoticComponent<ModalComponentProps & RefAttributes<HTMLDivElement>>>
+  | null;
 
 const modalComponentAtom = atom<ModalComponentType>(null);
 
@@ -20,7 +26,7 @@ export const activeModalAtom = atom<ModalConfig | null, [Partial<ModalConfig> | 
   (get) => {
     return { Component: get(modalComponentAtom), show: get(modalShowAtom) };
   },
-  (get, set, update) => {
+  (_, set, update) => {
     if (update === null) {
       set(modalShowAtom, false);
       set(modalComponentAtom, null);

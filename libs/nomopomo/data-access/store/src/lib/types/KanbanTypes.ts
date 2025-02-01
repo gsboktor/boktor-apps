@@ -4,13 +4,10 @@ export type PublicBoardOperations = {
   getBoardTasksByKey: (key: keyof DefaultKanbanBoards) => AccessibleTaskMap;
   getAllBoards: () => DefaultKanbanBoards;
   getBoardConfigByKey: (key: keyof DefaultKanbanBoards) => Config;
-  getBoardTasksAsArray: (key: keyof DefaultKanbanBoards) => Task[];
+  getBoardTasksAsArray: (key: string) => Task[];
 };
 
 export interface DefaultKanbanBoards {
-  Backlog: AccessibleTaskMap;
-  Done: AccessibleTaskMap;
-  Active: AccessibleTaskMap;
   [boardName: string]: AccessibleTaskMap;
 }
 
