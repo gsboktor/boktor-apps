@@ -82,25 +82,25 @@ const defaultColors = [
   '#FFF4BD', // Soft yellow
   '#C1E1C1', // Mint green
   '#B5D8EB', // Sky blue
-  '#C9B6E4', // Lavender
-  '#FFCACC', // Light coral
-  '#E8D5C4', // Warm beige
-  '#B7E5D9', // Seafoam
-  '#FFE5F1', // Baby pink
-  '#CCE2CB', // Sage green
-  '#C5D5EA', // Powder blue
-  '#E6B8C2', // Dusty rose
-  '#B8D8BE', // Pistachio
-  '#F7D1BA', // Apricot
-  '#A6CCE6', // Baby blue
-  '#E6D7EE', // Lilac mist
-  '#FFE2B8', // Pale marigold
-  '#B8E6D4', // Mint frost
-  '#E6C9C9', // Vintage mauve
+  //   '#C9B6E4', // Lavender
+  //   '#FFCACC', // Light coral
+  //   '#E8D5C4', // Warm beige
+  //   '#B7E5D9', // Seafoam
+  //   '#CCE2CB', // Sage green
+  //   '#C5D5EA', // Powder blue
+  //   '#E6B8C2', // Dusty rose
+  //   '#B8D8BE', // Pistachio
+  //   '#F7D1BA', // Apricot
+  //   '#A6CCE6', // Baby blue
+  //   '#E6D7EE', // Lilac mist
+  //   '#FFE2B8', // Pale marigold
+  //   '#B8E6D4', // Mint frost
+  //   '#E6C9C9', // Vintage mauve
   '#D1E6B8', // Celery
   '#B8C2E6', // Periwinkle
   '#E6E6B8', // Lemon chiffon
   '#D4B8E6',
+  //   '#D44444',
 ];
 
 export const BoardModalColorPicker = () => {

@@ -68,9 +68,9 @@ export const VacantBoard = ({
 
   useEffect(() => {
     if (expand) {
-      animate(scope.current, { transform: `scale(1)`, borderRadius: `26px`, width: `100%`, height: `80%` });
+      animate(scope.current, { transform: `scale(1)`, borderRadius: `26px`, width: `100%` });
     } else {
-      animate(scope.current, { transform: `scale(1)`, borderRadius: `36px`, width: `95%`, height: '40%' });
+      animate(scope.current, { transform: `scale(1)`, borderRadius: `36px`, width: `95%`, height: '85%' });
     }
   }, [expand, animate]);
 
