@@ -2,7 +2,7 @@ import { activeDragBoardId, activeDragTaskAtom, boardOperations } from '@boktor-
 
 import { useAtomValue } from 'jotai';
 import { AnimatePresence, motion } from 'motion/react';
-import { RefObject, useMemo, useRef } from 'react';
+import { memo, RefObject, useEffect, useMemo, useRef } from 'react';
 
 import { TaskCard } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
 import { DropCardComponent } from '@boktor-apps/shared/ui/assets';
@@ -90,7 +90,7 @@ export const PlaceholderCard = styled(motion.div)<{ $theme: string }>`
   border-radius: 20px;
 `;
 
-export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBoardProps) => {
+export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBoardProps) => {
   const containerRef = useRef<HTMLDivElement | undefined>();
 
   const { over, active, setNodeRef, attributes, listeners } = useSortable({
@@ -106,7 +106,6 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
   const boardTasks = useMemo(() => getBoardTasksAsArray(boardId) ?? [], [getBoardTasksAsArray, boardId]);
   const { headerAnimationRef } = useHeaderAnimation({ containerRef });
   const { placeholderPosition } = useTaskPlaceholderPosition({
-    activeTask,
     overlayRef,
     over,
   });
@@ -120,18 +119,16 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
     };
   }, [isActive]);
 
-  useMemo(() => {
-    if (isActive) {
-      containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+  useEffect(() => {
+    isActive && containerRef.current?.scrollTo({ top: 0, behavior: 'auto' });
   }, [isActive]);
 
   return (
     <KanbanContainer
       layout
+      style={{ willChange: 'height', ...appliedFilterStyle }}
       initial={{ height: '100%' }}
       animate={{ height: 'auto' }}
-      style={appliedFilterStyle}
       ref={(ref) => {
         setNodeRef(ref);
         containerRef.current = ref ?? undefined;
@@ -185,4 +182,4 @@ export const KanbanBoard = ({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBo
       </SortableContext>
     </KanbanContainer>
   );
-};
+});

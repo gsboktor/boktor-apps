@@ -9,6 +9,7 @@ type PopoverProps = {
   renderHorizontal?: 'left' | 'right';
   Icon: React.ReactNode;
   Content: React.ReactNode;
+  onClick?: () => void;
 };
 
 const PopoverRoot = styled.div`
@@ -29,7 +30,7 @@ const PopoverBox = styled(motion.div)<{ $dir?: { ver?: Direction; hor?: 'left' |
   align-items: center;
   justify-content: center;
   max-width: 248px;
-  padding: 12px 24px;
+  padding: 6px 12px;
   z-index: 10000;
   ${({ $dir }) => {
     if ($dir?.ver === Direction.UP)
@@ -75,7 +76,7 @@ export const Popover = ({ ...props }: PopoverProps) => {
               borderRadius: '24px',
               opacity: 0,
             }}
-            animate={{ scale: 1, borderRadius: '8px', opacity: 0.9 }}
+            animate={{ scale: 1, borderRadius: '8px', opacity: 0.7 }}
             exit={{
               scale: 0.75,
               borderRadius: '24px',
@@ -89,7 +90,13 @@ export const Popover = ({ ...props }: PopoverProps) => {
           </PopoverBox>
         )}
       </AnimatePresence>
-      {props.Icon}
+      <div
+        style={{ width: 'fit-content', height: 'fit-content', display: 'flex' }}
+        role="button"
+        onClick={() => props.onClick?.()}
+      >
+        {props.Icon}
+      </div>
     </PopoverRoot>
   );
 };

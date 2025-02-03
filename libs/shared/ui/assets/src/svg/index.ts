@@ -1,3 +1,4 @@
+export { default as AddBoard, ReactComponent as AddBoardComponent } from './AddBoard.svg';
 export { default as AddIcon, ReactComponent as AddIconComponent } from './AddIcon.svg';
 export { default as ArrowDown, ReactComponent as ArrowDownComponent } from './ArrowDown.svg';
 export { default as ArrowSide, ReactComponent as ArrowSideComponent } from './ArrowSide.svg';

@@ -43,7 +43,7 @@ export const ColorPicker = styled(motion.div)<{ $dir?: Direction; $height?: numb
   }}
 `;
 
-const ColorPickerButton = styled.button`
+const ColorPickerButton = styled.div`
   position: relative;
   display: flex;
   outline: none;
@@ -70,6 +70,7 @@ const ColorSample = styled(motion.div)<{ $color: string }>`
   width: 36px;
   height: 36px;
   display: flex;
+  border: none;
   bottom: 0;
   cursor: pointer;
   border-radius: 50%;
@@ -128,9 +129,13 @@ export const BoardModalColorPicker = () => {
             onMouseLeave={() => setShowPicker(false)}
             $dir={direction.current}
             $height={pickerRef.current?.getBoundingClientRect().height}
+            whileHover={{
+              padding: `16px`,
+            }}
           >
             {defaultColors.map((color, index) => (
               <ColorSample
+                role="button"
                 layout
                 key={color}
                 $color={color}
@@ -143,6 +148,7 @@ export const BoardModalColorPicker = () => {
                   margin: 6,
                   scale: 1.15,
                   backgroundColor: color,
+                  boxShadow: `0px 0px 20px 2px #5b5b5b7b`,
                 }}
               />
             ))}
