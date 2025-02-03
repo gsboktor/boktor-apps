@@ -13,7 +13,7 @@ const VacantBoardContainer = styled(motion.div)<{ $theme: string }>`
   margin: auto;
   width: 95%;
   overflow: hidden;
-  height: 40%;
+  height: 85%;
   border-radius: 36px;
   box-sizing: border-box;
   display: flex;
@@ -56,18 +56,20 @@ export const VacantBoard = ({
   overlayRef,
   theme,
   boardId,
+  reduceMotion = false,
 }: {
   expand: boolean;
   overlayRef?: RefObject<HTMLDivElement>;
   theme: string;
   boardId: string;
+  reduceMotion?: boolean;
 }) => {
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const overlayTask = useAtomValue(activeDragTaskAtom);
   const { getBoardConfigByKey } = useAtomValue(boardOperations);
 
   useEffect(() => {
-    if (expand) {
+    if (expand && !reduceMotion) {
       animate(scope.current, { transform: `scale(1)`, borderRadius: `26px`, width: `100%` });
     } else {
       animate(scope.current, { transform: `scale(1)`, borderRadius: `36px`, width: `95%`, height: '85%' });
@@ -77,6 +79,7 @@ export const VacantBoard = ({
   return (
     <>
       <VacantBoardContainer
+        style={{ willChange: 'opacity' }}
         initial={{ transform: 'scale(1)', opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{
@@ -125,6 +128,7 @@ export const VacantBoard = ({
                   maxWidth: `90%`,
                   paddingBottom: 48,
                   zIndex: 100000,
+                  willChange: 'transform',
                 }}
               >
                 Move task{' '}
@@ -143,7 +147,7 @@ export const VacantBoard = ({
                     textOverflow: 'ellipsis',
                   }}
                 >
-                  "{overlayTask?.name}"
+                  {overlayTask?.name}
                 </p>{' '}
                 to <b style={{ color: theme, filter: `brightness(0.7)` }}>{boardId}</b> ?
               </motion.p>

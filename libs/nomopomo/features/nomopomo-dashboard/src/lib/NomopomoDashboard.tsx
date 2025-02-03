@@ -10,6 +10,7 @@ import { KanbanBoard, KanbanBoardStatic } from '@boktor-apps/nomopomo/features/n
 
 import { TaskCardStatic } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
+import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
@@ -17,30 +18,14 @@ import { boardEnumAtom } from 'libs/nomopomo/data-access/store/src/lib/boardEnum
 import { useRef } from 'react';
 import { useMedia } from 'react-use';
 import styled from 'styled-components';
-import { MainTimer, NomopomoBlurLogo, TimerControls } from './components';
+import { MainTimer, NomopomoBlurLogo } from './components';
+import { ControlBar } from './components/ControlBar';
 
 const DashboardRootContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
-`;
-
-const MainControllersContainer = styled.div`
-  position: absolute;
-  bottom: 32px;
-  padding: 4px;
-  box-sizing: border-box;
-  width: fit-content;
-  min-width: 100px;
-  height: fit-content;
-  left: 0px;
-  right: 0px;
-  margin: auto;
-  border-radius: 24px;
-  backdrop-filter: blur(8px);
-  background-color: #d3d3d39c;
-  z-index: 10000;
 `;
 
 const NomopomoDashHeader = styled.div`
@@ -60,7 +45,7 @@ const NomopomoMainDashboard = styled.div`
   position: relative;
   width: 100%;
   height: calc(100% - 64px);
-  margin-bottom: 52px;
+  /* margin-bottom: 52px; */
   gap: 8px;
   padding: 16px 0px;
   overflow-x: scroll;
@@ -115,6 +100,7 @@ export const NomopomoDashboard = () => {
             })}
           </SortableContext>
           <DragOverlay
+            modifiers={[restrictToWindowEdges]}
             style={{ zIndex: Number.MAX_SAFE_INTEGER }}
             dropAnimation={{
               duration: 250,
@@ -132,9 +118,7 @@ export const NomopomoDashboard = () => {
           </DragOverlay>
         </DndContext>
       </NomopomoMainDashboard>
-      <MainControllersContainer>
-        <TimerControls />
-      </MainControllersContainer>
+      <ControlBar />
     </DashboardRootContainer>
   );
 };

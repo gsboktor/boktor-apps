@@ -84,8 +84,6 @@ export const KanbanBoardStatic = ({ boardId, theme = '#d3d3d3' }: KanbanBoardSta
 
   return (
     <KanbanContainer
-      initial={{ height: '100%' }}
-      animate={{ height: 'auto' }}
       ref={(ref) => {
         containeRef.current = ref ?? undefined;
       }}
@@ -96,8 +94,7 @@ export const KanbanBoardStatic = ({ boardId, theme = '#d3d3d3' }: KanbanBoardSta
           <Label style={{ fontSize: 16, overflow: 'visible' }}>{boardTasks.length}</Label>
         </BoardCountHint>
       </BoardHeader>
-
-      {boardTasks.length === 0 && <VacantBoard expand={false} theme={theme} boardId={boardId} />}
+      {boardTasks.length === 0 && <VacantBoard reduceMotion expand={false} theme={theme} boardId={boardId} />}
       {boardTasks.map((task) => {
         return (
           <div style={{ width: '100%' }} key={task.id}>

@@ -1,5 +1,6 @@
-import { Task } from '@boktor-apps/nomopomo/data-access/store';
+import { activeDragTaskAtom, Task } from '@boktor-apps/nomopomo/data-access/store';
 import { Over } from '@dnd-kit/core';
+import { useAtomValue } from 'jotai';
 import { RefObject, useEffect, useMemo, useState } from 'react';
 
 type PlaceholderPositionProps = {
@@ -8,11 +9,12 @@ type PlaceholderPositionProps = {
   over: Over | null;
 };
 
-export const useTaskPlaceholderPosition = ({ activeTask, overlayRef, over }: PlaceholderPositionProps) => {
+export const useTaskPlaceholderPosition = ({ overlayRef, over }: PlaceholderPositionProps) => {
   const [placeholderPosition, setPlaceholderPosition] = useState<{
     taskId: string;
     position: 'above' | 'below';
   } | null>(() => null);
+  const activeTask = useAtomValue(activeDragTaskAtom);
 
   useMemo(() => {
     if (!activeTask) {
