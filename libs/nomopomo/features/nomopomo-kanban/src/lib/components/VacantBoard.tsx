@@ -139,7 +139,7 @@ export const VacantBoard = ({
                     fontWeight: 600,
                     color:
                       overlayTask?.parentBoardKey &&
-                      (getBoardConfigByKey(overlayTask.parentBoardKey).theme ?? 'lightgray'),
+                      (getBoardConfigByKey(overlayTask.parentBoardKey).theme ?? '#d6d6d6'),
                     filter: `brightness(0.7)`,
                     WebkitLineClamp: 4,
                     overflow: 'hidden',
