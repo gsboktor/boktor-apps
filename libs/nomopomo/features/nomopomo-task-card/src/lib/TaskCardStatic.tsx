@@ -34,7 +34,9 @@ const DragWrapper = styled.div`
   width: 90%;
   margin: auto;
   z-index: 100;
-  cursor: move;
+  cursor: move !important; // Add !important
+  cursor: -webkit-move !important; // Add vendor prefixes
+  cursor: move !important;
 `;
 
 const TaskTagContainer = styled.div`

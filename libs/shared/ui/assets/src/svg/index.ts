@@ -3,6 +3,7 @@ export { default as AddIcon, ReactComponent as AddIconComponent } from './AddIco
 export { default as ArrowDown, ReactComponent as ArrowDownComponent } from './ArrowDown.svg';
 export { default as ArrowSide, ReactComponent as ArrowSideComponent } from './ArrowSide.svg';
 export { default as Board, ReactComponent as BoardComponent } from './Board.svg';
+export { default as ClearBoard, ReactComponent as ClearBoardComponent } from './ClearBoard.svg';
 export { default as Clock, ReactComponent as ClockComponent } from './Clock.svg';
 export { default as Close, ReactComponent as CloseComponent } from './close.svg';
 export { default as Colon, ReactComponent as ColonComponent } from './colon.svg';

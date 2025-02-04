@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { memo, RefObject, useEffect, useMemo, useRef } from 'react';
 
 import { TaskCard } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
-import { DropCardComponent } from '@boktor-apps/shared/ui/assets';
+import { AddIconComponent, ClearBoardComponent, DropCardComponent } from '@boktor-apps/shared/ui/assets';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { boardEnumAtom } from 'libs/nomopomo/data-access/store/src/lib/boardEnumAtom';
 import styled from 'styled-components';
@@ -35,24 +35,37 @@ const KanbanContainer = styled(motion.div)`
   padding-bottom: 275px;
 `;
 
+const BoardHeaderControlsContainer = styled(motion.div)`
+  position: sticky;
+  top: 0px;
+  width: calc(100% - 24px);
+  /* width: 100%; */
+  height: fit-content;
+  margin-top: 4px;
+  gap: 8px;
+  cursor: move !important;
+
+  display: flex;
+  z-index: 1000;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const BoardHeader = styled(motion.div)<{ $theme: string }>`
   position: sticky;
   top: 0px;
-  width: calc(100% - 48px);
+  width: 100%;
   height: fit-content;
-  cursor: move;
   margin-top: 4px;
   display: flex;
+
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  height: fit-content;
   padding: 6px 12px;
   border-radius: 12px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   background-color: ${({ $theme }) => $theme + `99`};
-  z-index: 1000;
 `;
 
 const Label = styled.p`
@@ -104,7 +117,7 @@ export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: Kan
   const { getBoardTasksAsArray } = useAtomValue(boardOperations);
 
   const boardTasks = useMemo(() => getBoardTasksAsArray(boardId) ?? [], [getBoardTasksAsArray, boardId]);
-  const { headerAnimationRef } = useHeaderAnimation({ containerRef });
+  const { headerAnimationRef, showActions } = useHeaderAnimation({ containerRef });
   const { placeholderPosition } = useTaskPlaceholderPosition({
     overlayRef,
     over,
@@ -134,12 +147,54 @@ export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: Kan
         containerRef.current = ref ?? undefined;
       }}
     >
-      <BoardHeader $theme={boardTheme} ref={headerAnimationRef} {...attributes} {...listeners}>
-        <Label style={{ flex: 1 }}>{boardId}</Label>
-        <BoardCountHint $theme={boardTheme}>
-          <Label style={{ fontSize: 16, overflow: 'visible' }}>{boardTasks.length}</Label>
-        </BoardCountHint>
-      </BoardHeader>
+      <BoardHeaderControlsContainer style={{ willChange: 'width, transform' }} ref={headerAnimationRef}>
+        <AnimatePresence>
+          {showActions && (
+            <motion.div
+              style={{
+                willChange: 'opacity',
+                width: 'fit-content',
+                display: 'flex',
+                height: 'fit-content',
+                position: 'absolute',
+                left: -32,
+              }}
+              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ClearBoardComponent width={28} height={28} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <BoardHeader $theme={boardTheme} {...attributes} {...listeners}>
+          <Label style={{ flex: 1 }}>{boardId}</Label>
+          <BoardCountHint $theme={boardTheme}>
+            <Label style={{ fontSize: 16, overflow: 'visible' }}>{boardTasks.length}</Label>
+          </BoardCountHint>
+        </BoardHeader>
+        <AnimatePresence>
+          {showActions && (
+            <motion.div
+              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                willChange: 'opacity',
+                display: 'flex',
+                width: 'fit-content',
+                height: 'fit-content',
+                position: 'absolute',
+                right: -32,
+              }}
+            >
+              <AddIconComponent width={30} height={30} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </BoardHeaderControlsContainer>
       <SortableContext
         strategy={verticalListSortingStrategy}
         items={boardTasks.reduce((acc, curr) => [...acc, curr.id], [] as string[])}

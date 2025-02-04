@@ -1,4 +1,5 @@
 import { boardEnumAtom, boardOperations } from '@boktor-apps/nomopomo/data-access/store';
+import { Turbulence } from '@boktor-apps/shared/ui/assets';
 import { motion } from 'framer-motion';
 import { useAtomValue } from 'jotai';
 import styled from 'styled-components';
@@ -9,6 +10,9 @@ const MainControllersContainer = styled(motion.div)<{ $gradient: string }>`
   bottom: 0px;
   padding: 12px;
   box-sizing: border-box;
+  flex: 1;
+  display: flex;
+
   width: fit-content;
   min-width: 100px;
   height: fit-content;
@@ -17,8 +21,9 @@ const MainControllersContainer = styled(motion.div)<{ $gradient: string }>`
   margin: auto;
   border-radius: 36px;
   backdrop-filter: blur(8px);
-  background: ${({ $gradient }) => $gradient};
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* background: ${({ $gradient }) => $gradient}; */
+  background: linear-gradient(#ffcd62a8, #ffcd62a8), url(${Turbulence});
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
   z-index: 10000;
 `;
 
@@ -40,9 +45,9 @@ export const ControlBar = () => {
   return (
     <MainControllersContainer
       $gradient={gradientString}
-      animate={{
-        background: gradientString,
-      }}
+      // animate={{
+      //   background: gradientString,
+      // }}
       transition={{
         duration: 0.3,
         ease: 'easeInOut',

@@ -1,6 +1,7 @@
 import {
   activeDragBoardId,
   activeDragTaskAtom,
+  activeModalAtom,
   boardOperations,
   handleBoardsDragOver,
   handleDragEndAtom,
@@ -8,7 +9,10 @@ import {
 } from '@boktor-apps/nomopomo/data-access/store';
 import { KanbanBoard, KanbanBoardStatic } from '@boktor-apps/nomopomo/features/nomopomo-kanban';
 
+import { BoardModal } from '@boktor-apps/nomopomo/features/nomopomo-board-modal';
+import { NomopomoSideModal } from '@boktor-apps/nomopomo/features/nomopomo-side-modal';
 import { TaskCardStatic } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
+import { AddBoardComponent, HelpIconComponent } from '@boktor-apps/shared/ui/assets';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable';
@@ -49,6 +53,7 @@ const NomopomoMainDashboard = styled.div`
   gap: 8px;
   padding: 16px 0px;
   overflow-x: scroll;
+  scrollbar-width: none;
   -webkit-mask-image: linear-gradient(to top, transparent, black 15%);
   mask-image: linear-gradient(to top, transparent, black 15%);
 `;
@@ -71,6 +76,7 @@ export const NomopomoDashboard = () => {
   const activeBoard = useAtomValue(activeDragBoardId);
   const { getBoardConfigByKey } = useAtomValue(boardOperations);
   const boards = useAtomValue(boardEnumAtom);
+  const setModalState = useSetAtom(activeModalAtom);
 
   const handleDragStart = useSetAtom(handleDragStartAtom);
   const handleDragEnd = useSetAtom(handleDragEndAtom);
@@ -81,6 +87,40 @@ export const NomopomoDashboard = () => {
       {!isMobile && <NomopomoBlurLogo />}
       <NomopomoDashHeader>
         <MainTimer />
+        <div
+          style={{
+            position: 'absolute',
+            // bottom: 0,
+            right: 36,
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 36,
+            width: 'fit-content',
+            height: 'fit-content',
+          }}
+        >
+          <div
+            style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}
+          >
+            <AddBoardComponent
+              width={32}
+              height={32}
+              onClick={() => setModalState({ Component: NomopomoSideModal, show: true })}
+            />
+            <p style={{ margin: 0 }}>Add Board</p>
+          </div>
+
+          <div
+            style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}
+          >
+            <HelpIconComponent
+              width={32}
+              height={32}
+              onClick={() => setModalState({ Component: BoardModal, show: true })}
+            />
+            <p style={{ margin: 0 }}>Get Help</p>
+          </div>
+        </div>
       </NomopomoDashHeader>
       <NomopomoMainDashboard>
         <DndContext

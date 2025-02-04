@@ -11,7 +11,6 @@ import {
   SkipTimerComponent,
   StartTimerComponent,
 } from '@boktor-apps/shared/ui/assets';
-import { Popover } from '@boktor-apps/shared/ui/pop-over';
 import { motion } from 'motion/react';
 import React from 'react';
 
@@ -27,9 +26,10 @@ const NomopomoSideModal = React.lazy(() =>
 const TimerControlsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  /* justify-content: space-between; */
+
   align-items: center;
-  gap: 48px;
+
   padding: 0px 12px;
 `;
 
@@ -65,6 +65,7 @@ const StyledAddBoard = styled(AddBoardComponent)`
 const StyledHelper = styled(HelpIconComponent)`
   width: 34px;
   height: 34px;
+  cursor: pointer;
 `;
 
 const AddBoardButtonContainer = styled.div`
@@ -85,7 +86,6 @@ const MainPlayButtonContainer = styled(motion.div)`
   justify-content: center;
   /* padding: 6px; */
   /* background: #aeaeae; */
-  cursor: pointer;
 `;
 
 export const TimerControls = () => {
@@ -94,31 +94,23 @@ export const TimerControls = () => {
 
   return (
     <TimerControlsContainer>
-      <AddBoardButtonContainer>
-        <Popover
-          Icon={
-            <StyledAddBoard
-              onClick={() =>
-                setModalState({
-                  Component: BoardModal,
-                  show: true,
-                })
-              }
-            />
-          }
-          Content={
-            <p style={{ margin: 0, display: 'flex', flexWrap: 'wrap', color: 'white', fontSize: 10, width: '50px' }}>
-              Add board
-            </p>
-          }
-        />
-      </AddBoardButtonContainer>
-      <div style={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '16px',
+
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <MainPlayButtonContainer
           initial={{ scale: 0.9 }}
           whileHover={{
             scale: 1.15,
             y: -8,
+            cursor: 'pointer',
+
             // boxShadow: `0px 4px 16px 2px #66666643`,
             transition: { delay: 0, duration: 0.1 },
           }}
@@ -132,6 +124,7 @@ export const TimerControls = () => {
           }}
           whileHover={{
             scale: 1.3,
+            cursor: 'pointer',
 
             y: -8,
             // boxShadow: `0px 4px 16px 2px #66666643`,
@@ -149,6 +142,7 @@ export const TimerControls = () => {
           whileHover={{
             scale: 1.15,
             y: -8,
+            cursor: 'pointer',
             // boxShadow: `0px 4px 16px 2px #66666643`,
             transition: { delay: 0, duration: 0.1 },
           }}
@@ -162,15 +156,6 @@ export const TimerControls = () => {
           />
         </MainPlayButtonContainer>
       </div>
-
-      <StyledHelper
-        onClick={() =>
-          setModalState({
-            Component: NomopomoSideModal,
-            show: true,
-          })
-        }
-      />
     </TimerControlsContainer>
   );
 };
