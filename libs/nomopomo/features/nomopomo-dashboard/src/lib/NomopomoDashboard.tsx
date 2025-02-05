@@ -59,13 +59,26 @@ const NomopomoMainDashboard = styled.div`
 `;
 
 const BoardContainer = styled.div`
+  position: relative;
   display: flex;
   height: 100%;
   min-width: 324px;
+  justify-content: center;
   @media screen and (width < 378px) {
     width: 100%;
     min-width: 100%;
   }
+`;
+
+const OpenQueueComponent = styled.div`
+  width: 27px;
+  height: 27px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3d3d3d;
+  cursor: pointer;
 `;
 
 export const NomopomoDashboard = () => {
@@ -99,6 +112,14 @@ export const NomopomoDashboard = () => {
             height: 'fit-content',
           }}
         >
+          <div
+            style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}
+          >
+            <OpenQueueComponent>
+              <p style={{ margin: 0, color: 'wheat', fontSize: 12, fontWeight: 400 }}>+4</p>
+            </OpenQueueComponent>
+            <p style={{ margin: 0 }}>Open queue</p>
+          </div>
           <div
             style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}
           >
@@ -151,7 +172,7 @@ export const NomopomoDashboard = () => {
           >
             {activeTask?.id && !activeBoard && <TaskCardStatic ref={overlayRef} task={activeTask} />}
             {activeBoard && !activeTask?.id && (
-              <div style={{ display: 'flex', height: `100%` }}>
+              <div style={{ display: 'flex', height: `100%`, justifyContent: 'center' }}>
                 <KanbanBoardStatic boardId={activeBoard} theme={getBoardConfigByKey(activeBoard).theme} />
               </div>
             )}

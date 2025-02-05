@@ -8,6 +8,7 @@ export { default as Clock, ReactComponent as ClockComponent } from './Clock.svg'
 export { default as Close, ReactComponent as CloseComponent } from './close.svg';
 export { default as Colon, ReactComponent as ColonComponent } from './colon.svg';
 export { default as ColorPicker, ReactComponent as ColorPickerComponent } from './ColorPicker.svg';
+export { default as CompletedCycles, ReactComponent as CompletedCyclesComponent } from './CompletedCycles.svg';
 export { default as DragAndDrop, ReactComponent as DragAndDropComponent } from './drag-and-drop.svg';
 export { default as DropCard, ReactComponent as DropCardComponent } from './DropCardIcon.svg';
 export { default as HelpIcon, ReactComponent as HelpIconComponent } from './HelpIcon.svg';

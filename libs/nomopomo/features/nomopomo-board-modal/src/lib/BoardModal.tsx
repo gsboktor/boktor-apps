@@ -1,4 +1,3 @@
-import { Noise } from '@boktor-apps/shared/ui/assets';
 import { motion } from 'motion/react';
 import React, { forwardRef, Suspense } from 'react';
 import styled, { css, keyframes } from 'styled-components';
@@ -58,7 +57,6 @@ const ModalContainer = styled.div`
   padding: 16px;
   gap: 8px;
   box-sizing: border-box;
-  /* background: linear-gradient(#f5deb36a, #f5deb36a), url(${Noise}); */
   background-color: #ffead2;
   justify-content: center;
   box-shadow: 0px 0px 64px 12px #00000015;
