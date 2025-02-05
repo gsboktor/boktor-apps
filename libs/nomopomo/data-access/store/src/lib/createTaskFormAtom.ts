@@ -7,7 +7,7 @@ import { kanbanConfigAtom } from './kanbanConfigAtom';
 import { createTaskSchema } from './schema';
 import { Task } from './types';
 
-export type RequiredTaskKeys = Pick<Task, 'name' | 'desc' | 'parentBoardKey' | 'tags'>;
+export type RequiredTaskKeys = Pick<Task, 'name' | 'desc' | 'parentBoardKey' | 'tags' | 'estimatedCycles'>;
 
 type TaskFormRequiredFieldsErrors = Record<keyof RequiredTaskKeys, { valid: boolean; message?: string }>;
 
@@ -50,6 +50,7 @@ export const validateFormAtom = atom<null, [undefined], void>(null, (get, set, _
         createdAt: Date.now(),
         tags: formValues?.tags ? formValues.tags : [],
         completedCycles: 0,
+        estimatedCycles: formValues.estimatedCycles ?? 0,
         parentBoardKey: formValues.parentBoardKey,
         checklist: [],
       },

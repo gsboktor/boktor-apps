@@ -16,6 +16,7 @@ export const useTimer = (fn: (elapsed: number) => void) => {
     };
 
     const handleVisibilityChange = () => {
+      console.log('visibility change');
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }

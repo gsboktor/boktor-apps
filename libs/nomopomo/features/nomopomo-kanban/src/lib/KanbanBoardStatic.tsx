@@ -1,12 +1,14 @@
 import { boardOperations } from '@boktor-apps/nomopomo/data-access/store';
 
 import { useAtomValue } from 'jotai';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { useMemo, useRef } from 'react';
 
 import { TaskCardStatic } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
+import { AddIconComponent } from '@boktor-apps/shared/ui/assets';
 import styled from 'styled-components';
 import { VacantBoard } from './components';
+import { AddTaskToBoardContainer } from './KanbanBoard';
 
 export type KanbanBoardStaticProps = {
   boardId: string;
@@ -35,7 +37,6 @@ const BoardHeader = styled(motion.div)<{ $theme: string }>`
   top: 0px;
   width: calc(100% - 48px);
   height: fit-content;
-  margin-top: 4px;
   cursor: move;
   display: flex;
   backdrop-filter: blur(8px);
@@ -83,28 +84,35 @@ export const KanbanBoardStatic = ({ boardId, theme = '#d3d3d3' }: KanbanBoardSta
   const boardTheme = theme;
 
   return (
-    <KanbanContainer
-      initial={{ height: '100%' }}
-      animate={{ height: 'auto' }}
-      ref={(ref) => {
-        containeRef.current = ref ?? undefined;
-      }}
-    >
-      <BoardHeader $theme={boardTheme}>
-        <Label style={{ flex: 1 }}>{boardId}</Label>
-        <BoardCountHint $theme={boardTheme}>
-          <Label style={{ fontSize: 16, overflow: 'visible' }}>{boardTasks.length}</Label>
-        </BoardCountHint>
-      </BoardHeader>
-
-      {boardTasks.length === 0 && <VacantBoard expand={false} theme={theme} boardId={boardId} />}
-      {boardTasks.map((task) => {
-        return (
-          <div style={{ width: '100%' }} key={task.id}>
-            <TaskCardStatic task={task} key={task.id} />
-          </div>
-        );
-      })}
-    </KanbanContainer>
+    <>
+      <AnimatePresence>
+        {!(boardTasks.length === 0) && (
+          <AddTaskToBoardContainer initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <AddIconComponent width={24} height={24}></AddIconComponent>
+            <p style={{ margin: 0, display: 'flex', flex: 1, textAlign: 'center', color: '#3d3d3d' }}>Add Task</p>
+          </AddTaskToBoardContainer>
+        )}
+      </AnimatePresence>
+      <KanbanContainer
+        ref={(ref) => {
+          containeRef.current = ref ?? undefined;
+        }}
+      >
+        <BoardHeader $theme={boardTheme}>
+          <Label style={{ flex: 1 }}>{boardId}</Label>
+          <BoardCountHint $theme={boardTheme}>
+            <Label style={{ fontSize: 16, overflow: 'visible' }}>{boardTasks.length}</Label>
+          </BoardCountHint>
+        </BoardHeader>
+        {boardTasks.length === 0 && <VacantBoard reduceMotion expand={false} theme={theme} boardId={boardId} />}
+        {boardTasks.map((task) => {
+          return (
+            <div style={{ width: '100%' }} key={task.id}>
+              <TaskCardStatic task={task} key={task.id} />
+            </div>
+          );
+        })}
+      </KanbanContainer>
+    </>
   );
 };

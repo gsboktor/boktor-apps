@@ -28,6 +28,8 @@ export const useScrollDirection = (
         ticking = false;
         return;
       }
+      console.log('Is this firing?');
+
       setScrollDirection(scrollY > lastScrollY ? Direction.DOWN : Direction.UP);
       lastScrollY = scrollY > 0 ? scrollY : 0;
 

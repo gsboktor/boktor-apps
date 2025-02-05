@@ -1,11 +1,14 @@
+export { default as AddBoard, ReactComponent as AddBoardComponent } from './AddBoard.svg';
 export { default as AddIcon, ReactComponent as AddIconComponent } from './AddIcon.svg';
 export { default as ArrowDown, ReactComponent as ArrowDownComponent } from './ArrowDown.svg';
 export { default as ArrowSide, ReactComponent as ArrowSideComponent } from './ArrowSide.svg';
 export { default as Board, ReactComponent as BoardComponent } from './Board.svg';
+export { default as ClearBoard, ReactComponent as ClearBoardComponent } from './ClearBoard.svg';
 export { default as Clock, ReactComponent as ClockComponent } from './Clock.svg';
 export { default as Close, ReactComponent as CloseComponent } from './close.svg';
 export { default as Colon, ReactComponent as ColonComponent } from './colon.svg';
 export { default as ColorPicker, ReactComponent as ColorPickerComponent } from './ColorPicker.svg';
+export { default as CompletedCycles, ReactComponent as CompletedCyclesComponent } from './CompletedCycles.svg';
 export { default as DragAndDrop, ReactComponent as DragAndDropComponent } from './drag-and-drop.svg';
 export { default as DropCard, ReactComponent as DropCardComponent } from './DropCardIcon.svg';
 export { default as HelpIcon, ReactComponent as HelpIconComponent } from './HelpIcon.svg';

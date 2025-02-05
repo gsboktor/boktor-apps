@@ -4,7 +4,7 @@ import { ChipCard } from '@boktor-apps/shared/ui/cards';
 import { useAtomValue } from 'jotai';
 import { forwardRef, useMemo } from 'react';
 import styled from 'styled-components';
-import { EmojiTag } from './components';
+import { DeleteTaskButton, EmojiTag, TaskPreviewDetails } from './components';
 
 const CardContainer = styled.div<{ $theme?: string }>`
   max-width: 300px;
@@ -27,14 +27,20 @@ const CardContainer = styled.div<{ $theme?: string }>`
 
 const DragWrapper = styled.div`
   position: absolute;
-  top: 4px;
+  top: 6px;
   align-self: center;
   justify-content: center;
   display: flex;
-  width: 90%;
+  width: 80%;
   margin: auto;
   z-index: 100;
-  cursor: move;
+  border-radius: 12px;
+  transition: background-color ease-in-out 200ms;
+  cursor: move !important;
+
+  &:hover {
+    background-color: #3d3d3d11;
+  }
 `;
 
 const TaskTagContainer = styled.div`
@@ -60,8 +66,8 @@ const TaskPreviewBody = styled.div`
   overflow: hidden;
   max-height: 300px;
   scrollbar-width: none;
-  margin-bottom: 36px;
-  gap: 2px;
+  margin-bottom: 42px;
+  gap: 10px;
 `;
 
 export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task }: { task: Task }, ref) => {
@@ -71,6 +77,7 @@ export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task
 
   return (
     <CardContainer $theme={theme} ref={ref}>
+      <DeleteTaskButton boardKey={task.parentBoardKey} taskId={task.id} />
       <TaskPreviewBody>
         {task.tags.length > 0 && (
           <TaskTagContainer>
@@ -119,9 +126,10 @@ export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task
         </p>
       </TaskPreviewBody>
       <DragWrapper>
-        <DragAndDropComponent width={24} height={24} />
+        <DragAndDropComponent width={24} height={20} />
       </DragWrapper>
       <EmojiTag theme={theme ?? '#d3d3d3'} emoji={task.tags.length > 0 ? task.tags[0].icon : '🕛'} />
+      <TaskPreviewDetails task={task} theme={theme} />
     </CardContainer>
   );
 });

@@ -55,7 +55,7 @@ const SelectionCardToggleLabel = styled.p`
 `;
 
 export const SelectionCard = forwardRef<HTMLDivElement, SelectionCardProps>(
-  ({ toggleFill = '#000000', cardColor = '#a6d6c9', toggled = false, ...props }, cardRef) => {
+  ({ toggleFill = '#000000', cardColor = '#d3d3d3', toggled = false, ...props }, cardRef) => {
     return (
       <StyledSelectionCardContainer
         {...props.selectionCardAttr}
