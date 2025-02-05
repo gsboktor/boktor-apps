@@ -38,20 +38,17 @@ export const handleBoardsDragOver = atom<null, [DragOverEvent], void>(null, (get
       : boards.indexOf(String(e.over.data.current?.prevBoardKey));
     set(boardEnumAtom, [...arrayMove(boards, startIdx, endIdx)]);
   }
+
+  const activeTask = get(activeDragTaskAtom);
+  const targetBoard = boards.includes(String(e.over?.id))
+    ? String(e.over?.id)
+    : (e.over?.data.current?.prevBoardKey as string);
+  if (activeTask?.id && targetBoard) {
+    set(activeDragTaskAtom, { ...activeTask, parentBoardKey: targetBoard });
+  }
 });
 
 export const handleDragEndAtom = atom<null, [HandleDragEndEvent<HTMLDivElement>], void>(null, (get, set, e) => {
-  //   const boards = get(boardEnumAtom);
-  //   if (boards.includes(String(e.active?.id)) && e.over?.id) {
-  //     let startIdx = boards.indexOf(String(e.active.id));
-  //     let endIdx = boards.includes(String(e.over.id))
-  //       ? boards.indexOf(String(e.over?.id))
-  //       : boards.indexOf(String(e.over.data.current?.prevBoardKey));
-  //     set(boardEnumAtom, [...arrayMove(boards, startIdx, endIdx)]);
-
-  //     return;
-  //   }
-
   const overItemId = String(e.over?.id);
   const overItemBoard = String(e.over?.data.current?.prevBoardKey);
 

@@ -9,6 +9,7 @@ type PopoverProps = {
   renderHorizontal?: 'left' | 'right';
   Icon: React.ReactNode;
   Content: React.ReactNode;
+  onClick?: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 };
 
 const PopoverRoot = styled.div`
@@ -20,7 +21,15 @@ const PopoverRoot = styled.div`
   cursor: pointer;
 `;
 
-const PopoverBox = styled(motion.div)<{ $dir?: { ver?: Direction; hor?: 'left' | 'right' } }>`
+interface PopoverBoxProps {
+  $offset?: number;
+  $dir?: {
+    ver?: Direction;
+    hor?: 'left' | 'right';
+  };
+}
+
+const PopoverBox = styled(motion.div)<PopoverBoxProps>`
   position: absolute;
   background-color: black;
   display: flex;
@@ -29,7 +38,7 @@ const PopoverBox = styled(motion.div)<{ $dir?: { ver?: Direction; hor?: 'left' |
   align-items: center;
   justify-content: center;
   max-width: 248px;
-  padding: 12px 24px;
+  padding: 6px 12px;
   z-index: 10000;
   ${({ $dir }) => {
     if ($dir?.ver === Direction.UP)
@@ -37,7 +46,7 @@ const PopoverBox = styled(motion.div)<{ $dir?: { ver?: Direction; hor?: 'left' |
         transform: translateY(-100%);
       `;
     return css`
-      top: 24px;
+      top: ${(props: PopoverBoxProps) => `${props.$offset}px`};
     `;
   }}
 
@@ -54,6 +63,7 @@ const PopoverBox = styled(motion.div)<{ $dir?: { ver?: Direction; hor?: 'left' |
 
 export const Popover = ({ ...props }: PopoverProps) => {
   const [showPopover, setShowPopover] = useState<boolean>(false);
+  const iconRef = useRef<HTMLDivElement>(null);
 
   const popOverRef = useRef<HTMLDivElement>(null);
   const { direction, directionHorizontal } = useRenderDirection(popOverRef, 'popover');
@@ -68,6 +78,8 @@ export const Popover = ({ ...props }: PopoverProps) => {
       <AnimatePresence>
         {showPopover && (
           <PopoverBox
+            style={{ willChange: 'opacity, transform' }}
+            $offset={iconRef?.current?.getBoundingClientRect().height}
             $dir={{ ver: direction.current, hor: props.renderHorizontal ?? directionHorizontal.current }}
             initial={{
               y: direction.current === Direction.UP ? `-100%` : '0%',
@@ -75,7 +87,7 @@ export const Popover = ({ ...props }: PopoverProps) => {
               borderRadius: '24px',
               opacity: 0,
             }}
-            animate={{ scale: 1, borderRadius: '8px', opacity: 0.9 }}
+            animate={{ scale: 1, borderRadius: '8px', opacity: 0.7 }}
             exit={{
               scale: 0.75,
               borderRadius: '24px',
@@ -89,7 +101,15 @@ export const Popover = ({ ...props }: PopoverProps) => {
           </PopoverBox>
         )}
       </AnimatePresence>
-      {props.Icon}
+      <div
+        style={{ width: 'fit-content', height: 'fit-content', display: 'flex' }}
+        role="button"
+        {...props.iconAttr}
+        onClick={(e) => props.onClick?.(e)}
+        ref={iconRef}
+      >
+        {props.Icon}
+      </div>
     </PopoverRoot>
   );
 };

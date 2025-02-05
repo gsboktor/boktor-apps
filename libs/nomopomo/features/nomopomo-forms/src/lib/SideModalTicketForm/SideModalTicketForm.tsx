@@ -245,9 +245,9 @@ export const SideModalTicketForm = () => {
 
           <NumericPickerContainer>
             <BaseNumericInput
-              onInputChange={() => {}}
+              onInputChange={handleFormChange}
               placeholder="0"
-              inputAttr={{ style: { fontWeight: 600, letterSpacing: -1, fontSize: 18 } }}
+              inputAttr={{ style: { fontWeight: 600, letterSpacing: -1, fontSize: 18 }, name: 'estimatedCycles' }}
               affixLeft={<ClockComponent width={24} height={24} />}
               inputContainerAttr={{
                 style: { backgroundColor: '#ffffff45', padding: `6px 12px` },
