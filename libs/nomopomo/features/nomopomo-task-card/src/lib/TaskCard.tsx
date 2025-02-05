@@ -5,7 +5,7 @@ import { useAtomValue } from 'jotai';
 import { easeOut, motion } from 'motion/react';
 import { memo, useMemo } from 'react';
 import styled from 'styled-components';
-import { TaskCardMainContent } from './components';
+import { DeleteTaskButton, TaskCardMainContent } from './components';
 
 const CardContainer = styled(motion.div)<{ $theme?: string }>`
   max-width: 300px;
@@ -28,16 +28,20 @@ const CardContainer = styled(motion.div)<{ $theme?: string }>`
 
 const DragWrapper = styled.div`
   position: absolute;
-  top: 4px;
+  top: 6px;
   align-self: center;
   justify-content: center;
   display: flex;
-  width: 90%;
+  width: 80%;
   margin: auto;
   z-index: 100;
-  cursor: move !important; // Add !important
-  cursor: -webkit-move !important; // Add vendor prefixes
+  border-radius: 12px;
+  transition: background-color ease-in-out 200ms;
   cursor: move !important;
+
+  &:hover {
+    background-color: #3d3d3d11;
+  }
 `;
 
 const NodeRoot = styled(motion.div)``;
@@ -45,6 +49,7 @@ const NodeRoot = styled(motion.div)``;
 export const TaskCard = memo(({ task }: { task: Task; id: string }) => {
   const { getBoardConfigByKey } = useAtomValue(boardOperations);
   const activeTask = useAtomValue(activeDragTaskAtom);
+  console.log('card', task);
 
   const { attributes, listeners, setNodeRef } = useSortable({
     id: task.id,
@@ -73,8 +78,9 @@ export const TaskCard = memo(({ task }: { task: Task; id: string }) => {
         exit={{ scale: 0.7, opacity: 0, transition: { duration: 0.2 } }}
         style={dragStyle}
       >
+        <DeleteTaskButton boardKey={task.parentBoardKey} taskId={task.id} />
         <DragWrapper {...listeners} {...attributes}>
-          <DragAndDropComponent width={24} height={24} />
+          <DragAndDropComponent width={24} height={20} />
         </DragWrapper>
         <TaskCardMainContent theme={theme} task={task} isActive={isActive} />
       </CardContainer>

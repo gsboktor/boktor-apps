@@ -1,10 +1,11 @@
 import { useTimer } from '@boktor-apps/nomopomo/data-access/hooks';
 import { PomoTimerMode, timerSelectorAtom } from '@boktor-apps/nomopomo/data-access/store';
 import { useAtom } from 'jotai';
-import { useCallback, useRef } from 'react';
+import { motion, useAnimate } from 'motion/react';
+import { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-const TimerLayoutContainer = styled.div`
+const TimerLayoutContainer = styled(motion.div)`
   width: 100%;
   display: flex;
   align-items: start;
@@ -16,7 +17,6 @@ const TimerLayoutContainer = styled.div`
     margin-left: 0px;
     transform: scale(0.75);
   }
-  transition: transform ease-in-out 200ms;
 `;
 
 const TimerContainer = styled.div`
@@ -77,6 +77,7 @@ const TimerColon = styled.p`
 
 export const MainTimer = () => {
   const [timeSelector, setTimeSelector] = useAtom(timerSelectorAtom);
+  const [scope, animate] = useAnimate();
   const elapsedRef = useRef<number>(0);
 
   useTimer((elapsed: number) => {
@@ -106,8 +107,16 @@ export const MainTimer = () => {
 
   document.title = getDocumentTitle();
 
+  useEffect(() => {
+    if (timeSelector.active) {
+      animate(scope.current, { scale: 1, x: 0, filter: 'none' });
+    } else {
+      animate(scope.current, { scale: 0.85, x: -100, filter: 'blur(4px)' });
+    }
+  }, [timeSelector]);
+
   return (
-    <TimerLayoutContainer>
+    <TimerLayoutContainer ref={scope} style={{ willChange: 'transform, filter' }}>
       <TimerContainer>
         <TimerHour>{displayHour}</TimerHour>
         <TimerColon>:</TimerColon>

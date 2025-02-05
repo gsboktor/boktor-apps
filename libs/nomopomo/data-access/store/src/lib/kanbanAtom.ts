@@ -19,6 +19,7 @@ export const kanbanBoardsAtom = atomWithStorage<DefaultKanbanBoards>(
         createdAt: Date.now(),
         parentBoardKey: 'Backlog',
         completedCycles: 0,
+        estimatedCycles: 0,
         index: 0,
         tags: [],
       } as Task,
@@ -66,6 +67,8 @@ export const updateBoardTaskAtom = atom<null, [{ boardKey: string; updateTask: P
         [update.updateTask.id]: { ...oldTask, ...update.updateTask },
       },
     };
+
+    console.log('adding');
 
     set(kanbanBoardsAtom, updatedBoards);
   },

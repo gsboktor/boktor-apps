@@ -19,8 +19,10 @@ export type Task = {
   createdAt: number;
   desc: string;
   completedCycles: number;
+  estimatedCycles?: number;
   tags: TaskTag[];
   checklist?: TaskCheckList[];
+  queued?: boolean;
   index: number;
   parentBoardKey: string;
 };

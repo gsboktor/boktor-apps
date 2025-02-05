@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { memo } from 'react';
 import styled from 'styled-components';
 import { EmojiTag } from './EmojiTag';
+import { TaskPreviewDetails } from './TaskPreviewDetails';
 
 const TaskTagContainer = styled.div`
   width: 100%;
@@ -28,8 +29,8 @@ const TaskPreviewBody = styled.div`
   overflow: hidden;
   max-height: 300px;
   scrollbar-width: none;
-  margin-bottom: 36px;
-  gap: 2px;
+  margin-bottom: 42px;
+  gap: 10px;
 `;
 
 const ShimmerBackdrop = styled(motion.div)<{ $theme: string }>`
@@ -125,6 +126,7 @@ export const TaskCardMainContent = memo(
           </p>
         </TaskPreviewBody>
         <EmojiTag theme={theme ?? '#d3d3d3'} emoji={task.tags.length > 0 ? task.tags[0].icon : '🕛'} />
+        <TaskPreviewDetails task={task} theme={theme} />
       </>
     );
   },
