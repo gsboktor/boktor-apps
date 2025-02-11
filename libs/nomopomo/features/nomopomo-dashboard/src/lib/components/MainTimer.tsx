@@ -1,8 +1,7 @@
-import { useTimer } from '@boktor-apps/nomopomo/data-access/hooks';
 import { PomoTimerMode, timerSelectorAtom } from '@boktor-apps/nomopomo/data-access/store';
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { motion, useAnimate } from 'motion/react';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
 const TimerLayoutContainer = styled(motion.div)`
@@ -12,10 +11,13 @@ const TimerLayoutContainer = styled(motion.div)`
   flex-direction: column;
   margin-left: 112px;
   gap: 2px;
+  transform-origin: left center;
+
   @media screen and (width < 768px) {
     align-items: center;
     margin-left: 0px;
     transform: scale(0.75);
+    transform-origin: top center;
   }
 `;
 
@@ -76,19 +78,8 @@ const TimerColon = styled.p`
 `;
 
 export const MainTimer = () => {
-  const [timeSelector, setTimeSelector] = useAtom(timerSelectorAtom);
+  const timeSelector = useAtomValue(timerSelectorAtom);
   const [scope, animate] = useAnimate();
-  const elapsedRef = useRef<number>(0);
-
-  useTimer((elapsed: number) => {
-    if (!timeSelector.active || timeSelector.time < 0) return;
-    elapsedRef.current += elapsed;
-    if (elapsedRef.current >= 1000) {
-      const secondsToDecrease = Math.floor(elapsedRef.current / 1000);
-      setTimeSelector({ newTime: timeSelector.time - secondsToDecrease });
-      elapsedRef.current = elapsedRef.current % 1000; // Keep remainder
-    }
-  });
 
   const getDocumentTitle = useCallback(() => {
     if (timeSelector.active && timeSelector.mode === PomoTimerMode.WORK)
@@ -109,20 +100,23 @@ export const MainTimer = () => {
 
   useEffect(() => {
     if (timeSelector.active) {
-      animate(scope.current, { scale: 1, x: 0, filter: 'none' });
+      animate(scope.current, { scale: 1, filter: 'none' });
     } else {
-      animate(scope.current, { scale: 0.85, x: -100, filter: 'blur(4px)' });
+      animate(scope.current, { scale: 0.85, filter: 'blur(4px)' });
     }
   }, [timeSelector]);
 
   return (
-    <TimerLayoutContainer ref={scope} style={{ willChange: 'transform, filter' }}>
+    <TimerLayoutContainer
+      ref={scope}
+      style={{ willChange: 'transform, filter' }}
+      transition={{ duration: 0.2, type: 'tween' }}
+    >
       <TimerContainer>
         <TimerHour>{displayHour}</TimerHour>
         <TimerColon>:</TimerColon>
         <TimerMinute>{displayMinute}</TimerMinute>
       </TimerContainer>
-      {/* <TimerControls /> */}
     </TimerLayoutContainer>
   );
 };

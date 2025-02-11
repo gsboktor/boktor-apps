@@ -12,5 +12,6 @@ export * from './overlayRefAtom';
 export * from './taskAtom';
 export * from './taskBoardDndHandlersAtom';
 export * from './timerAtom';
+export * from './timeTrackedTaskAtom';
 export * from './types';
 export * from './utils';

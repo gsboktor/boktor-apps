@@ -12,6 +12,7 @@ import { KanbanBoard, KanbanBoardStatic } from '@boktor-apps/nomopomo/features/n
 import { BoardModal } from '@boktor-apps/nomopomo/features/nomopomo-board-modal';
 import { NomopomoSideModal } from '@boktor-apps/nomopomo/features/nomopomo-side-modal';
 import { TaskCardStatic } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
+import { NomopomoTaskQueue } from '@boktor-apps/nomopomo/features/nomopomo-task-queue';
 import { AddBoardComponent, HelpIconComponent } from '@boktor-apps/shared/ui/assets';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
@@ -62,6 +63,7 @@ const BoardContainer = styled.div`
   position: relative;
   display: flex;
   height: 100%;
+  width: 324px;
   min-width: 324px;
   justify-content: center;
   @media screen and (width < 378px) {
@@ -115,7 +117,14 @@ export const NomopomoDashboard = () => {
           <div
             style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}
           >
-            <OpenQueueComponent>
+            <OpenQueueComponent
+              onClick={() =>
+                setModalState({
+                  show: true,
+                  Component: NomopomoTaskQueue,
+                })
+              }
+            >
               <p style={{ margin: 0, color: 'wheat', fontSize: 12, fontWeight: 400 }}>+4</p>
             </OpenQueueComponent>
             <p style={{ margin: 0 }}>Open queue</p>

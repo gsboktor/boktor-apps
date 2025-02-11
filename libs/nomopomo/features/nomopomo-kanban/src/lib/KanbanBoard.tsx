@@ -4,10 +4,10 @@ import { useAtomValue } from 'jotai';
 import { AnimatePresence, motion } from 'motion/react';
 import { memo, RefObject, useEffect, useMemo, useRef } from 'react';
 
+import { boardEnumAtom } from '@boktor-apps/nomopomo/data-access/store';
 import { TaskCard } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
 import { AddIconComponent, ClearBoardComponent, DropCardComponent } from '@boktor-apps/shared/ui/assets';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { boardEnumAtom } from 'libs/nomopomo/data-access/store/src/lib/boardEnumAtom';
 import styled from 'styled-components';
 import { VacantBoard } from './components';
 import { useHeaderAnimation, useTaskPlaceholderPosition } from './hooks';
@@ -106,7 +106,7 @@ export const PlaceholderCard = styled(motion.div)<{ $theme: string }>`
 export const AddTaskToBoardContainer = styled(motion.div)`
   border-radius: 12px;
   background-color: #75757519;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(12px);
   cursor: pointer;
   position: absolute;
   bottom: 10.5%;
@@ -164,7 +164,12 @@ export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: Kan
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            whileHover={{ scale: 1.05, backgroundColor: theme + `99` }}
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: theme,
+              backdropFilter: 'none',
+              transition: { duration: 0.1 },
+            }}
           >
             <AddIconComponent width={24} height={24}></AddIconComponent>
             <p style={{ margin: 0, display: 'flex', flex: 1, textAlign: 'center', color: '#3d3d3d' }}>Add Task</p>
