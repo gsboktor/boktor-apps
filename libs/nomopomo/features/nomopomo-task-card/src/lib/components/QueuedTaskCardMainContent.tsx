@@ -3,9 +3,9 @@ import { ChipCard } from '@boktor-apps/shared/ui/cards';
 import { memo } from 'react';
 import { ShimmerBackdrop, TaskCardDesc, TaskCardName, TaskPreviewBody, TaskTagContainer } from '../TaskCard.styles';
 import { EmojiTag } from './EmojiTag';
-import { TaskPreviewDetails } from './TaskPreviewDetails';
+import { QueuedTaskActions } from './QueuedTaskActions';
 
-export const TaskCardMainContent = memo(
+export const QueuedTaskCardMainContent = memo(
   ({ isActive, theme, task }: { isActive: boolean; theme?: string; task: Task }) => {
     return (
       <>
@@ -41,7 +41,7 @@ export const TaskCardMainContent = memo(
           <TaskCardDesc>{task.desc}</TaskCardDesc>
         </TaskPreviewBody>
         <EmojiTag theme={theme ?? '#d3d3d3'} emoji={task.tags.length > 0 ? task.tags[0].icon : '🕛'} />
-        <TaskPreviewDetails task={task} theme={theme} />
+        <QueuedTaskActions task={task} theme={theme ?? '#d3d3d3'} />
       </>
     );
   },

@@ -4,10 +4,10 @@ import { useSortable } from '@dnd-kit/sortable';
 import { useAtomValue } from 'jotai';
 import { easeOut } from 'motion/react';
 import { memo, useMemo } from 'react';
-import { DeleteTaskButton, TaskCardMainContent } from './components';
+import { QueuedTaskCardMainContent, QueuedTaskDetailsBar } from './components';
 import { CardContainer, DragWrapper, NodeRoot } from './TaskCard.styles';
 
-export const TaskCard = memo(({ task }: { task: Task; id: string }) => {
+export const QueuedTaskCard = memo(({ task }: { task: Task; id: string }) => {
   const { getBoardConfigByKey } = useAtomValue(boardOperations);
   const activeTask = useAtomValue(activeDragTaskAtom);
 
@@ -38,12 +38,12 @@ export const TaskCard = memo(({ task }: { task: Task; id: string }) => {
         exit={{ scale: 0.7, opacity: 0, transition: { duration: 0.2 } }}
         style={dragStyle}
       >
-        <DeleteTaskButton boardKey={task.parentBoardKey} taskId={task.id} />
         <DragWrapper {...listeners} {...attributes}>
           <DragAndDropComponent width={24} height={20} />
         </DragWrapper>
-        <TaskCardMainContent theme={theme} task={task} isActive={isActive} />
+        <QueuedTaskCardMainContent theme={theme} task={task} isActive={isActive} />
       </CardContainer>
+      <QueuedTaskDetailsBar task={task} theme={theme ?? '#D6D6D6'} />
     </NodeRoot>
   );
 });

@@ -18,7 +18,7 @@ const timerModeAtom = atomWithStorage<PomoTimerMode>(
 
 const timerBaseAtom = atomWithStorage<PomoTimer>(
   generateKey('timer'),
-  { [PomoTimerMode.WORK]: 5, [PomoTimerMode.BREAK]: 10 },
+  { [PomoTimerMode.WORK]: 25 * 60, [PomoTimerMode.BREAK]: 60 },
   storage<PomoTimer>(),
   {
     getOnInit: true,
