@@ -15,5 +15,5 @@ export const useOutOfBounds = (ref: RefObject<HTMLElement>, onOutOfBounds: () =>
     return () => {
       document.removeEventListener('mousedown', handleMouseDown);
     };
-  }, []);
+  }, [ref]);
 };

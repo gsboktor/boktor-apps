@@ -30,7 +30,9 @@ export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task
                 key={tag.id}
                 label={tag.label}
                 mainColor={theme}
-                onActionClick={() => {}}
+                onActionClick={() => {
+                  return null;
+                }}
               />
             ))}
           </TaskTagContainer>

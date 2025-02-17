@@ -32,7 +32,9 @@ export const QueuedTaskCardMainContent = memo(
                   key={tag.id}
                   label={tag.label}
                   mainColor={theme}
-                  onActionClick={() => {}}
+                  onActionClick={() => {
+                    return null;
+                  }}
                 />
               ))}
             </TaskTagContainer>

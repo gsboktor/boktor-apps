@@ -39,14 +39,14 @@ export const timerSelectorAtom = atom<PomoTimerSelector, [Partial<PomoUpdateSele
     const currTimeBase = get(timerBaseAtom);
     const notify = get(notificationAtom);
 
-    update.hasOwnProperty('active') && set(timerActiveAtom, update.active!);
+    Object.prototype.hasOwnProperty.call(update, 'active') && set(timerActiveAtom, update.active!);
 
-    if (update.newMode != undefined) {
+    if (update.newMode !== undefined) {
       set(timerBaseAtom, RESET);
       set(timerModeAtom, update.newMode);
     }
 
-    if (update.newTime != undefined) {
+    if (update.newTime !== undefined) {
       if (update.newTime === RESET) {
         set(timerBaseAtom, update.newTime);
       } else {

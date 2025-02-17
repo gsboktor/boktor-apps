@@ -121,6 +121,20 @@ export const AddTaskToBoardContainer = styled(motion.div)`
   z-index: ${Number.MAX_SAFE_INTEGER};
   box-sizing: border-box;
   user-select: none;
+  > #test-id {
+    color: #3d3d3d;
+  }
+  > p {
+    color: #3d3d3d;
+  }
+  &:hover {
+    > #test-id {
+      color: #000000;
+    }
+    > p {
+      color: #000000;
+    }
+  }
 `;
 
 export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBoardProps) => {
@@ -171,8 +185,8 @@ export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: Kan
               transition: { duration: 0.1 },
             }}
           >
-            <AddIconComponent width={24} height={24}></AddIconComponent>
-            <p style={{ margin: 0, display: 'flex', flex: 1, textAlign: 'center', color: '#3d3d3d' }}>Add Task</p>
+            <AddIconComponent id="test-id" width={24} height={24} style={{}}></AddIconComponent>
+            <p style={{ margin: 0, display: 'flex', flex: 1, textAlign: 'center' }}>Add Task</p>
           </AddTaskToBoardContainer>
         )}
       </AnimatePresence>

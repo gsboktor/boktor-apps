@@ -81,6 +81,11 @@ export const MainTimer = () => {
   const timeSelector = useAtomValue(timerSelectorAtom);
   const [scope, animate] = useAnimate();
 
+  const minutes = Math.floor(timeSelector.time / 60);
+  const seconds = timeSelector.time % 60;
+  const displayHour = `${minutes.toString().padStart(2, '0')}`;
+  const displayMinute = `${seconds.toString().padStart(2, '0')}`;
+
   const getDocumentTitle = useCallback(() => {
     if (timeSelector.active && timeSelector.mode === PomoTimerMode.WORK)
       return `⏱️ ${displayHour}:${displayMinute} • Nomopomo.io`;
@@ -89,12 +94,7 @@ export const MainTimer = () => {
       return `🏖️ ${displayHour}:${displayMinute} • Nomopomo.io`;
 
     return `⏸️ Paused • Nomopomo.io`;
-  }, [timeSelector]);
-
-  const minutes = Math.floor(timeSelector.time / 60);
-  const seconds = timeSelector.time % 60;
-  const displayHour = `${minutes.toString().padStart(2, '0')}`;
-  const displayMinute = `${seconds.toString().padStart(2, '0')}`;
+  }, [displayHour, displayMinute, timeSelector.active, timeSelector.mode]);
 
   document.title = getDocumentTitle();
 
@@ -104,7 +104,7 @@ export const MainTimer = () => {
     } else {
       animate(scope.current, { scale: 0.85, filter: 'blur(4px)' });
     }
-  }, [timeSelector]);
+  }, [animate, scope, timeSelector]);
 
   return (
     <TimerLayoutContainer

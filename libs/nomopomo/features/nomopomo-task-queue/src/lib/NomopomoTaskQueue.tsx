@@ -1,6 +1,6 @@
 import { AccessibleTaskMap, kanbanBoardsAtom, Task } from '@boktor-apps/nomopomo/data-access/store';
-import { MainTimer } from '@boktor-apps/nomopomo/features/nomopomo-dashboard';
 import { QueuedTaskCard } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
+import { MainTimer } from '@boktor-apps/nomopomo/features/nomopomo-timer';
 import { useAtomValue } from 'jotai';
 import { AnimatePresence } from 'motion/react';
 import { forwardRef, useMemo } from 'react';

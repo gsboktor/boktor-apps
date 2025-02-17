@@ -10,7 +10,7 @@ import path from 'path';
 
 import { Construct } from 'constructs';
 import { EnvironmentConfig } from '../config';
-import { BasicAuthSecret } from '../constructs';
+import { BasicAuthSecret, CognitoUserPool } from '../constructs';
 
 interface NomopomoCfS3StackProps extends cdk.StackProps {
   environmentConfig: EnvironmentConfig;
@@ -106,11 +106,26 @@ export class NomopomoCfS3Stack extends cdk.Stack {
       },
     );
 
+    const userPoolConstruct = new CognitoUserPool(this, {
+      id: `nomopomo-cognito-user-pool-construct-${props.environmentConfig.environment}`,
+      env: props.environmentConfig.environment,
+    });
+
     new s3deploy.BucketDeployment(this, `DeployNomopomoStaticAssets-${props.environmentConfig.environment}`, {
       sources: [s3deploy.Source.asset('../../dist/packages/nomopomo')],
       destinationBucket: websiteBucket,
       distribution: distribution,
       distributionPaths: ['/*'],
+    });
+
+    new cdk.CfnOutput(this, 'Nomopomo Userpool Id', {
+      value: userPoolConstruct.userPool.userPoolId,
+      description: 'User pool id for Nomopomo users.',
+    });
+
+    new cdk.CfnOutput(this, 'Nomopomo Userpool Client Id', {
+      value: userPoolConstruct.userPoolClient.userPoolClientId,
+      description: 'User pool client id for Nomopomo userpool',
     });
 
     new cdk.CfnOutput(this, 'DistributionDomainName', {
