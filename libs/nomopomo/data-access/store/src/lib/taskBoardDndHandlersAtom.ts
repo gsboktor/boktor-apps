@@ -32,8 +32,8 @@ export const handleDragStartAtom = atom<null, [DragStartEvent], void>(null, (get
 export const handleBoardsDragOver = atom<null, [DragOverEvent], void>(null, (get, set, e) => {
   const boards = get(boardEnumAtom);
   if (boards.includes(String(e.active?.id)) && e.over?.id) {
-    let startIdx = boards.indexOf(String(e.active.id));
-    let endIdx = boards.includes(String(e.over.id))
+    const startIdx = boards.indexOf(String(e.active.id));
+    const endIdx = boards.includes(String(e.over.id))
       ? boards.indexOf(String(e.over?.id))
       : boards.indexOf(String(e.over.data.current?.prevBoardKey));
     set(boardEnumAtom, [...arrayMove(boards, startIdx, endIdx)]);
@@ -87,8 +87,8 @@ export const handleDragEndAtom = atom<null, [HandleDragEndEvent<HTMLDivElement>]
   const newIdx = newTasks.findIndex((t) => t.id === overItemId);
   const oldIdx = oldTasks.findIndex((t) => t.id === activeItemId);
 
-  const isBelowItem = e.overlayRef?.current?.getBoundingClientRect().top! > e.over.rect.top;
-  let insertIdx = newIdx >= 0 ? (isBelowItem ? newIdx + 1 : newIdx) : newTasks.length + 1;
+  const isBelowItem = (e.overlayRef?.current?.getBoundingClientRect().top ?? 0) > e.over.rect.top;
+  const insertIdx = newIdx >= 0 ? (isBelowItem ? newIdx + 1 : newIdx) : newTasks.length + 1;
 
   if (activeItemBoard === overItemBoard) {
     const taskToMove = newTasks[oldIdx];

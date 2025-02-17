@@ -8,12 +8,12 @@ import styled from 'styled-components';
 import { GlobalStyles } from './globalStyles';
 
 const ModalSkeleton = React.lazy(async () => {
-  let _module = await import('@boktor-apps/shared/ui/modal');
+  const _module = await import('@boktor-apps/shared/ui/modal');
   return { default: _module.ModalSkeleton };
 });
 
 const NomopomoDashboard = React.lazy(async () => {
-  let _module = await import('@boktor-apps/nomopomo/features/nomopomo-dashboard');
+  const _module = await import('@boktor-apps/nomopomo/features/nomopomo-dashboard');
   return { default: _module.NomopomoDashboard };
 });
 
@@ -56,7 +56,7 @@ export function App() {
                 setModalState(null);
               }}
               render={(p) => {
-                if (!modalState?.Component) return <></>;
+                if (!modalState?.Component) return <h2>Something went wrong.</h2>;
                 const ModalComponent = modalState.Component;
                 return <ModalComponent ref={p.ref} closeModal={p.setShow} />;
               }}

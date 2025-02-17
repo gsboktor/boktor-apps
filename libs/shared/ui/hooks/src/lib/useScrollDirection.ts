@@ -18,11 +18,11 @@ export const useScrollDirection = (
   const [withinTop, setWithinTop] = useState<boolean>(false);
 
   useEffect(() => {
-    let lastScrollY = scrollContainerRef?.current?.scrollTop!;
+    let lastScrollY = scrollContainerRef?.current?.scrollTop ?? 0;
     let ticking = false;
 
     const updateScrollDir = () => {
-      const scrollY = scrollContainerRef?.current?.scrollTop!;
+      const scrollY = scrollContainerRef?.current?.scrollTop ?? 0;
 
       if (Math.abs(scrollY - lastScrollY) < threshold) {
         ticking = false;
@@ -50,7 +50,7 @@ export const useScrollDirection = (
     scrollContainerRef?.current?.addEventListener('scroll', onScroll);
 
     return () => scrollContainerRef?.current?.removeEventListener('scroll', onScroll);
-  }, [scrollDirection]);
+  }, [scrollContainerRef, scrollDirection, threshold, topThreshold]);
 
   return { scrollDirection, withinTop };
 };

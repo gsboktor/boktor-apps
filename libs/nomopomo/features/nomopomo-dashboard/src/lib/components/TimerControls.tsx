@@ -26,6 +26,7 @@ const TimerControlsContainer = styled.div`
 const StyledTimerStart = styled(StartTimerComponent)`
   width: 28px;
   height: 28px;
+  fill: #000000;
 `;
 
 const StyledTimerRestart = styled(RestartTimerComponent)`
@@ -117,7 +118,14 @@ export const TimerControls = () => {
           {timerSelector.active ? (
             <StyledPauseTimer onClick={() => setTimerSelector({ active: !timerSelector.active })} />
           ) : (
-            <StyledTimerStart onClick={() => setTimerSelector({ active: !timerSelector.active })} />
+            <StartTimerComponent
+              style={{
+                color: '#ff2121',
+              }}
+              width={28}
+              height={28}
+              onClick={() => setTimerSelector({ active: !timerSelector.active })}
+            />
           )}
         </MainPlayButtonContainer>
         <MainPlayButtonContainer

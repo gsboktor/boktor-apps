@@ -112,7 +112,7 @@ export const TaskPreviewDetails = ({ task, theme }: { task: Task; theme?: string
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}>
         <QueueIndicator
-          initial={{ backgroundColor: '#d6d6d6d6' }}
+          initial={{ backgroundColor: task.queued ? theme : '#a4a4a446' }}
           animate={{ backgroundColor: task.queued ? theme : '#a4a4a446' }}
         >
           <p style={{ margin: 0, fontSize: 12 }}>{!task.queued ? 'Not queued' : 'Queued'}</p>
