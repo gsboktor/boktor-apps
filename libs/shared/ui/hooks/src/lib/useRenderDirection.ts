@@ -15,7 +15,7 @@ export const useRenderDirection = (objRef: RefObject<HTMLElement>, id?: string) 
         ? (directionHorizontal.current = 'left')
         : (directionHorizontal.current = 'right');
     }
-  }, [objRef]);
+  }, [objRef.current]);
 
   const handleDirectionChange = useCallback(() => {
     objRef.current?.getBoundingClientRect && objRef.current?.getBoundingClientRect().y > window.innerHeight / 2

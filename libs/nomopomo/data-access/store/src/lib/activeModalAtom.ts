@@ -34,6 +34,6 @@ export const activeModalAtom = atom<ModalConfig | null, [Partial<ModalConfig> | 
     }
 
     update?.Component && set(modalComponentAtom, update.Component);
-    update?.hasOwnProperty('show') && set(modalShowAtom, update.show!);
+    Object.prototype?.hasOwnProperty.call(update, 'show') && set(modalShowAtom, update.show!);
   },
 );
