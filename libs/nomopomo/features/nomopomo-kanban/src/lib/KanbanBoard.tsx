@@ -217,7 +217,7 @@ export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: Kan
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <ClearBoardComponent width={28} height={28} />
+                <ClearBoardComponent style={{ filter: `brightness(1.2)` }} width={28} height={28} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -243,7 +243,7 @@ export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: Kan
                   right: -32,
                 }}
               >
-                <AddIconComponent width={30} height={30} />
+                <AddIconComponent style={{ filter: `brightness(.5)` }} width={30} height={30} />
               </motion.div>
             )}
           </AnimatePresence>
