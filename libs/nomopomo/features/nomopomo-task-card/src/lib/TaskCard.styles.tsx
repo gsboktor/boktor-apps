@@ -18,6 +18,10 @@ export const CardContainer = styled(motion.div)<{ $theme?: string }>`
   position: relative;
 `;
 
+export const QueuedCardContainer = styled(CardContainer)`
+  padding-top: 12px;
+`;
+
 export const DragWrapper = styled.div`
   position: absolute;
   top: 6px;

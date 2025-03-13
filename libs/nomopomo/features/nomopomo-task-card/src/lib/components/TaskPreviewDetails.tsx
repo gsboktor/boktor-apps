@@ -1,8 +1,13 @@
 import { Task, updateBoardTaskAtom } from '@boktor-apps/nomopomo/data-access/store';
-import { AddBoardComponent, ClockComponent, CompletedCyclesComponent } from '@boktor-apps/shared/ui/assets';
+import {
+  AddBoardComponent,
+  ClockComponent,
+  CompletedCyclesComponent,
+  RemoveFromQueueComponent,
+} from '@boktor-apps/shared/ui/assets';
 import { Popover } from '@boktor-apps/shared/ui/pop-over';
 import { useSetAtom } from 'jotai';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { useCallback } from 'react';
 import styled from 'styled-components';
 const TaskPreviewDetailsContainer = styled.div`
@@ -119,8 +124,16 @@ export const TaskPreviewDetails = ({ task, theme }: { task: Task; theme?: string
         </QueueIndicator>
         <TaskIconAndLabel style={{ cursor: 'pointer' }}>
           <Popover
-            Icon={<AddBoardComponent width={30} height={30} />}
-            iconAttr={{ style: { height: 30 } }}
+            Icon={
+              <AnimatePresence>
+                {!task.queued ? (
+                  <AddBoardComponent width={28} height={28} />
+                ) : (
+                  <RemoveFromQueueComponent width={28} height={28} />
+                )}
+              </AnimatePresence>
+            }
+            iconAttr={{ style: { display: 'flex' } }}
             onClick={handleToggleTaskToQueue}
             renderHorizontal="left"
             Content={
@@ -132,10 +145,11 @@ export const TaskPreviewDetails = ({ task, theme }: { task: Task; theme?: string
                   color: 'white',
                   display: 'flex',
                   flexWrap: 'wrap',
-                  width: 98,
+                  width: '82px',
+                  userSelect: 'none',
                 }}
               >
-                Add to Task Queue
+                {task.queued ? 'Remove from queue' : 'Add to queue'}
               </p>
             }
           ></Popover>

@@ -8,5 +8,17 @@ export const TimeTrackedTask = () => {
 
   if (!timeTrackedTask) return <TimeTrackedTaskSkeleton />;
 
-  return <TaskCard id={timeTrackedTask.id} task={timeTrackedTask} />;
+  return (
+    <div
+      style={{
+        maxWidth: 425,
+        display: 'flex',
+        width: '100%',
+      }}
+    >
+      <div style={{ width: '100%' }}>
+        <TaskCard id={timeTrackedTask.id} task={timeTrackedTask} />
+      </div>
+    </div>
+  );
 };

@@ -1,4 +1,9 @@
-import { AccessibleTaskMap, kanbanBoardsAtom, Task } from '@boktor-apps/nomopomo/data-access/store';
+import {
+  AccessibleTaskMap,
+  kanbanBoardsAtom,
+  Task,
+  timeTrackedTaskAtom,
+} from '@boktor-apps/nomopomo/data-access/store';
 import { QueuedTaskCard } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
 import { MainTimer } from '@boktor-apps/nomopomo/features/nomopomo-timer';
 import { useAtomValue } from 'jotai';
@@ -46,6 +51,7 @@ export const TaskQueueMainContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  place-items: center;
   height: 95%;
 `;
 
@@ -61,12 +67,18 @@ type NomopomoTaskQueueProps = {
 export const NomopomoTaskQueue = forwardRef<HTMLDivElement, NomopomoTaskQueueProps>(
   ({ ...props }: NomopomoTaskQueueProps, ref) => {
     const allBoards = useAtomValue(kanbanBoardsAtom);
+    const trackingTask = useAtomValue(timeTrackedTaskAtom);
     const queuedTasks = useMemo(
       () =>
-        Object.values(allBoards).reduce((acc: Task[], curr: AccessibleTaskMap, idx) => {
-          return [...acc, ...Object.values(curr).filter((t) => t.queued)] as Task[];
-        }, [] as Task[]),
-      [allBoards],
+        Object.values(allBoards)
+          .reduce((acc: Task[], curr: AccessibleTaskMap) => {
+            return [
+              ...acc,
+              ...Object.values(curr).filter((t) => t.queued && trackingTask && t.id !== trackingTask?.id),
+            ] as Task[];
+          }, [] as Task[])
+          .sort((a, b) => a.createdAt - b.createdAt),
+      [allBoards, trackingTask],
     );
 
     return (

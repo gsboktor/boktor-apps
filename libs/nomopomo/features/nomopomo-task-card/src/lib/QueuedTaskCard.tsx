@@ -1,11 +1,10 @@
 import { activeDragTaskAtom, boardOperations, Task } from '@boktor-apps/nomopomo/data-access/store';
-import { DragAndDropComponent } from '@boktor-apps/shared/ui/assets';
 import { useSortable } from '@dnd-kit/sortable';
 import { useAtomValue } from 'jotai';
 import { easeOut } from 'motion/react';
 import { memo, useMemo } from 'react';
 import { QueuedTaskCardMainContent, QueuedTaskDetailsBar } from './components';
-import { CardContainer, DragWrapper, NodeRoot } from './TaskCard.styles';
+import { NodeRoot, QueuedCardContainer } from './TaskCard.styles';
 
 export const QueuedTaskCard = memo(({ task }: { task: Task; id: string }) => {
   const { getBoardConfigByKey } = useAtomValue(boardOperations);
@@ -29,7 +28,7 @@ export const QueuedTaskCard = memo(({ task }: { task: Task; id: string }) => {
 
   return (
     <NodeRoot exit={{ height: `0px`, transition: { duration: 0.2, ease: easeOut } }}>
-      <CardContainer
+      <QueuedCardContainer
         $theme={theme}
         ref={setNodeRef}
         id={task.id}
@@ -38,11 +37,11 @@ export const QueuedTaskCard = memo(({ task }: { task: Task; id: string }) => {
         exit={{ scale: 0.7, opacity: 0, transition: { duration: 0.2 } }}
         style={dragStyle}
       >
-        <DragWrapper {...listeners} {...attributes}>
+        {/* <DragWrapper {...listeners} {...attributes}>
           <DragAndDropComponent width={24} height={20} />
-        </DragWrapper>
+        </DragWrapper> */}
         <QueuedTaskCardMainContent theme={theme} task={task} isActive={isActive} />
-      </CardContainer>
+      </QueuedCardContainer>
       <QueuedTaskDetailsBar task={task} theme={theme ?? '#D6D6D6'} />
     </NodeRoot>
   );

@@ -1,5 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { FolderBlobProvider, NewsFeed, SpotifySearch, TodoApp } from '@boktor-apps/features/boktor-playground';
+import {
+  FolderBlobProvider,
+  NewsFeed,
+  SpotifySearch,
+  TodoApp,
+  VirtualList,
+} from '@boktor-apps/features/boktor-playground';
 import styled from 'styled-components';
 const RootContainer = styled.div`
   position: absolute;
@@ -28,6 +34,7 @@ export function App() {
       </FolderBlobProvider>
       <NewsFeed />
       <TodoApp />
+      <VirtualList />
     </RootContainer>
   );
 }
