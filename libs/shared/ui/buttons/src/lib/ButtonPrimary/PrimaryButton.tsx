@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 type PrimaryButtonProps = {
   onClick: (p: unknown) => void | unknown;
@@ -25,20 +25,24 @@ const animate = keyframes`
     }
 `;
 
-const StyledRootButtonContainer = styled.div`
+const StyledRootButtonContainer = styled.div<{ hoverOn?: string }>`
   position: relative;
   display: flex;
   flex-grow: 1;
   justify-content: center;
   align-items: center;
   &:has(button:hover) {
-    #b-gradient {
-      background: var(--gradient-shadow);
-      background-size: 600%;
-      opacity: 1;
-      filter: blur(8px);
-      animation: ${animate} 20s linear infinite;
-    }
+    ${({ hoverOn }) =>
+      hoverOn &&
+      css`
+        #${hoverOn} {
+          background: var(--gradient-shadow);
+          background-size: 600%;
+          opacity: 1;
+          filter: blur(8px);
+          animation: ${animate} 20s linear infinite;
+        }
+      `}
     border-radius: 36px;
     transform: scale(0.95);
   }
@@ -100,7 +104,7 @@ const Label = styled.p`
 
 export const PrimaryButton = ({ withGradient = true, ...props }: PrimaryButtonProps) => {
   return (
-    <StyledRootButtonContainer onClick={props?.onClick}>
+    <StyledRootButtonContainer onClick={props?.onClick} hoverOn={'b-gradient'}>
       {withGradient && <ButtonGradient id="b-gradient" />}
       <ButtonContainer id="b-id">
         <ContentContainer>

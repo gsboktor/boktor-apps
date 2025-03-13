@@ -1,5 +1,5 @@
-import { Task, updateBoardTaskAtom } from '@boktor-apps/nomopomo/data-access/store';
-import { AddBoardComponent } from '@boktor-apps/shared/ui/assets';
+import { Task, timeTrackedTaskAtom, updateBoardTaskAtom } from '@boktor-apps/nomopomo/data-access/store';
+import { AddBoardComponent, RemoveFromQueueComponent } from '@boktor-apps/shared/ui/assets';
 import { Popover } from '@boktor-apps/shared/ui/pop-over';
 import { useSetAtom } from 'jotai';
 import { useCallback } from 'react';
@@ -27,6 +27,7 @@ export const TrackTaskButton = styled.button<{ $theme: string }>`
 
 export const QueuedTaskActions = ({ task, theme }: { task: Task; theme: string }) => {
   const updateTask = useSetAtom(updateBoardTaskAtom);
+  const setTrackTaskCard = useSetAtom(timeTrackedTaskAtom);
 
   const handleToggleTaskToQueue = useCallback(
     (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -53,7 +54,9 @@ export const QueuedTaskActions = ({ task, theme }: { task: Task; theme: string }
         justifyContent: 'space-between',
       }}
     >
-      <TrackTaskButton $theme={theme}>Start Tracking</TrackTaskButton>
+      <TrackTaskButton $theme={theme} onClick={() => setTrackTaskCard({ ...task })}>
+        Start Tracking
+      </TrackTaskButton>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 4, justifyContent: 'center', alignItems: 'center' }}>
         <QueueIndicator
           initial={{ backgroundColor: '#d6d6d6d6' }}
@@ -63,8 +66,14 @@ export const QueuedTaskActions = ({ task, theme }: { task: Task; theme: string }
         </QueueIndicator>
         <TaskIconAndLabel style={{ cursor: 'pointer' }}>
           <Popover
-            Icon={<AddBoardComponent width={30} height={30} />}
-            iconAttr={{ style: { height: 30 } }}
+            Icon={
+              !task.queued ? (
+                <AddBoardComponent width={28} height={28} />
+              ) : (
+                <RemoveFromQueueComponent width={28} height={28} />
+              )
+            }
+            iconAttr={{ style: { display: 'flex' } }}
             onClick={handleToggleTaskToQueue}
             renderHorizontal="left"
             Content={

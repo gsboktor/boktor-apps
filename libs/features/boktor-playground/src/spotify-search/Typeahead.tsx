@@ -146,9 +146,8 @@ export const Typeahead = ({ token }: { token?: string }) => {
   const getNextSuggestions = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       if (entries[0].isIntersecting) {
-        if (!inputRef.current) return;
         setPage(page + 1);
-        searchFn(inputRef.current?.value);
+        searchFn(inputRef.current?.value!);
       }
     },
     [page],
