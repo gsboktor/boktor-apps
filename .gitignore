@@ -6,3 +6,4 @@ vite.config.*.timestamp*
 **tmp/
 **env
 **cdk.out/
+**.DS_Store
