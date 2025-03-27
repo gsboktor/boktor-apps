@@ -34,7 +34,7 @@ export const QueuedTaskDetailsBar = ({ task, theme }: { task: Task; theme: strin
   return (
     <DetailsBarContainer>
       <QueuedTaskDetailPill $theme={theme}>
-        <ClockComponent width={24} height={24}></ClockComponent>1
+        <ClockComponent width={24} height={24}></ClockComponent>
       </QueuedTaskDetailPill>
       <QueuedTaskDetailPill $theme={theme}>02h, 43m</QueuedTaskDetailPill>
       <QueuedTaskDetailPill $theme={theme}>00h, 13m</QueuedTaskDetailPill>

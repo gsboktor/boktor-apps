@@ -5,20 +5,15 @@ export interface ModalComponentProps {
   closeModal: (show: boolean) => void;
 }
 
+type ModalWithForwardedRef<T> = ForwardRefExoticComponent<T & RefAttributes<HTMLDivElement>>;
+type ModalComponentType<T> = ModalWithForwardedRef<T> | LazyExoticComponent<ModalWithForwardedRef<T>> | null;
+
 export type ModalConfig = {
-  Component:
-    | ForwardRefExoticComponent<ModalComponentProps & RefAttributes<HTMLDivElement>>
-    | LazyExoticComponent<ForwardRefExoticComponent<ModalComponentProps & RefAttributes<HTMLDivElement>>>
-    | null;
+  Component: ModalComponentType<ModalComponentProps>;
   show: boolean;
 };
 
-type ModalComponentType =
-  | ForwardRefExoticComponent<ModalComponentProps & RefAttributes<HTMLDivElement>>
-  | LazyExoticComponent<ForwardRefExoticComponent<ModalComponentProps & RefAttributes<HTMLDivElement>>>
-  | null;
-
-const modalComponentAtom = atom<ModalComponentType>(null);
+const modalComponentAtom = atom<ModalComponentType<ModalComponentProps>>(null);
 
 const modalShowAtom = atom<boolean>(false);
 

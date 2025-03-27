@@ -35,7 +35,7 @@ export const boardFormErrors = atom<BoardFormValidationError | undefined, [Board
 
 export const validateBoardForm = atom<null, [undefined], void>(null, (get, set) => {
   try {
-    let fields = createBoardFormSchema.parse(get(_boardFormValues));
+    const fields = createBoardFormSchema.parse(get(_boardFormValues));
     set(createNewBoardAtom, {
       boardName: fields.boardName,
       boardTheme: get(_boardFormValues)?.boardTheme ?? '#D3D3D3',
@@ -50,8 +50,8 @@ export const validateBoardForm = atom<null, [undefined], void>(null, (get, set) 
   } catch (e) {
     if (e instanceof ZodError) {
       console.log(e);
-      let errors = e.errors;
-      let fieldErrors = errors.reduce(
+      const errors = e.errors;
+      const fieldErrors = errors.reduce(
         (acc, e) => ({ ...acc, [e.path[0]]: { message: e.message, valid: false } }),
         {} as BoardFormValidationError,
       );
