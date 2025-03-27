@@ -6,6 +6,7 @@ export const CardContainer = styled(motion.div)<{ $theme?: string }>`
   height: fit-content;
   display: flex;
   flex-direction: column;
+  max-height: 280px;
   border-radius: 20px;
   background-color: #ffe7cc;
   box-shadow: 0px 0px 0px 1px inset #4f4f4f2c;
@@ -73,8 +74,8 @@ export const TaskCardName = styled.p`
   font-weight: 400;
   color: #242424;
   display: -webkit-box;
-  line-clamp: 3;
-  -webkit-line-clamp: 3;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
   overflow: hidden;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
@@ -86,8 +87,8 @@ export const TaskCardDesc = styled.p`
   font-weight: 300;
   color: #3a3a3a;
   display: -webkit-box;
-  line-clamp: 4;
-  -webkit-line-clamp: 4;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
   overflow: hidden;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;

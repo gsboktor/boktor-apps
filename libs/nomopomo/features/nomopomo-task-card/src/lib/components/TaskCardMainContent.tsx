@@ -24,7 +24,7 @@ export const TaskCardMainContent = memo(
           />
         )}
         <TaskPreviewBody>
-          {task.tags.length > 0 && (
+          {task.tags?.length > 0 && (
             <TaskTagContainer>
               {task.tags.map((tag) => (
                 <ChipCard
@@ -42,7 +42,7 @@ export const TaskCardMainContent = memo(
           <TaskCardName>{task.name}</TaskCardName>
           <TaskCardDesc>{task.desc}</TaskCardDesc>
         </TaskPreviewBody>
-        <EmojiTag theme={theme ?? '#d3d3d3'} emoji={task.tags.length > 0 ? task.tags[0].icon : '🕛'} />
+        <EmojiTag theme={theme ?? '#d3d3d3'} emoji={task.tags?.length > 0 ? task.tags[0].icon : '🕛'} />
         <TaskPreviewDetails task={task} theme={theme} />
       </>
     );
