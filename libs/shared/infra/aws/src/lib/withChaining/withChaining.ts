@@ -2,9 +2,9 @@ import * as cdk from 'aws-cdk-lib';
 import * as cf from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
 
 import { Construct } from 'constructs';
+import { withBucketDeployment, WithBucketDeploymentParams } from '../withBucketDeployment';
 
 export interface EnvironmentConfig {
   environment: 'dev' | 'staging' | 'prod';
@@ -16,7 +16,7 @@ export interface EnvironmentConfig {
   basicAuthPassword?: string;
 }
 
-type Context = {
+export type Context = {
   ctx: Construct;
   config: EnvironmentConfig;
   resources: Record<string, Construct>;
@@ -141,28 +141,4 @@ export function withCloudFront<TSource extends cdk.Resource>(
   );
 
   then?.({ distro });
-}
-
-interface WithBucketDeploymentParams {
-  assetPath: string;
-  bucket: s3.Bucket;
-  distribution: cf.Distribution;
-  then?: ({ dp }: { dp: cdk.aws_s3_deployment.BucketDeployment }) => void;
-}
-
-export function withBucketDeployment(
-  this: Context,
-  { assetPath, bucket, distribution, then }: WithBucketDeploymentParams,
-) {
-  const dp = new s3deploy.BucketDeployment(
-    this.ctx,
-    `Deploy${this.config.domainName}StaticAssets-${this.config.environment}`,
-    {
-      sources: [s3deploy.Source.asset(assetPath)],
-      destinationBucket: bucket,
-      distribution: distribution,
-      distributionPaths: ['/*'],
-    },
-  );
-  then?.({ dp });
 }
