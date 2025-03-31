@@ -11,7 +11,8 @@
       "options": {
         "buildTarget": "boktor-portfolio:build",
         "hmr": true,
-        "webpackConfig": "packages/boktor-portfolio/webpack.config.js"
+        "webpackConfig": "packages/boktor-portfolio/webpack.config.js",
+        "proxyConfig": "packages/boktor-portfolio/proxy.conf.json"
       },
       "configurations": {
         "development": {

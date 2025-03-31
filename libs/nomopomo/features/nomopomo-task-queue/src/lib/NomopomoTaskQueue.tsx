@@ -74,7 +74,7 @@ export const NomopomoTaskQueue = forwardRef<HTMLDivElement, NomopomoTaskQueuePro
           .reduce((acc: Task[], curr: AccessibleTaskMap) => {
             return [
               ...acc,
-              ...Object.values(curr).filter((t) => t.queued && trackingTask && t.id !== trackingTask?.id),
+              ...Object.values(curr).filter((t) => t.queued && (trackingTask ? t.id !== trackingTask?.id : true)),
             ] as Task[];
           }, [] as Task[])
           .sort((a, b) => a.createdAt - b.createdAt),

@@ -1,71 +1,52 @@
 {
-  "name": "nomopomo-infra",
+  "name": "boktor-portfolio-infra",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/nomopomo-infra/src",
+  "sourceRoot": "packages/boktor-portfolio-infra/src",
   "projectType": "application",
   "tags": ["scope:shared"],
   "targets": {
     "diff": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build", "build-assets"],
+      "dependsOn": ["build"],
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "cwd": "packages/nomopomo-infra",
+          "cwd": "packages/boktor-portfolio-infra",
           "command": "cdk diff --context env=development"
         },
         "production": {
-          "cwd": "packages/nomopomo-infra",
+          "cwd": "packages/boktor-portfolio-infra",
           "command": "cdk diff --context env=production"
         }
       }
     },
     "deploy": {
-      "dependsOn": ["build", "build-assets"],
+      "dependsOn": ["build"],
       "executor": "nx:run-commands",
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "cwd": "packages/nomopomo-infra",
+          "cwd": "packages/boktor-portfolio-infra",
           "command": "cdk deploy --context env=development --all --require-approval never"
         },
         "production": {
-          "cwd": "packages/nomopomo-infra",
+          "cwd": "packages/boktor-portfolio-infra",
           "command": "cdk deploy --context env=production --all --require-approval never"
         }
       }
     },
     "synth": {
-      "dependsOn": ["build", "build-assets"],
+      "dependsOn": ["build"],
       "executor": "nx:run-commands",
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "cwd": "packages/nomopomo-infra",
+          "cwd": "packages/boktor-portfolio-infra",
           "command": "cdk synth --context env=development"
         },
         "production": {
-          "cwd": "packages/nomopomo-infra",
+          "cwd": "packages/boktor-portfolio-infra",
           "command": "cdk synth --context env=production"
-        }
-      }
-    },
-    "build-assets": {
-      "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "main": "packages/nomopomo-infra/src/functions/index.ts",
-        "tsConfig": "packages/nomopomo-infra/tsconfig.app.json",
-        "outputPath": "./dist/packages/nomopomo-infra/functions",
-        "minify": true,
-        "bundle": true,
-        "additionalEntryPoints": ["packages/nomopomo-infra/src/functions/auth-handler/index.ts"],
-        "format": ["cjs"],
-        "esbuildOptions": {
-          "outExtension": {
-            ".js": ".js"
-          },
-          "platform": "node"
         }
       }
     },
@@ -75,11 +56,11 @@
       "defaultConfiguration": "development",
       "options": {
         "platform": "node",
-        "outputPath": "./dist/packages/nomopomo-infra",
+        "outputPath": "./dist/packages/boktor-portfolio-infra",
         "format": ["cjs"],
         "bundle": true,
-        "main": "packages/nomopomo-infra/src/main.ts",
-        "tsConfig": "packages/nomopomo-infra/tsconfig.app.json",
+        "main": "packages/boktor-portfolio-infra/src/main.ts",
+        "tsConfig": "packages/boktor-portfolio-infra/tsconfig.app.json",
         "treeShaking": true,
         "external": ["aws-cdk", "aws-cdk-lib", "constructs"],
         "esbuildOptions": {
@@ -107,15 +88,15 @@
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "nomopomo-infra:build",
+        "buildTarget": "boktor-portfolio-infra:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "nomopomo-infra:build:development"
+          "buildTarget": "boktor-portfolio-infra:build:development"
         },
         "production": {
-          "buildTarget": "nomopomo-infra:build:production"
+          "buildTarget": "boktor-portfolio-infra:build:production"
         }
       }
     }

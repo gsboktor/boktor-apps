@@ -19,7 +19,7 @@ interface NomopomoCfS3StackProps extends cdk.StackProps {
 export class NomopomoCfS3Stack extends cdk.Stack {
   private readonly provisionLambdaAuthorizer = (
     envConfig: EnvironmentConfig,
-  ): cdk.aws_cloudfront.experimental.EdgeFunction | undefined => {
+  ): cloudfront.experimental.EdgeFunction | undefined => {
     if (envConfig.environment != 'prod') {
       const authSecret = new BasicAuthSecret(this, `nomopomo-basic-auth-construct-${envConfig.environment}`, {
         env: envConfig.environment,

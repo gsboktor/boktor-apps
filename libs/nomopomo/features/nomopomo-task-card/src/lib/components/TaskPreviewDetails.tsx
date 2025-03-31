@@ -48,6 +48,7 @@ export const TaskPreviewDetails = ({ task, theme }: { task: Task; theme?: string
   const handleToggleTaskToQueue = useCallback(
     (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e?.preventDefault();
+      console.log('jhere?');
       if (task.queued) {
         updateTask({ boardKey: task.parentBoardKey, updateTask: { ...task, queued: false } as Partial<Task> });
       } else {
