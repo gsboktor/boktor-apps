@@ -29,6 +29,7 @@
       "@boktor-apps/shared/infra/aws": ["libs/shared/infra/aws/src/index.ts"],
       "@boktor-apps/shared/services/auth-service": ["libs/shared/services/auth-service/src/index.ts"],
       "@boktor-apps/shared/ui/assets": ["libs/shared/ui/assets/src/index.ts"],
+      "@boktor-apps/shared/ui/assets/svgs": ["libs/shared/ui/assets/src/svg/index.ts"],
       "@boktor-apps/shared/ui/buttons": ["libs/shared/ui/buttons/src/index.ts"],
       "@boktor-apps/shared/ui/cards": ["libs/shared/ui/cards/src/index.ts"],
       "@boktor-apps/shared/ui/dropdowns": ["libs/shared/ui/dropdowns/src/index.ts"],

@@ -1,5 +1,5 @@
 import { boardEnumAtom, boardOperations } from '@boktor-apps/nomopomo/data-access/store';
-import { Turbulence } from '@boktor-apps/shared/ui/assets';
+import { Turbulence } from '@boktor-apps/shared/ui/assets/svgs';
 import { motion } from 'framer-motion';
 import { useAtomValue } from 'jotai';
 import styled from 'styled-components';

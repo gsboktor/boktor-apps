@@ -1,5 +1,5 @@
 import { activeDragTaskAtom, boardOperations, Task } from '@boktor-apps/nomopomo/data-access/store';
-import { DragAndDropComponent } from '@boktor-apps/shared/ui/assets';
+import { DragAndDropComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { useSortable } from '@dnd-kit/sortable';
 import { useAtomValue } from 'jotai';
 import { easeOut } from 'motion/react';

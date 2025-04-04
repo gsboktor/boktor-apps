@@ -1,5 +1,5 @@
 import { setBoardFormValues } from '@boktor-apps/nomopomo/data-access/store';
-import { ColorPickerComponent } from '@boktor-apps/shared/ui/assets';
+import { ColorPickerComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { Direction, useRenderDirection } from '@boktor-apps/shared/ui/hooks';
 import { useSetAtom } from 'jotai';
 import { AnimatePresence, motion } from 'motion/react';

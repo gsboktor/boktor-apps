@@ -1,11 +1,8 @@
-import { Noise } from '@boktor-apps/shared/ui/assets';
 import { motion } from 'motion/react';
 import React, { Suspense } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
-const SideModalMainContent = React.lazy(() =>
-  import('./components').then((module) => ({ default: module.SideModalMainContent })),
-);
+const SideModalMainContent = React.lazy(() => import('./components').then((module) => ({ default: module.SideModalMainContent })));
 
 const animate = keyframes`
     0% {
@@ -57,7 +54,6 @@ const ModalContainer = styled.div`
   display: flex;
   position: relative;
   padding: 16px;
-  /* background: linear-gradient(#f5deb36a, #f5deb36a), url(${Noise}); */
   background-color: #ffead2;
   justify-content: center;
   box-shadow: 0px 0px 64px 12px #00000015;

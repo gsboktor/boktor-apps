@@ -10,7 +10,7 @@ import {
   RestartTimerComponent,
   SkipTimerComponent,
   StartTimerComponent,
-} from '@boktor-apps/shared/ui/assets';
+} from '@boktor-apps/shared/ui/assets/svgs';
 import { motion } from 'motion/react';
 
 const TimerControlsContainer = styled.div`

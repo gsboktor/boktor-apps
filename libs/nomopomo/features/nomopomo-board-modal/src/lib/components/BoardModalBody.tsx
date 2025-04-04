@@ -1,5 +1,5 @@
 import { validateBoardForm } from '@boktor-apps/nomopomo/data-access/store';
-import { BoardComponent } from '@boktor-apps/shared/ui/assets';
+import { BoardComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { PrimaryButton } from '@boktor-apps/shared/ui/buttons';
 import { useSetAtom } from 'jotai';
 import styled from 'styled-components';

@@ -1,5 +1,5 @@
 import { deleteBoardTaskAtom } from '@boktor-apps/nomopomo/data-access/store';
-import { CloseComponent } from '@boktor-apps/shared/ui/assets';
+import { CloseComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { Popover } from '@boktor-apps/shared/ui/pop-over';
 import { useSetAtom } from 'jotai';
 import styled from 'styled-components';

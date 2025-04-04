@@ -1,5 +1,5 @@
 import { Task, timeTrackedTaskAtom, updateBoardTaskAtom } from '@boktor-apps/nomopomo/data-access/store';
-import { AddBoardComponent, RemoveFromQueueComponent } from '@boktor-apps/shared/ui/assets';
+import { AddBoardComponent, RemoveFromQueueComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { Popover } from '@boktor-apps/shared/ui/pop-over';
 import { useSetAtom } from 'jotai';
 import { useCallback } from 'react';
@@ -58,21 +58,12 @@ export const QueuedTaskActions = ({ task, theme }: { task: Task; theme: string }
         Start Tracking
       </TrackTaskButton>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 4, justifyContent: 'center', alignItems: 'center' }}>
-        <QueueIndicator
-          initial={{ backgroundColor: '#d6d6d6d6' }}
-          animate={{ backgroundColor: task.queued ? theme : '#a4a4a446' }}
-        >
+        <QueueIndicator initial={{ backgroundColor: '#d6d6d6d6' }} animate={{ backgroundColor: task.queued ? theme : '#a4a4a446' }}>
           <p style={{ margin: 0, fontSize: 12 }}>Queued</p>
         </QueueIndicator>
         <TaskIconAndLabel style={{ cursor: 'pointer' }}>
           <Popover
-            Icon={
-              !task.queued ? (
-                <AddBoardComponent width={28} height={28} />
-              ) : (
-                <RemoveFromQueueComponent width={28} height={28} />
-              )
-            }
+            Icon={!task.queued ? <AddBoardComponent width={28} height={28} /> : <RemoveFromQueueComponent width={28} height={28} />}
             iconAttr={{ style: { display: 'flex' } }}
             onClick={handleToggleTaskToQueue}
             renderHorizontal="left"

@@ -15,7 +15,7 @@ import { NomopomoSideModal } from '@boktor-apps/nomopomo/features/nomopomo-side-
 import { TaskCardStatic } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
 import { NomopomoTaskQueue } from '@boktor-apps/nomopomo/features/nomopomo-task-queue';
 import { MainTimer } from '@boktor-apps/nomopomo/features/nomopomo-timer';
-import { AddBoardComponent, HelpIconComponent } from '@boktor-apps/shared/ui/assets';
+import { AddBoardComponent, HelpIconComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable';
@@ -115,9 +115,7 @@ export const NomopomoDashboard = () => {
             height: 'fit-content',
           }}
         >
-          <div
-            style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}
-          >
+          <div style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
             <OpenQueueComponent
               onClick={() =>
                 setModalState({
@@ -130,25 +128,13 @@ export const NomopomoDashboard = () => {
             </OpenQueueComponent>
             <p style={{ margin: 0 }}>Open queue</p>
           </div>
-          <div
-            style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}
-          >
-            <AddBoardComponent
-              width={32}
-              height={32}
-              onClick={() => setModalState({ Component: NomopomoSideModal, show: true })}
-            />
+          <div style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
+            <AddBoardComponent width={32} height={32} onClick={() => setModalState({ Component: NomopomoSideModal, show: true })} />
             <p style={{ margin: 0 }}>Add Board</p>
           </div>
 
-          <div
-            style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}
-          >
-            <HelpIconComponent
-              width={32}
-              height={32}
-              onClick={() => setModalState({ Component: BoardModal, show: true })}
-            />
+          <div style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
+            <HelpIconComponent width={32} height={32} onClick={() => setModalState({ Component: BoardModal, show: true })} />
             <p style={{ margin: 0 }}>Get Help</p>
           </div>
         </div>

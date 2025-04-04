@@ -4,7 +4,7 @@ import {
   ClockComponent,
   CompletedCyclesComponent,
   RemoveFromQueueComponent,
-} from '@boktor-apps/shared/ui/assets';
+} from '@boktor-apps/shared/ui/assets/svgs';
 import { Popover } from '@boktor-apps/shared/ui/pop-over';
 import { useSetAtom } from 'jotai';
 import { AnimatePresence, motion } from 'motion/react';
@@ -127,11 +127,7 @@ export const TaskPreviewDetails = ({ task, theme }: { task: Task; theme?: string
           <Popover
             Icon={
               <AnimatePresence>
-                {!task.queued ? (
-                  <AddBoardComponent width={28} height={28} />
-                ) : (
-                  <RemoveFromQueueComponent width={28} height={28} />
-                )}
+                {!task.queued ? <AddBoardComponent width={28} height={28} /> : <RemoveFromQueueComponent width={28} height={28} />}
               </AnimatePresence>
             }
             iconAttr={{ style: { display: 'flex' } }}

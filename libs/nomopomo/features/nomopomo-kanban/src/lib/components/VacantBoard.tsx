@@ -1,5 +1,5 @@
 import { activeDragTaskAtom, boardOperations } from '@boktor-apps/nomopomo/data-access/store';
-import { AddIconComponent, DropCardComponent } from '@boktor-apps/shared/ui/assets';
+import { AddIconComponent, DropCardComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { useAtomValue } from 'jotai';
 import { AnimatePresence, motion, useAnimate } from 'motion/react';
 import { RefObject, useEffect } from 'react';
@@ -135,8 +135,7 @@ export const VacantBoard = ({
                   margin: 0,
                   display: '-webkit-box',
                   fontWeight: 600,
-                  color:
-                    overlayTask?.parentBoardKey && (getBoardConfigByKey(overlayTask.parentBoardKey).theme ?? '#d6d6d6'),
+                  color: overlayTask?.parentBoardKey && (getBoardConfigByKey(overlayTask.parentBoardKey).theme ?? '#d6d6d6'),
                   filter: `brightness(0.7)`,
                   WebkitLineClamp: 4,
                   overflow: 'hidden',

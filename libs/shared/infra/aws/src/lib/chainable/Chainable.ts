@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { outputs } from '../outputs';
-import { ChainableBaseParams, ChainableConstructs } from '../types/chainable';
+import { ChainableConstructs } from '../types/chainable';
 import { Context, EnvironmentConfig } from '../types/environment';
 import { withBucketDeployment } from '../withBucketDeployment';
 import { withCertificate } from '../withCertificate';
@@ -43,8 +43,8 @@ export function Chainable(scope: Construct, config: EnvironmentConfig, tags?: Va
   };
 }
 
-export function createAbstraction<C extends Construct, T extends ChainableBaseParams<C>>(this: Context) {
-  return function () {
-    console.log();
-  };
-}
+// export function createAbstraction<TConstructOut extends Construct | Construct[], T extends ChainableBaseParams<TConstructOut>>(this: Context) {
+//   return function (input: T) {
+//     console.log();
+//   };
+// }

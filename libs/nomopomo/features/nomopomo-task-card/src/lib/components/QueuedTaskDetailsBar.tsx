@@ -1,5 +1,5 @@
 import { Task } from '@boktor-apps/nomopomo/data-access/store';
-import { ClockComponent } from '@boktor-apps/shared/ui/assets';
+import { ClockComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import styled from 'styled-components';
 
 export const DetailsBarContainer = styled.div`

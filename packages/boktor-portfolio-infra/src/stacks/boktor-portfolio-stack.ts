@@ -12,7 +12,7 @@ export class BoktorPortfolioStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: BoktorPortfolioStackProps) {
     super(scope, id, props);
 
-    const { withS3, withCloudFront, withBucketDeployment, outputs, withCertificate, withHostedZone, withRoute53, ...c } = Chainable(
+    const { withS3, withCloudFront, withBucketDeployment, outputs, withCertificate, withHostedZone, withRoute53 } = Chainable(
       this,
       props.environmentConfig,
       {

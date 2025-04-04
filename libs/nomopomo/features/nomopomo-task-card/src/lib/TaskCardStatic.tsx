@@ -1,17 +1,10 @@
 import { boardOperations, Task } from '@boktor-apps/nomopomo/data-access/store';
-import { DragAndDropComponent } from '@boktor-apps/shared/ui/assets';
+import { DragAndDropComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { ChipCard } from '@boktor-apps/shared/ui/cards';
 import { useAtomValue } from 'jotai';
 import { forwardRef, useMemo } from 'react';
 import { DeleteTaskButton, EmojiTag, TaskPreviewDetails } from './components';
-import {
-  CardContainer,
-  DragWrapper,
-  TaskCardDesc,
-  TaskCardName,
-  TaskPreviewBody,
-  TaskTagContainer,
-} from './TaskCard.styles';
+import { CardContainer, DragWrapper, TaskCardDesc, TaskCardName, TaskPreviewBody, TaskTagContainer } from './TaskCard.styles';
 
 export const TaskCardStatic = forwardRef<HTMLDivElement, { task: Task }>(({ task }: { task: Task }, ref) => {
   const { getBoardConfigByKey } = useAtomValue(boardOperations);
