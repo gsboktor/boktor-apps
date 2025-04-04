@@ -12,7 +12,7 @@ export { default as CompletedCycles, ReactComponent as CompletedCyclesComponent 
 export { default as DragAndDrop, ReactComponent as DragAndDropComponent } from './drag-and-drop.svg';
 export { default as DropCard, ReactComponent as DropCardComponent } from './DropCardIcon.svg';
 export { default as HelpIcon, ReactComponent as HelpIconComponent } from './HelpIcon.svg';
-export { default as Noise, ReactComponent as NoiseComponent } from './noise.svg';
+export { ReactComponent as NoiseComponent, default as NoiseE } from './noise.svg';
 export { default as NomopomoLetters, ReactComponent as NomopomoLettersComponent } from './nomopomo-letters.svg';
 export { default as Nomopomo, ReactComponent as NomopomoComponent } from './nomopomo.svg';
 export { default as PauseTimer, ReactComponent as PauseTimerComponent } from './pause_timer.svg';

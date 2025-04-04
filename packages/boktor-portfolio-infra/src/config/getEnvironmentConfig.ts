@@ -14,14 +14,14 @@ export const getEnvironmentConfig = (context: string): EnvironmentConfig => {
   const enviornmentMapper: Record<string, EnvironmentConfig> = {
     ['development']: {
       environment: 'dev',
-      domainName: 'georgeboktor.io',
+      domainName: 'georgeboktor.me',
       subDomain: 'dev',
-      basicAuthUsername: process.env.LAMBDA_BASIC_AUTH_USERNAME,
-      basicAuthPassword: process.env.LAMBDA_BASIC_AUTH_PASSWORD,
+      hostedZoneId: 'Z03586791PPKQOUHDUV9J',
     },
     ['production']: {
       environment: 'prod',
-      domainName: 'georgeboktor.io',
+      domainName: 'georgeboktor.me',
+      hostedZoneId: 'Z03586791PPKQOUHDUV9J',
     },
   };
 

@@ -58,7 +58,9 @@ const SubheaderRightBox = styled.div`
 const IntroductionBoxHeader = styled.h1`
   display: inline;
   color: #2a2a2ae1;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  text-overflow: 'ellipsis';
+  font-family: 'Merriweather';
+  font-weight: 300;
 `;
 
 const IntroductionContent = styled.div`
@@ -78,7 +80,12 @@ export const MainLayout = () => {
             <ColorBlob color="#b19b8b" right={-64} bottom={-120} zIndex={-1} />
             <BlurBox>
               <IntroductionContent>
-                <IntroductionBoxHeader>Hi, I'm George</IntroductionBoxHeader>
+                <IntroductionBoxHeader>
+                  <span role="img" aria-label="wave" tabIndex={0}>
+                    👋
+                  </span>{' '}
+                  Hi, I'm George
+                </IntroductionBoxHeader>
               </IntroductionContent>
             </BlurBox>
           </HeaderBox>

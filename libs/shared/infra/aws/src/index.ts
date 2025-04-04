@@ -1,1 +1,2 @@
-export * from './lib/withChaining/withChaining';
+export * from './lib/chainable';
+export * from './lib/types';

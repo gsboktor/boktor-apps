@@ -1,0 +1,9 @@
+{
+  "name": "libs/boktor-portfolio/features/menu-overlay",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/boktor-portfolio/features/menu-overlay/src",
+  "projectType": "library",
+  "tags": ["scope:client"],
+  "// targets": "to see all targets run: nx show project libs/boktor-portfolio/features/menu-overlay --web",
+  "targets": {}
+}
