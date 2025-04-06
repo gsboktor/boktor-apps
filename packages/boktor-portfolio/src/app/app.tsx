@@ -1,12 +1,25 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { showMenuAtom } from '@boktor-apps/boktor-portfolio/data-access/store';
-import { HomePage } from '@boktor-apps/boktor-portfolio/features/home-page';
+import { HomePage, TopBar } from '@boktor-apps/boktor-portfolio/features/home-page';
 import { MenuOverlay } from '@boktor-apps/boktor-portfolio/features/menu-overlay';
+import { PersonalDetailsProvider } from '@boktor-apps/boktor-portfolio/ui/providers';
+
+import { CmdCTA } from '@boktor-apps/boktor-portfolio/features/home-page';
 import { Noise } from '@boktor-apps/shared/ui/assets';
 import { useAtom, useAtomValue } from 'jotai';
 import { AnimatePresence } from 'motion/react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+
+const AppContainer = styled.div`
+  position: relative;
+  display: flex;
+  max-width: 1920px;
+  width: 100%;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+`;
 
 const RootContainer = styled.div<{ noise: string }>`
   position: absolute;
@@ -20,10 +33,9 @@ const RootContainer = styled.div<{ noise: string }>`
   box-sizing: border-box;
   background-color: #1d1d1d;
   background-image: url('${(props) => props.noise}');
-
-  background-size: 200px 200px; /* Adjust size as needed */
+  background-size: 150px 150px; /* Adjust size as needed */
   background-blend-mode: soft-light;
-  opacity: 0.1; /* Adjust for subtlety */
+  opacity: 0.25; /* Adjust for subtlety */
 `;
 
 export function App() {
@@ -33,26 +45,28 @@ export function App() {
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      // Check if CMD (Mac) or CTRL (Windows) is pressed along with 'g'
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'g') {
-        event.preventDefault(); // Prevent default browser behavior
+        event.preventDefault();
         setShowOverlay((prev) => !prev);
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
 
-    // Cleanup listener on component unmount
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
   }, [setShowOverlay]);
   return (
-    <>
-      <RootContainer noise={Noise.default}></RootContainer>
-      <HomePage />
+    <PersonalDetailsProvider>
+      <RootContainer noise={Noise.default} />
+      <TopBar />
+      <AppContainer id="app-container">
+        <HomePage />
+      </AppContainer>
+      <CmdCTA />
       <AnimatePresence>{showMenu && <MenuOverlay />}</AnimatePresence>
-    </>
+    </PersonalDetailsProvider>
   );
 }
 

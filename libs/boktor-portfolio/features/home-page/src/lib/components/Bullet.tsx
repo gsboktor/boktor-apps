@@ -13,7 +13,7 @@ const BulletPoint = styled(motion.div)`
   overflow: hidden;
 `;
 
-const Ball = styled(motion.div)`
+export const Ball = styled(motion.div)`
   position: absolute;
   width: 16px;
   height: 16px;

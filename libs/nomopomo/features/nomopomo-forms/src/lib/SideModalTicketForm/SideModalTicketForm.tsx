@@ -194,7 +194,9 @@ export const SideModalTicketForm = () => {
               label={'Chip tag'}
               actionButtonAttr={{ style: { padding: 4 } }}
               labelAttr={{ style: { fontSize: 10 } }}
-              onActionClick={() => {}}
+              onActionClick={() => {
+                console.log('noop');
+              }}
             />
             <AddIconComponent width={24} height={24} />
           </Tags>

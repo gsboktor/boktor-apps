@@ -48,15 +48,16 @@ export const StyledText = ({
   weight = Weight.Heavy,
   color = 'white',
   underline = false,
+  ...rest
 }: {
   children: React.ReactNode;
   size?: Size;
   weight?: Weight;
   color?: string;
   underline?: boolean;
-}) => {
+} & React.HTMLAttributes<HTMLParagraphElement>) => {
   return (
-    <StyledTextBlock s={size} w={weight} c={color} u={underline}>
+    <StyledTextBlock s={size} w={weight} c={color} u={underline} {...rest}>
       {children}
     </StyledTextBlock>
   );

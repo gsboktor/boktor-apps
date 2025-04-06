@@ -1,3 +1,5 @@
+import { motion } from 'motion/react';
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 const HomePageContentContainer = styled.div`
@@ -14,6 +16,10 @@ const HomePageContentContainer = styled.div`
   justify-content: flex-start;
   gap: 58px;
 
+  @media screen and (width < 1364px) {
+    top: 72px;
+  }
+
   @media screen and (width < 768px) {
     left: 0px;
     right: 0px;
@@ -21,6 +27,12 @@ const HomePageContentContainer = styled.div`
   }
 `;
 
-export const HomePageContentBlock = ({ children }: { children: React.ReactNode }) => {
-  return <HomePageContentContainer>{children}</HomePageContentContainer>;
-};
+export const HomePageContentBlock = motion(
+  forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
+    return (
+      <HomePageContentContainer ref={ref} {...props}>
+        {props.children}
+      </HomePageContentContainer>
+    );
+  }),
+);

@@ -7,7 +7,10 @@ export const useOutOfBounds = (ref: RefObject<HTMLElement>, onOutOfBounds: () =>
 
   useEffect(() => {
     const handleMouseDown = (ev: MouseEvent) => {
-      if (ref && !ref.current?.contains(ev.target as Node)) {
+      console.log('onMousedown', ev);
+      if (ref && !ref.current?.contains(ev.target as Element)) {
+        console.log('outside target');
+
         callbackFn.current?.();
       }
     };

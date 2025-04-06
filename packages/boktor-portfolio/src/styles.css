@@ -1,5 +1,30 @@
 html {
   --color-dark-gray: #1d1d1d;
+  --menu-mask-to-right: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.95) 30%,
+    rgba(0, 0, 0, 0.4) 70%,
+    rgba(0, 0, 0, 0.3) 80%,
+    transparent 100%
+  );
+  --menu-mask-to-left: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0.95) 30%,
+    rgba(0, 0, 0, 0.4) 70%,
+    rgba(0, 0, 0, 0.3) 80%,
+    transparent 100%
+  );
+
+  ::-moz-selection {
+    /* Code for Firefox */
+    color: rgb(0, 0, 0);
+    background: #008578;
+  }
+
+  ::selection {
+    color: rgb(0, 0, 0);
+    background: #008578;
+  }
 }
 
 body {
