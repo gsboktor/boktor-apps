@@ -7,7 +7,7 @@ const Backdrop = styled.div`
   padding: 4px 8px;
   border-radius: 8px;
   box-sizing: border-box;
-  background-color: #006056;
+  background-color: var(--color-accent-semi-transparent);
   transition: all 175ms ease-in-out;
   backdrop-filter: blur(6px);
   cursor: pointer;

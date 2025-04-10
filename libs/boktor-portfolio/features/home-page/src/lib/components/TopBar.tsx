@@ -1,7 +1,7 @@
+import { Size, StyledText } from '@boktor-apps/boktor-portfolio/ui/components';
 import { AnimatePresence, motion, useAnimationControls } from 'motion/react';
 import { useRef } from 'react';
 import styled from 'styled-components';
-import { Size, StyledText } from './StyledText';
 
 const WithHoverText = styled(StyledText)`
   transition: all 500ms ease-in-out;
@@ -37,6 +37,10 @@ const Col = styled(motion.a)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const AccentBall = styled(motion.div)`
+  background-color: var(--color-accent);
 `;
 
 export const TopBarItem = ({ label, href }: { label: string; href: string }) => {
@@ -95,7 +99,7 @@ export const TopBarItem = ({ label, href }: { label: string; href: string }) => 
       <WithHoverText style={{ fontSize: 20 }}>{label}</WithHoverText>
       <AnimatePresence>
         (
-        <motion.div
+        <AccentBall
           initial={{
             position: 'absolute',
             bottom: -8,
@@ -104,7 +108,6 @@ export const TopBarItem = ({ label, href }: { label: string; href: string }) => 
             right: 0,
             left: 0,
             margin: 'auto',
-            backgroundColor: '#008578',
             width: 0,
             height: 0,
             borderRadius: '50%',
@@ -117,7 +120,6 @@ export const TopBarItem = ({ label, href }: { label: string; href: string }) => 
   );
 };
 export const TopBar = () => {
-  //
   return (
     <TopBarContainer>
       <TopBarItem label="github" href="https://github.com/gsboktor" />

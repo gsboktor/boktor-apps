@@ -1,6 +1,7 @@
+import { motion } from 'motion/react';
 import styled from 'styled-components';
 
-const DetailsContentBlock = styled.div<{ $offset?: number }>`
+const DetailsContentBlock = styled(motion.div)<{ $offset?: number }>`
   position: absolute;
   padding: 16px 0px;
   top: 168px;
@@ -28,8 +29,25 @@ const DetailsContentBlock = styled.div<{ $offset?: number }>`
     right: 0px;
     margin: auto;
   }
+
+  @media screen and (height < 900px) and (width < 1364px) {
+    bottom: 0px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    background-color: #000000c5;
+    backdrop-filter: blur(16px);
+    border-radius: 12px;
+    padding: 24px;
+    z-index: ${Number.MAX_SAFE_INTEGER + 1};
+  }
 `;
 
-export const DetailsBlock = ({ children, offset }: { children: React.ReactNode; offset?: number }) => {
-  return <DetailsContentBlock $offset={offset}>{children}</DetailsContentBlock>;
-};
+export const DetailsBlock = motion(({ children, offset, ...rest }: { children: React.ReactNode; offset?: number }) => {
+  return (
+    <DetailsContentBlock $offset={offset} {...rest}>
+      {children}
+    </DetailsContentBlock>
+  );
+});

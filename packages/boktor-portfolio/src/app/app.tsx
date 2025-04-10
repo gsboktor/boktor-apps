@@ -1,15 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { showMenuAtom } from '@boktor-apps/boktor-portfolio/data-access/store';
-import { HomePage, TopBar } from '@boktor-apps/boktor-portfolio/features/home-page';
+import { TopBar } from '@boktor-apps/boktor-portfolio/features/home-page';
 import { MenuOverlay } from '@boktor-apps/boktor-portfolio/features/menu-overlay';
-import { PersonalDetailsProvider } from '@boktor-apps/boktor-portfolio/ui/providers';
 
 import { CmdCTA } from '@boktor-apps/boktor-portfolio/features/home-page';
+import { ToastList } from '@boktor-apps/boktor-portfolio/ui/components';
 import { Noise } from '@boktor-apps/shared/ui/assets';
 import { useAtom, useAtomValue } from 'jotai';
 import { AnimatePresence } from 'motion/react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { Router } from '../router/router';
 
 const AppContainer = styled.div`
   position: relative;
@@ -18,6 +19,7 @@ const AppContainer = styled.div`
   width: 100%;
   left: 0px;
   right: 0px;
+  min-height: 98vh;
   margin: auto;
 `;
 
@@ -58,15 +60,16 @@ export function App() {
     };
   }, [setShowOverlay]);
   return (
-    <PersonalDetailsProvider>
+    <>
       <RootContainer noise={Noise.default} />
       <TopBar />
       <AppContainer id="app-container">
-        <HomePage />
+        <Router />
+        <ToastList />
       </AppContainer>
       <CmdCTA />
       <AnimatePresence>{showMenu && <MenuOverlay />}</AnimatePresence>
-    </PersonalDetailsProvider>
+    </>
   );
 }
 

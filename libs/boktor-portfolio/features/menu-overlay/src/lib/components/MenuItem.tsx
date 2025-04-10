@@ -1,5 +1,5 @@
-import { Size, StyledText } from '@boktor-apps/boktor-portfolio/features/home-page';
-import { motion, useAnimationControls } from 'motion/react';
+import { Size, StyledText } from '@boktor-apps/boktor-portfolio/ui/components';
+import { HTMLMotionProps, motion, useAnimationControls } from 'motion/react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -11,18 +11,25 @@ const MenuIndicator = styled(motion.div)`
   bottom: 0px;
   width: 36px;
   height: 36px;
-  background-color: #008578;
+  background-color: var(--color-accent);
   border-radius: 50%;
 `;
 
-const MenuItemContainer = styled(motion.div)`
+const MenuItemContainer = styled(motion.button)`
+  background-color: transparent;
+  outline: none;
+  border: none;
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
 
-export const MenuItem = ({ label, animationDelay }: { label: string; animationDelay: number }) => {
+export const MenuItem = ({
+  label,
+  animationDelay,
+  ...rest
+}: { label: string; animationDelay: number } & Omit<HTMLMotionProps<'button'>, 'ref'>) => {
   const containerControls = useAnimationControls();
   const indicatorControls = useAnimationControls();
 
@@ -48,10 +55,12 @@ export const MenuItem = ({ label, animationDelay }: { label: string; animationDe
 
   return (
     <MenuItemContainer
+      role="button"
       layout
       initial={{ x: -400, cursor: 'pointer', width: 'fit-content' }}
       animate={containerControls}
       transition={{ delay: animationDelay, type: 'spring' }}
+      {...rest}
     >
       <MenuIndicator initial={{ x: -100 }} animate={indicatorControls} />
       <StyledText size={Size.LG} onMouseOver={animateIn} onMouseLeave={animateOut}>

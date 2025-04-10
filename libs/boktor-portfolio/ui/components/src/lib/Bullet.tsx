@@ -3,12 +3,14 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Size, StyledText } from './StyledText';
 
-const BulletPoint = styled(motion.div)`
+const BulletPoint = styled(motion.button)`
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
+  border: none;
+  outline: none;
   cursor: pointer;
   overflow: hidden;
 `;
@@ -17,11 +19,19 @@ export const Ball = styled(motion.div)`
   position: absolute;
   width: 16px;
   height: 16px;
-  background-color: #008578;
+  background-color: var(--color-accent);
   z-index: 100;
 `;
 
-export const Bullet = ({ cta, direction = 'right' }: { cta: string; direction?: 'left' | 'right' }) => {
+export const Bullet = ({
+  cta,
+  direction = 'right',
+  handleClick,
+}: {
+  cta: string;
+  direction?: 'left' | 'right';
+  handleClick?: React.HTMLAttributes<HTMLButtonElement>['onClick'];
+}) => {
   const controls = useAnimationControls();
   const [isHovered, setIsHovered] = useState(false);
   const [content, setShowContent] = useState(false);
@@ -29,7 +39,6 @@ export const Bullet = ({ cta, direction = 'right' }: { cta: string; direction?: 
 
   useEffect(() => {
     if (!isHovered) {
-      // First shrink height, then width
       setShowContent(false);
       suspendHover.current = true;
       controls
@@ -46,7 +55,6 @@ export const Bullet = ({ cta, direction = 'right' }: { cta: string; direction?: 
               transition: { duration: 0.25 },
             })
             .then(() => {
-              // Start breathing animation after shrinking
               suspendHover.current = false;
               controls.start({
                 scale: [1, 1.3, 1],
@@ -62,7 +70,6 @@ export const Bullet = ({ cta, direction = 'right' }: { cta: string; direction?: 
         });
     } else {
       controls.stop();
-      // First grow width, then height
       controls
         .start({
           scale: 1,
@@ -81,10 +88,15 @@ export const Bullet = ({ cta, direction = 'right' }: { cta: string; direction?: 
             });
         });
     }
+
+    return () => {
+      controls.stop();
+    };
   }, [isHovered, controls, content]);
 
   return (
     <BulletPoint
+      onClick={(e) => handleClick?.(e)}
       style={{ willChange: 'transform, height, width' }}
       initial={{
         borderRadius: '50%',

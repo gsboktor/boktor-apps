@@ -1,6 +1,5 @@
+import { Bullet, Size, StyledText } from '@boktor-apps/boktor-portfolio/ui/components';
 import styled from 'styled-components';
-import { Bullet } from './Bullet';
-import { Size, StyledText } from './StyledText';
 
 const CmdCTAContainer = styled.div`
   display: flex;

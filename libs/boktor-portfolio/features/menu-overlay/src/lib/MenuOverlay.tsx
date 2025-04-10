@@ -1,6 +1,7 @@
 import { showMenuAtom } from '@boktor-apps/boktor-portfolio/data-access/store';
 import { useOutOfBounds } from '@boktor-apps/shared/ui/hooks';
 
+import { useNav } from '@boktor-apps/boktor-portfolio/data-access/hooks';
 import { useSetAtom } from 'jotai';
 import { motion } from 'motion/react';
 import { useRef } from 'react';
@@ -42,13 +43,15 @@ export const MenuOverlay = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   useOutOfBounds(menuRef, () => setShowOverlay(false));
 
+  const { navigate } = useNav();
+
   return (
     <MenuOverlayBlurContainer initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <MenuItemsContainer id="items_container" ref={menuRef}>
-        <MenuItem label="home" animationDelay={0.15} />
-        <MenuItem label="contact me" animationDelay={0.25} />
+        <MenuItem label="home" animationDelay={0.15} onClick={() => navigate('/')} />
+        <MenuItem label="contact me" animationDelay={0.25} onClick={() => navigate('/contact')} />
         <MenuItem label="projects" animationDelay={0.35} />
-        <MenuItem label="resume" animationDelay={0.45} />
+        <MenuItem label="resume" animationDelay={0.45} onClick={() => navigate('/resume')} />
       </MenuItemsContainer>
     </MenuOverlayBlurContainer>
   );

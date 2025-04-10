@@ -27,11 +27,23 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "development",
       "configurations": {
+        "local": {
+          "optimization": false,
+          "environment": {
+            "NODE_ENV": "local"
+          }
+        },
         "development": {
-          "optimization": false
+          "optimization": false,
+          "environment": {
+            "NODE_ENV": "development"
+          }
         },
         "production": {
-          "optimization": true
+          "optimization": true,
+          "environment": {
+            "NODE_ENV": "production"
+          }
         }
       },
       "options": {

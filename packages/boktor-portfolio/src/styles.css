@@ -1,5 +1,8 @@
 html {
   --color-dark-gray: #1d1d1d;
+  --color-accent: #008578;
+  --color-accent-semi-transparent: #006056;
+
   --menu-mask-to-right: linear-gradient(
     to right,
     rgba(0, 0, 0, 0.95) 30%,
@@ -29,6 +32,7 @@ html {
 
 body {
   background-color: var(--color-dark-gray);
+  overscroll-behavior: none;
 }
 
 @font-face {
