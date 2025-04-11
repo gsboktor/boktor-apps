@@ -104,7 +104,7 @@ export const ContactPage = () => {
 
   return (
     <>
-      <PageHeader header="contact me" subHeader="*as of april 2025" style={{ top: 48 }} cta="Hover for details" />
+      <PageHeader header="contact me" subHeader="*as of april 2025" cta="Hover for details" />
       <ContactPageContainer>
         <CardsContainer ref={containerRef}>
           <HoverCard

@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { showMenuAtom } from '@boktor-apps/boktor-portfolio/data-access/store';
-import { TopBar } from '@boktor-apps/boktor-portfolio/features/home-page';
+import { BottomBar, TopBar } from '@boktor-apps/boktor-portfolio/features/home-page';
 import { MenuOverlay } from '@boktor-apps/boktor-portfolio/features/menu-overlay';
 
 import { CmdCTA } from '@boktor-apps/boktor-portfolio/features/home-page';
@@ -9,6 +9,7 @@ import { Noise } from '@boktor-apps/shared/ui/assets';
 import { useAtom, useAtomValue } from 'jotai';
 import { AnimatePresence } from 'motion/react';
 import { useEffect } from 'react';
+import { useMedia } from 'react-use';
 import styled from 'styled-components';
 import { Router } from '../router/router';
 
@@ -20,6 +21,8 @@ const AppContainer = styled.div`
   left: 0px;
   right: 0px;
   min-height: 98vh;
+  max-height: 98vh;
+  overflow: scroll;
   margin: auto;
 `;
 
@@ -42,8 +45,9 @@ const RootContainer = styled.div<{ noise: string }>`
 
 export function App() {
   const showMenu = useAtomValue(showMenuAtom);
-
   const [, setShowOverlay] = useAtom(showMenuAtom);
+
+  const isMobile = useMedia('(width < 768px)');
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -63,11 +67,12 @@ export function App() {
     <>
       <RootContainer noise={Noise.default} />
       <TopBar />
+      <BottomBar />
       <AppContainer id="app-container">
         <Router />
         <ToastList />
       </AppContainer>
-      <CmdCTA />
+      {!isMobile && <CmdCTA />}
       <AnimatePresence>{showMenu && <MenuOverlay />}</AnimatePresence>
     </>
   );

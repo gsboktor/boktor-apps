@@ -4,7 +4,6 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = composePlugins(withNx(), withReact(), (config) => {
-  config.devtool = 'source-map';
   config.plugins.push(
     new CopyWebpackPlugin({
       patterns: [

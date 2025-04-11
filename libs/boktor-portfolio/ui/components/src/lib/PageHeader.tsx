@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { useMedia } from 'react-use';
 import { AnimatedBlurBox } from './AnimatedBlurBox';
 import { RowBlock } from './Blocks';
 import { Bullet } from './Bullet';
@@ -11,6 +12,8 @@ export type PageHeaderProps = {
   onClick?: React.HTMLAttributes<HTMLButtonElement>['onClick'];
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'>;
 export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(({ ...props }, ref) => {
+  const isMobile = useMedia('(width < 768px)');
+
   return (
     <AnimatedBlurBox
       ref={ref}
@@ -21,6 +24,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(({ ...prop
         gap: 16,
         justifyContent: 'center',
         left: 64,
+        top: isMobile ? 88 : 48,
         width: 'fit-content',
         ...props.style,
       }}

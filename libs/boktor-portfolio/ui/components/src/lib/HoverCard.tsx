@@ -64,7 +64,7 @@ type HoverCardProps = {
   labelHeader: string;
   labelSubheader: string;
   iconLabel: string;
-  addItem: (id: string) => void;
+  addItem?: (id: string) => void;
 } & HTMLMotionProps<'button'>;
 
 export const HoverCard = forwardRef<HTMLButtonElement, HoverCardProps>(({ ...props }: HoverCardProps, buttonRef) => {
@@ -75,7 +75,7 @@ export const HoverCard = forwardRef<HTMLButtonElement, HoverCardProps>(({ ...pro
   const [showHighlighter, setShowHighlighter] = useState<boolean>(false);
 
   const handleSetHighlighter = useCallback(() => {
-    props.addItem(props.id ?? '');
+    props.addItem?.(props.id ?? '');
 
     setShowHighlighter(true);
     hoverIconControls.start({ backgroundColor: '#008578' });

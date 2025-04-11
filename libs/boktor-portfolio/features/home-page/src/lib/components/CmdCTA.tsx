@@ -5,7 +5,7 @@ const CmdCTAContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 12px;
-  position: absolute;
+  position: fixed;
   bottom: 16px;
   right: 16px;
   align-items: center;

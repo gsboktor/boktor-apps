@@ -1,10 +1,10 @@
 import { removeToastAtom, Toast } from '@boktor-apps/boktor-portfolio/data-access/store';
-import { LightningComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { useSetAtom } from 'jotai';
 import { motion, useAnimationControls } from 'motion/react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AnimatedBlurBox } from '../AnimatedBlurBox';
+import { ReactComponent as LightningComponent } from '../assets/lightning.svg';
 import { Ball } from '../Bullet';
 import { StyledText } from '../StyledText';
 

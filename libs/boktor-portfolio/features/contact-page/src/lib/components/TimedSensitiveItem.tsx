@@ -1,10 +1,10 @@
 import { pushToastsAtom } from '@boktor-apps/boktor-portfolio/data-access/store';
 import { AnimatedBlurBox, Ball, Size, StyledText } from '@boktor-apps/boktor-portfolio/ui/components';
-import { CopyComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { useSetAtom } from 'jotai';
 import { motion, useAnimationControls } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { CopyComponent } from '../assets';
 
 const LIMIT = 10;
 

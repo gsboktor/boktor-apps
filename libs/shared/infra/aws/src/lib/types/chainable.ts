@@ -47,6 +47,7 @@ interface WithBucketDeploymentConfig {
   assetPath: string;
   bucket: s3.Bucket;
   distribution: cf.Distribution;
+  limit?: number;
 }
 
 interface WithCertificateConfig {

@@ -48,10 +48,10 @@ export const MenuOverlay = () => {
   return (
     <MenuOverlayBlurContainer initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <MenuItemsContainer id="items_container" ref={menuRef}>
-        <MenuItem label="home" animationDelay={0.15} onClick={() => navigate('/')} />
-        <MenuItem label="contact me" animationDelay={0.25} onClick={() => navigate('/contact')} />
-        <MenuItem label="projects" animationDelay={0.35} />
-        <MenuItem label="resume" animationDelay={0.45} onClick={() => navigate('/resume')} />
+        <MenuItem key={0} label="home" animationDelay={0.15} onClick={() => navigate('/')} />
+        <MenuItem key={1} label="contact me" animationDelay={0.25} onClick={() => navigate('/contact')} />
+        <MenuItem key={2} label="projects" animationDelay={0.35} onClick={() => navigate('/projects')} />
+        <MenuItem key={3} label="resume" animationDelay={0.45} onClick={() => navigate('/resume')} />
       </MenuItemsContainer>
     </MenuOverlayBlurContainer>
   );
