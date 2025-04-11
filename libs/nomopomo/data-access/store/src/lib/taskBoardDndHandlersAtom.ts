@@ -40,9 +40,7 @@ export const handleBoardsDragOver = atom<null, [DragOverEvent], void>(null, (get
   }
 
   const activeTask = get(activeDragTaskAtom);
-  const targetBoard = boards.includes(String(e.over?.id))
-    ? String(e.over?.id)
-    : (e.over?.data.current?.prevBoardKey as string);
+  const targetBoard = boards.includes(String(e.over?.id)) ? String(e.over?.id) : (e.over?.data.current?.prevBoardKey as string);
   if (activeTask?.id && targetBoard) {
     set(activeDragTaskAtom, { ...activeTask, parentBoardKey: targetBoard });
   }

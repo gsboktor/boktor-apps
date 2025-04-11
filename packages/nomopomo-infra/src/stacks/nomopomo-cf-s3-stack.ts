@@ -17,9 +17,7 @@ interface NomopomoCfS3StackProps extends cdk.StackProps {
 }
 
 export class NomopomoCfS3Stack extends cdk.Stack {
-  private readonly provisionLambdaAuthorizer = (
-    envConfig: EnvironmentConfig,
-  ): cloudfront.experimental.EdgeFunction | undefined => {
+  private readonly provisionLambdaAuthorizer = (envConfig: EnvironmentConfig): cloudfront.experimental.EdgeFunction | undefined => {
     if (envConfig.environment != 'prod') {
       const authSecret = new BasicAuthSecret(this, `nomopomo-basic-auth-construct-${envConfig.environment}`, {
         env: envConfig.environment,
@@ -78,33 +76,29 @@ export class NomopomoCfS3Stack extends cdk.Stack {
     const lambdaAuthorizer = this.provisionLambdaAuthorizer(props.environmentConfig);
 
     // Create CloudFront distribution
-    const distribution = new cloudfront.Distribution(
-      this,
-      `nomopomo-cfn-distribution-${props.environmentConfig.environment}`,
-      {
-        defaultBehavior: {
-          origin: origins.S3BucketOrigin.withOriginAccessControl(websiteBucket),
-          edgeLambdas: lambdaAuthorizer && [
-            {
-              functionVersion: lambdaAuthorizer.currentVersion,
-              eventType: cloudfront.LambdaEdgeEventType.VIEWER_REQUEST,
-            },
-          ],
-          viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-          allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
-          cachedMethods: cloudfront.CachedMethods.CACHE_GET_HEAD,
-          compress: true,
-        },
-        defaultRootObject: 'index.html',
-        errorResponses: [
+    const distribution = new cloudfront.Distribution(this, `nomopomo-cfn-distribution-${props.environmentConfig.environment}`, {
+      defaultBehavior: {
+        origin: origins.S3BucketOrigin.withOriginAccessControl(websiteBucket),
+        edgeLambdas: lambdaAuthorizer && [
           {
-            httpStatus: 404,
-            responseHttpStatus: 200,
-            responsePagePath: '/index.html',
+            functionVersion: lambdaAuthorizer.currentVersion,
+            eventType: cloudfront.LambdaEdgeEventType.VIEWER_REQUEST,
           },
         ],
+        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
+        cachedMethods: cloudfront.CachedMethods.CACHE_GET_HEAD,
+        compress: true,
       },
-    );
+      defaultRootObject: 'index.html',
+      errorResponses: [
+        {
+          httpStatus: 404,
+          responseHttpStatus: 200,
+          responsePagePath: '/index.html',
+        },
+      ],
+    });
 
     const userPoolConstruct = new CognitoUserPool(this, {
       id: `nomopomo-cognito-user-pool-construct-${props.environmentConfig.environment}`,
