@@ -61,7 +61,6 @@ const HoverCardWithLogos = styled(motion.div)`
 
 const LogosContainer = styled(motion.div)`
   width: 100%;
-  overflow: scroll;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

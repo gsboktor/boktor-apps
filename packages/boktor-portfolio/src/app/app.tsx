@@ -22,7 +22,6 @@ const AppContainer = styled.div`
   right: 0px;
   min-height: 98vh;
   max-height: 98vh;
-  overflow: scroll;
   margin: auto;
 `;
 
