@@ -9,12 +9,9 @@ const timerActiveAtom = atomWithStorage<boolean>(generateKey('timer-active'), fa
   getOnInit: true,
 });
 
-const timerModeAtom = atomWithStorage<PomoTimerMode>(
-  generateKey('timer-mode'),
-  PomoTimerMode.WORK,
-  storage<PomoTimerMode>(),
-  { getOnInit: true },
-);
+const timerModeAtom = atomWithStorage<PomoTimerMode>(generateKey('timer-mode'), PomoTimerMode.WORK, storage<PomoTimerMode>(), {
+  getOnInit: true,
+});
 
 const timerBaseAtom = atomWithStorage<PomoTimer>(
   generateKey('timer'),
