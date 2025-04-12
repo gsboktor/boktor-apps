@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>George Boktor • Home</title>
 
+    <link rel="preload" href="assets/images/boktor_logo.png" as="image" type="image/png" />
     <link rel="preload" href="assets/images/ruume_preview.png" as="image" type="image/png" />
     <link rel="preload" href="assets/images/pardner.png" as="image" type="image/png" />
 
@@ -20,6 +21,37 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <style>
+        .loading-container {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .loading-icon {
+          width: 96px;
+          height: 96px;
+          border-radius: 50%;
+        }
+
+        .label-text {
+          margin: 0px;
+          font-size: 48px;
+          font-family: 'Merriweather';
+          font-display: block;
+          color: white;
+        }
+      </style>
+      <div class="loading-container">
+        <img src="assets/images/boktor_logo.png" alt="Loading..." class="loading-icon" />
+        <p class="label-text">georgeboktor.me</p>
+      </div>
+    </div>
   </body>
 </html>
