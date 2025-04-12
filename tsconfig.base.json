@@ -15,6 +15,7 @@
       "@boktor-apps/boktor-portfolio/features/contact-page": ["libs/boktor-portfolio/features/contact-page/src/index.ts"],
       "@boktor-apps/boktor-portfolio/features/home-page": ["libs/boktor-portfolio/features/home-page/src/index.ts"],
       "@boktor-apps/boktor-portfolio/features/menu-overlay": ["libs/boktor-portfolio/features/menu-overlay/src/index.ts"],
+      "@boktor-apps/boktor-portfolio/features/projects-page": ["libs/boktor-portfolio/features/projects-page/src/index.ts"],
       "@boktor-apps/boktor-portfolio/features/resume-page": ["libs/boktor-portfolio/features/resume-page/src/index.ts"],
       "@boktor-apps/boktor-portfolio/ui/components": ["libs/boktor-portfolio/ui/components/src/index.ts"],
       "@boktor-apps/boktor-portfolio/ui/providers": ["libs/boktor-portfolio/ui/providers/src/index.ts"],
@@ -43,8 +44,7 @@
       "@boktor-apps/shared/ui/hooks": ["libs/shared/ui/hooks/src/index.ts"],
       "@boktor-apps/shared/ui/modal": ["libs/shared/ui/modal/src/index.ts"],
       "@boktor-apps/shared/ui/pop-over": ["libs/shared/ui/pop-over/src/index.ts"],
-      "@boktor-apps/shared/ui/scroll-carousel": ["libs/shared/ui/scroll-carousel/src/index.ts"],
-      "@boktor-apps/boktor-portfolio/features/projects-page": ["libs/boktor-portfolio/features/projects-page/src/index.ts"]
+      "@boktor-apps/shared/ui/scroll-carousel": ["libs/shared/ui/scroll-carousel/src/index.ts"]
     }
   },
   "exclude": ["node_modules"]

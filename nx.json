@@ -32,6 +32,12 @@
         "serveStaticTargetName": "serve-static",
         "typecheckTargetName": "typecheck"
       }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
     }
   ],
   "targetDefaults": {
@@ -57,9 +63,14 @@
         "style": "css"
       },
       "library": {
-        "style": "css",
+        "style": "styled",
         "linter": "eslint",
         "unitTestRunner": "jest"
+      }
+    },
+    "@nx/eslint": {
+      "configuration": {
+        "flat": true
       }
     }
   }
