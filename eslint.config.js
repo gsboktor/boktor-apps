@@ -5,7 +5,7 @@ module.exports = [
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   {
-    ignores: ['**/dist'],
+    ignores: ['**/dist', '**.env', '**/cdk.out', '**/node_modules'],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -18,20 +18,19 @@ module.exports = [
           depConstraints: [
             {
               sourceTag: 'scope:client',
-              onlyDependOnLibsWithTags: ['scope:client', 'scope:data-access'],
+              onlyDependOnLibsWithTags: ['scope:client', 'scope:data-access', 'scope:shared'],
             },
             {
               sourceTag: 'scope:data-access',
-              onlyDependOnLibsWithTags: ['scope:data-access'],
+              onlyDependOnLibsWithTags: ['scope:data-access', 'scope:shared'],
+            },
+            {
+              sourceTag: 'scope:shared',
+              onlyDependOnLibsWithTags: ['scope:shared'],
             },
           ],
         },
       ],
     },
-  },
-  {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-    // Override or add rules here
-    rules: {},
   },
 ];

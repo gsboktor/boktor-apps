@@ -25,14 +25,14 @@ export const useRenderDirection = (objRef: RefObject<HTMLElement>, id?: string) 
     objRef.current?.getBoundingClientRect && objRef.current?.getBoundingClientRect().x > window.innerWidth / 2
       ? (directionHorizontal.current = 'left')
       : (directionHorizontal.current = 'right');
-  }, []);
+  }, [objRef]);
 
   useEffect(() => {
     window.addEventListener('resize', handleDirectionChange);
     return () => {
       window.removeEventListener('resize', handleDirectionChange);
     };
-  }, []);
+  }, [handleDirectionChange]);
 
   return { direction, directionHorizontal };
 };

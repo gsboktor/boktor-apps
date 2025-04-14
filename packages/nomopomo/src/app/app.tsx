@@ -1,18 +1,19 @@
-import { activeModalAtom } from '@boktor-apps/nomopomo/data-access/store';
+import { useTimer } from '@boktor-apps/nomopomo/data-access/hooks';
+import { activeModalAtom, timerSelectorAtom } from '@boktor-apps/nomopomo/data-access/store';
 import { NomopomoFooter } from '@boktor-apps/nomopomo/features/nomopomo-footer';
 import { useAtom } from 'jotai';
 import { AnimatePresence } from 'motion/react';
-import React, { Suspense } from 'react';
+import React, { Suspense, useRef } from 'react';
 import styled from 'styled-components';
 import { GlobalStyles } from './globalStyles';
 
 const ModalSkeleton = React.lazy(async () => {
-  let _module = await import('@boktor-apps/shared/ui/modal');
+  const _module = await import('@boktor-apps/shared/ui/modal');
   return { default: _module.ModalSkeleton };
 });
 
 const NomopomoDashboard = React.lazy(async () => {
-  let _module = await import('@boktor-apps/nomopomo/features/nomopomo-dashboard');
+  const _module = await import('@boktor-apps/nomopomo/features/nomopomo-dashboard');
   return { default: _module.NomopomoDashboard };
 });
 
@@ -24,6 +25,18 @@ const AppContainer = styled.div`
 
 export function App() {
   const [modalState, setModalState] = useAtom(activeModalAtom);
+  const [timeSelector, setTimeSelector] = useAtom(timerSelectorAtom);
+  const elapsedRef = useRef<number>(0);
+
+  useTimer((elapsed: number) => {
+    if (!timeSelector.active || timeSelector.time < 0) return;
+    elapsedRef.current += elapsed;
+    if (elapsedRef.current >= 1000) {
+      const secondsToDecrease = Math.floor(elapsedRef.current / 1000);
+      setTimeSelector({ newTime: timeSelector.time - secondsToDecrease });
+      elapsedRef.current = elapsedRef.current % 1000;
+    }
+  });
 
   return (
     <>
@@ -43,7 +56,7 @@ export function App() {
                 setModalState(null);
               }}
               render={(p) => {
-                if (!modalState?.Component) return <></>;
+                if (!modalState?.Component) return <h2>Something went wrong.</h2>;
                 const ModalComponent = modalState.Component;
                 return <ModalComponent ref={p.ref} closeModal={p.setShow} />;
               }}

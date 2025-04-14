@@ -7,7 +7,7 @@ export const useOutOfBounds = (ref: RefObject<HTMLElement>, onOutOfBounds: () =>
 
   useEffect(() => {
     const handleMouseDown = (ev: MouseEvent) => {
-      if (ref && !ref.current?.contains(ev.target as Node)) {
+      if (ref && !ref.current?.contains(ev.target as Element)) {
         callbackFn.current?.();
       }
     };
@@ -15,5 +15,5 @@ export const useOutOfBounds = (ref: RefObject<HTMLElement>, onOutOfBounds: () =>
     return () => {
       document.removeEventListener('mousedown', handleMouseDown);
     };
-  }, []);
+  }, [ref]);
 };

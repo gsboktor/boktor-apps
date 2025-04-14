@@ -12,7 +12,7 @@ import {
   ClockComponent,
   CloseComponent,
   HelpIconComponent,
-} from '@boktor-apps/shared/ui/assets';
+} from '@boktor-apps/shared/ui/assets/svgs';
 
 import { Popover } from '@boktor-apps/shared/ui/pop-over';
 import { useCallback, useMemo, useState } from 'react';
@@ -138,7 +138,7 @@ export const SideModalTicketForm = () => {
 
   const handleOptionSelect = useCallback(
     (board: string) => {
-      setTaskForm({ ['parentBoardKey']: board });
+      setTaskForm({ parentBoardKey: board });
     },
     [setTaskForm],
   );
@@ -173,11 +173,7 @@ export const SideModalTicketForm = () => {
             <Popover
               renderHorizontal="left"
               Icon={<HelpIconComponent width={24} height={24} />}
-              Content={
-                <HelpInnerContent>
-                  Add additional information about the scope of your ticket! Details help!
-                </HelpInnerContent>
-              }
+              Content={<HelpInnerContent>Add additional information about the scope of your ticket! Details help!</HelpInnerContent>}
             />
           </HeaderRow>
           <BaseTextArea
@@ -198,7 +194,9 @@ export const SideModalTicketForm = () => {
               label={'Chip tag'}
               actionButtonAttr={{ style: { padding: 4 } }}
               labelAttr={{ style: { fontSize: 10 } }}
-              onActionClick={() => {}}
+              onActionClick={() => {
+                console.log('noop');
+              }}
             />
             <AddIconComponent width={24} height={24} />
           </Tags>
@@ -259,8 +257,8 @@ export const SideModalTicketForm = () => {
             Icon={<HelpIconComponent width={24} height={24} />}
             Content={
               <HelpInnerContent>
-                Pick the kanban board you want this ticket to start in. And select the number of pomodoro cycles you
-                estimate it will require to finish this task!
+                Pick the kanban board you want this ticket to start in. And select the number of pomodoro cycles you estimate it will
+                require to finish this task!
               </HelpInnerContent>
             }
           />

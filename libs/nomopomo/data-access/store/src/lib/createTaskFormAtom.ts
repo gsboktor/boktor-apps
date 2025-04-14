@@ -67,8 +67,8 @@ export const validateFormAtom = atom<null, [undefined], void>(null, (get, set, _
     set(activeModalAtom, { show: false });
   } catch (e) {
     if (e instanceof ZodError) {
-      let values = e.errors;
-      let fieldErrors: TaskFormRequiredFieldsErrors = values.reduce((acc, curr) => {
+      const values = e.errors;
+      const fieldErrors: TaskFormRequiredFieldsErrors = values.reduce((acc, curr) => {
         return { ...acc, [curr.path[0]]: { valid: false, message: curr.message } };
       }, {} as TaskFormRequiredFieldsErrors);
       set(taskFieldErrors, fieldErrors);

@@ -3,7 +3,7 @@ import { ChipCard, SelectionCard } from '@boktor-apps/shared/ui/cards';
 import { ScrollCarousel } from '@boktor-apps/shared/ui/scroll-carousel';
 
 import { setTaskFormValues } from '@boktor-apps/nomopomo/data-access/store';
-import { CloseComponent } from '@boktor-apps/shared/ui/assets';
+import { CloseComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { useAtom } from 'jotai';
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
@@ -165,7 +165,9 @@ export const SideModalBody = () => {
                 label={DEFAULTS['variant1'][id - 1].label}
                 actionButtonAttr={{ style: { padding: 4 } }}
                 labelAttr={{ style: { fontSize: 10 } }}
-                onActionClick={() => {}}
+                onActionClick={() => {
+                  console.log('');
+                }}
               />
             ))}
           </SelectionsContainer>

@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useMemo, useRef } from 'react';
 
 import { TaskCardStatic } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
-import { AddIconComponent } from '@boktor-apps/shared/ui/assets';
+import { AddIconComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import styled from 'styled-components';
 import { VacantBoard } from './components';
 import { AddTaskToBoardContainer } from './KanbanBoard';

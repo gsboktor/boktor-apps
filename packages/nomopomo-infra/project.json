@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nomopomo-infra/src",
   "projectType": "application",
-  "tags": [],
+  "tags": ["scope:shared"],
   "targets": {
     "diff": {
       "executor": "nx:run-commands",

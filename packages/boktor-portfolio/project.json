@@ -27,11 +27,24 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "development",
       "configurations": {
+        "local": {
+          "optimization": false,
+          "environment": {
+            "NODE_ENV": "local"
+          }
+        },
         "development": {
-          "optimization": false
+          "optimization": false,
+          "environment": {
+            "NODE_ENV": "development"
+          }
         },
         "production": {
-          "optimization": true
+          "optimization": true,
+          "environment": {
+            "NODE_ENV": "production"
+          },
+          "sourceMap": false
         }
       },
       "options": {
@@ -41,9 +54,11 @@
         "baseHref": "/",
         "main": "packages/boktor-portfolio/src/main.tsx",
         "tsConfig": "packages/boktor-portfolio/tsconfig.app.json",
+        "styles": ["packages/boktor-portfolio/src/styles.css"],
         "assets": ["packages/boktor-portfolio/src/favicon.ico", "packages/boktor-portfolio/src/assets"],
         "scripts": [],
-        "webpackConfig": "packages/boktor-portfolio/webpack.config.js"
+        "webpackConfig": "packages/boktor-portfolio/webpack.config.js",
+        "sourceMap": true
       }
     }
   }

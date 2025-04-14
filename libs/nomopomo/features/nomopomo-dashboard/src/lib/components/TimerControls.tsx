@@ -10,18 +10,8 @@ import {
   RestartTimerComponent,
   SkipTimerComponent,
   StartTimerComponent,
-} from '@boktor-apps/shared/ui/assets';
+} from '@boktor-apps/shared/ui/assets/svgs';
 import { motion } from 'motion/react';
-import React from 'react';
-
-const BoardModal = React.lazy(() =>
-  import('@boktor-apps/nomopomo/features/nomopomo-board-modal').then((module) => ({ default: module.BoardModal })),
-);
-const NomopomoSideModal = React.lazy(() =>
-  import('@boktor-apps/nomopomo/features/nomopomo-side-modal').then((module) => ({
-    default: module.NomopomoSideModal,
-  })),
-);
 
 const TimerControlsContainer = styled.div`
   display: flex;
@@ -36,25 +26,22 @@ const TimerControlsContainer = styled.div`
 const StyledTimerStart = styled(StartTimerComponent)`
   width: 28px;
   height: 28px;
-  cursor: pointer;
+  fill: #000000;
 `;
 
 const StyledTimerRestart = styled(RestartTimerComponent)`
   width: 28px;
   height: 28px;
-  cursor: pointer;
 `;
 
 const StyledTimerSkip = styled(SkipTimerComponent)`
   width: 28px;
   height: 28px;
-  cursor: pointer;
 `;
 
 const StyledPauseTimer = styled(PauseTimerComponent)`
   width: 64px;
   height: 64px;
-  cursor: pointer;
 `;
 
 const StyledAddBoard = styled(AddBoardComponent)`
@@ -65,7 +52,6 @@ const StyledAddBoard = styled(AddBoardComponent)`
 const StyledHelper = styled(HelpIconComponent)`
   width: 34px;
   height: 34px;
-  cursor: pointer;
 `;
 
 const AddBoardButtonContainer = styled.div`
@@ -109,7 +95,6 @@ export const TimerControls = () => {
           whileHover={{
             scale: 1.15,
             y: -8,
-            cursor: 'pointer',
 
             // boxShadow: `0px 4px 16px 2px #66666643`,
             transition: { delay: 0, duration: 0.1 },
@@ -124,7 +109,6 @@ export const TimerControls = () => {
           }}
           whileHover={{
             scale: 1.3,
-            cursor: 'pointer',
 
             y: -8,
             // boxShadow: `0px 4px 16px 2px #66666643`,
@@ -134,7 +118,14 @@ export const TimerControls = () => {
           {timerSelector.active ? (
             <StyledPauseTimer onClick={() => setTimerSelector({ active: !timerSelector.active })} />
           ) : (
-            <StyledTimerStart onClick={() => setTimerSelector({ active: !timerSelector.active })} />
+            <StartTimerComponent
+              style={{
+                color: '#ff2121',
+              }}
+              width={28}
+              height={28}
+              onClick={() => setTimerSelector({ active: !timerSelector.active })}
+            />
           )}
         </MainPlayButtonContainer>
         <MainPlayButtonContainer
@@ -142,7 +133,6 @@ export const TimerControls = () => {
           whileHover={{
             scale: 1.15,
             y: -8,
-            cursor: 'pointer',
             // boxShadow: `0px 4px 16px 2px #66666643`,
             transition: { delay: 0, duration: 0.1 },
           }}

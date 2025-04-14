@@ -4,10 +4,10 @@ import { useAtomValue } from 'jotai';
 import { AnimatePresence, motion } from 'motion/react';
 import { memo, RefObject, useEffect, useMemo, useRef } from 'react';
 
+import { boardEnumAtom } from '@boktor-apps/nomopomo/data-access/store';
 import { TaskCard } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
-import { AddIconComponent, ClearBoardComponent, DropCardComponent } from '@boktor-apps/shared/ui/assets';
+import { AddIconComponent, ClearBoardComponent, DropCardComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { boardEnumAtom } from 'libs/nomopomo/data-access/store/src/lib/boardEnumAtom';
 import styled from 'styled-components';
 import { VacantBoard } from './components';
 import { useHeaderAnimation, useTaskPlaceholderPosition } from './hooks';
@@ -106,7 +106,7 @@ export const PlaceholderCard = styled(motion.div)<{ $theme: string }>`
 export const AddTaskToBoardContainer = styled(motion.div)`
   border-radius: 12px;
   background-color: #75757519;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(12px);
   cursor: pointer;
   position: absolute;
   bottom: 10.5%;
@@ -121,6 +121,20 @@ export const AddTaskToBoardContainer = styled(motion.div)`
   z-index: ${Number.MAX_SAFE_INTEGER};
   box-sizing: border-box;
   user-select: none;
+  > #test-id {
+    color: #3d3d3d;
+  }
+  > p {
+    color: #3d3d3d;
+  }
+  &:hover {
+    > #test-id {
+      color: #000000;
+    }
+    > p {
+      color: #000000;
+    }
+  }
 `;
 
 export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: KanbanBoardProps) => {
@@ -164,10 +178,15 @@ export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: Kan
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            whileHover={{ scale: 1.05, backgroundColor: theme + `99` }}
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: theme,
+              backdropFilter: 'none',
+              transition: { duration: 0.1 },
+            }}
           >
-            <AddIconComponent width={24} height={24}></AddIconComponent>
-            <p style={{ margin: 0, display: 'flex', flex: 1, textAlign: 'center', color: '#3d3d3d' }}>Add Task</p>
+            <AddIconComponent id="test-id" width={24} height={24} style={{}}></AddIconComponent>
+            <p style={{ margin: 0, display: 'flex', flex: 1, textAlign: 'center' }}>Add Task</p>
           </AddTaskToBoardContainer>
         )}
       </AnimatePresence>
@@ -198,7 +217,7 @@ export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: Kan
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <ClearBoardComponent width={28} height={28} />
+                <ClearBoardComponent style={{ filter: `brightness(1.2)` }} width={28} height={28} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -224,7 +243,7 @@ export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: Kan
                   right: -32,
                 }}
               >
-                <AddIconComponent width={30} height={30} />
+                <AddIconComponent style={{ filter: `brightness(.5)` }} width={30} height={30} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -244,24 +263,19 @@ export const KanbanBoard = memo(({ overlayRef, boardId, theme = '#d3d3d3' }: Kan
             )}
             {boardTasks.map((task) => {
               return (
-                <div
-                  key={task.id}
-                  style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', position: 'relative' }}
-                >
+                <div key={task.id} style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', position: 'relative' }}>
                   <AnimatePresence>
-                    {activeTask &&
-                      placeholderPosition?.taskId === task.id &&
-                      placeholderPosition.position === 'above' && (
-                        <PlaceholderCard
-                          $theme={theme + `88`}
-                          initial={{ height: 0, opacity: 0 }}
-                          exit={{ height: 0, display: 'none', opacity: 0 }}
-                          animate={{ height: overlayRef.current?.getBoundingClientRect().height, opacity: 1 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <DropCardComponent width={48} height={48} />
-                        </PlaceholderCard>
-                      )}
+                    {activeTask && placeholderPosition?.taskId === task.id && placeholderPosition.position === 'above' && (
+                      <PlaceholderCard
+                        $theme={theme + `88`}
+                        initial={{ height: 0, opacity: 0 }}
+                        exit={{ height: 0, display: 'none', opacity: 0 }}
+                        animate={{ height: overlayRef.current?.getBoundingClientRect().height, opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <DropCardComponent width={48} height={48} />
+                      </PlaceholderCard>
+                    )}
                   </AnimatePresence>
                   <TaskCard id={task.id} task={task} key={task.id} />
                 </div>

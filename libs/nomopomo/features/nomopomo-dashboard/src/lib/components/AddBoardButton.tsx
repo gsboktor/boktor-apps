@@ -1,5 +1,5 @@
 import { boardEnumAtom, boardOperations } from '@boktor-apps/nomopomo/data-access/store';
-import { AddBoardComponent } from '@boktor-apps/shared/ui/assets';
+import { AddBoardComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { useAtomValue } from 'jotai';
 import { motion } from 'motion/react';
 import styled from 'styled-components';

@@ -9,20 +9,22 @@ import {
 } from '@boktor-apps/nomopomo/data-access/store';
 import { KanbanBoard, KanbanBoardStatic } from '@boktor-apps/nomopomo/features/nomopomo-kanban';
 
+import { boardEnumAtom } from '@boktor-apps/nomopomo/data-access/store';
 import { BoardModal } from '@boktor-apps/nomopomo/features/nomopomo-board-modal';
 import { NomopomoSideModal } from '@boktor-apps/nomopomo/features/nomopomo-side-modal';
 import { TaskCardStatic } from '@boktor-apps/nomopomo/features/nomopomo-task-card';
-import { AddBoardComponent, HelpIconComponent } from '@boktor-apps/shared/ui/assets';
+import { NomopomoTaskQueue } from '@boktor-apps/nomopomo/features/nomopomo-task-queue';
+import { MainTimer } from '@boktor-apps/nomopomo/features/nomopomo-timer';
+import { AddBoardComponent, HelpIconComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
-import { boardEnumAtom } from 'libs/nomopomo/data-access/store/src/lib/boardEnumAtom';
 import { useRef } from 'react';
 import { useMedia } from 'react-use';
 import styled from 'styled-components';
-import { MainTimer, NomopomoBlurLogo } from './components';
+import { NomopomoBlurLogo } from './components';
 import { ControlBar } from './components/ControlBar';
 
 const DashboardRootContainer = styled.div`
@@ -62,6 +64,7 @@ const BoardContainer = styled.div`
   position: relative;
   display: flex;
   height: 100%;
+  width: 324px;
   min-width: 324px;
   justify-content: center;
   @media screen and (width < 378px) {
@@ -112,33 +115,26 @@ export const NomopomoDashboard = () => {
             height: 'fit-content',
           }}
         >
-          <div
-            style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}
-          >
-            <OpenQueueComponent>
+          <div style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
+            <OpenQueueComponent
+              onClick={() =>
+                setModalState({
+                  show: true,
+                  Component: NomopomoTaskQueue,
+                })
+              }
+            >
               <p style={{ margin: 0, color: 'wheat', fontSize: 12, fontWeight: 400 }}>+4</p>
             </OpenQueueComponent>
             <p style={{ margin: 0 }}>Open queue</p>
           </div>
-          <div
-            style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}
-          >
-            <AddBoardComponent
-              width={32}
-              height={32}
-              onClick={() => setModalState({ Component: NomopomoSideModal, show: true })}
-            />
+          <div style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
+            <AddBoardComponent width={32} height={32} onClick={() => setModalState({ Component: NomopomoSideModal, show: true })} />
             <p style={{ margin: 0 }}>Add Board</p>
           </div>
 
-          <div
-            style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}
-          >
-            <HelpIconComponent
-              width={32}
-              height={32}
-              onClick={() => setModalState({ Component: BoardModal, show: true })}
-            />
+          <div style={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
+            <HelpIconComponent width={32} height={32} onClick={() => setModalState({ Component: BoardModal, show: true })} />
             <p style={{ margin: 0 }}>Get Help</p>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { setBoardFormValues } from '@boktor-apps/nomopomo/data-access/store';
-import { ColorPickerComponent } from '@boktor-apps/shared/ui/assets';
+import { ColorPickerComponent } from '@boktor-apps/shared/ui/assets/svgs';
 import { Direction, useRenderDirection } from '@boktor-apps/shared/ui/hooks';
 import { useSetAtom } from 'jotai';
 import { AnimatePresence, motion } from 'motion/react';
@@ -84,15 +84,15 @@ const defaultColors = [
   '#C1E1C1', // Mint green
   '#B5D8EB', // Sky blue
   //   '#C9B6E4', // Lavender
-  //   '#FFCACC', // Light coral
+  '#FFCACC', // Light coral
   //   '#E8D5C4', // Warm beige
   //   '#B7E5D9', // Seafoam
-  //   '#CCE2CB', // Sage green
+  '#CCE2CB', // Sage green
   //   '#C5D5EA', // Powder blue
-  //   '#E6B8C2', // Dusty rose
-  //   '#B8D8BE', // Pistachio
-  //   '#F7D1BA', // Apricot
-  //   '#A6CCE6', // Baby blue
+  '#E6B8C2', // Dusty rose
+  '#B8D8BE', // Pistachio
+  '#F7D1BA', // Apricot
+  '#A6CCE6', // Baby blue
   //   '#E6D7EE', // Lilac mist
   //   '#FFE2B8', // Pale marigold
   //   '#B8E6D4', // Mint frost
@@ -111,11 +111,14 @@ export const BoardModalColorPicker = () => {
   const [previewColor, setPreviewColor] = useState<string>(() => defaultColors[0]);
   const setBoardValue = useSetAtom(setBoardFormValues);
 
-  const handleColorPicked = useCallback((color: string) => {
-    setBoardValue({ boardTheme: color });
-    setPreviewColor(color);
-    setShowPicker(false);
-  }, []);
+  const handleColorPicked = useCallback(
+    (color: string) => {
+      setBoardValue({ boardTheme: color });
+      setPreviewColor(color);
+      setShowPicker(false);
+    },
+    [setBoardValue],
+  );
 
   return (
     <ColorPickerButton>

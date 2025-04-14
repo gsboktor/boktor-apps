@@ -9,16 +9,13 @@ const timerActiveAtom = atomWithStorage<boolean>(generateKey('timer-active'), fa
   getOnInit: true,
 });
 
-const timerModeAtom = atomWithStorage<PomoTimerMode>(
-  generateKey('timer-mode'),
-  PomoTimerMode.WORK,
-  storage<PomoTimerMode>(),
-  { getOnInit: true },
-);
+const timerModeAtom = atomWithStorage<PomoTimerMode>(generateKey('timer-mode'), PomoTimerMode.WORK, storage<PomoTimerMode>(), {
+  getOnInit: true,
+});
 
 const timerBaseAtom = atomWithStorage<PomoTimer>(
   generateKey('timer'),
-  { [PomoTimerMode.WORK]: 5, [PomoTimerMode.BREAK]: 10 },
+  { [PomoTimerMode.WORK]: 25 * 60, [PomoTimerMode.BREAK]: 60 },
   storage<PomoTimer>(),
   {
     getOnInit: true,
@@ -39,14 +36,14 @@ export const timerSelectorAtom = atom<PomoTimerSelector, [Partial<PomoUpdateSele
     const currTimeBase = get(timerBaseAtom);
     const notify = get(notificationAtom);
 
-    update.hasOwnProperty('active') && set(timerActiveAtom, update.active!);
+    Object.prototype.hasOwnProperty.call(update, 'active') && set(timerActiveAtom, update.active!);
 
-    if (update.newMode != undefined) {
+    if (update.newMode !== undefined) {
       set(timerBaseAtom, RESET);
       set(timerModeAtom, update.newMode);
     }
 
-    if (update.newTime != undefined) {
+    if (update.newTime !== undefined) {
       if (update.newTime === RESET) {
         set(timerBaseAtom, update.newTime);
       } else {

@@ -3,6 +3,13 @@
   "defaultBase": "main",
   "plugins": [
     {
+      "plugin": "@nx/react",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve"
+      }
+    },
+    {
       "plugin": "@nx/webpack/plugin",
       "options": {
         "buildTargetName": "build",
@@ -32,29 +39,62 @@
         "serveStaticTargetName": "serve-static",
         "typecheckTargetName": "typecheck"
       }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
     }
   ],
   "targetDefaults": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "build": {
+      "dependsOn": ["lint"],
+      "configurations": {
+        "development": {
+          "optimization": false
+        },
+        "production": {
+          "optimization": true
+        }
+      }
+    },
+    "serve": {
+      "dependsOn": ["build"]
+    },
     "e2e-ci--**/*": {
       "dependsOn": ["^build"]
+    },
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"]
     }
   },
   "generators": {
     "@nx/react": {
       "application": {
         "babel": true,
-        "style": "css",
+        "style": "styled-components",
         "linter": "eslint",
         "bundler": "webpack",
         "e2e": "playwright"
       },
       "component": {
-        "style": "css"
+        "style": "styled-components"
       },
       "library": {
-        "style": "css",
+        "style": "styled-components",
         "linter": "eslint",
         "unitTestRunner": "jest"
+      }
+    },
+    "@nx/eslint": {
+      "configuration": {
+        "flat": true
       }
     }
   }
