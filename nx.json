@@ -3,6 +3,13 @@
   "defaultBase": "main",
   "plugins": [
     {
+      "plugin": "@nx/react",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve"
+      }
+    },
+    {
       "plugin": "@nx/webpack/plugin",
       "options": {
         "buildTargetName": "build",
@@ -41,6 +48,23 @@
     }
   ],
   "targetDefaults": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "build": {
+      "dependsOn": ["lint"],
+      "configurations": {
+        "development": {
+          "optimization": false
+        },
+        "production": {
+          "optimization": true
+        }
+      }
+    },
+    "serve": {
+      "dependsOn": ["build"]
+    },
     "e2e-ci--**/*": {
       "dependsOn": ["^build"]
     },
@@ -54,16 +78,16 @@
     "@nx/react": {
       "application": {
         "babel": true,
-        "style": "css",
+        "style": "styled-components",
         "linter": "eslint",
         "bundler": "webpack",
         "e2e": "playwright"
       },
       "component": {
-        "style": "css"
+        "style": "styled-components"
       },
       "library": {
-        "style": "styled",
+        "style": "styled-components",
         "linter": "eslint",
         "unitTestRunner": "jest"
       }

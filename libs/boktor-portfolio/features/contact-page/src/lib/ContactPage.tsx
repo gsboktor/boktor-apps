@@ -69,7 +69,7 @@ export const ContactPage = () => {
         subHeader: 'send me a connection invite',
         key: 30,
         toast: "Copied:  ' https://linkedin.com/in/george-boktor '",
-        clipboard: 'https://www.linkedin.com/in/george-boktor/',
+        clipboard: 'https://linkedin.com/in/george-boktor/',
       },
       hover4: {
         header: 'buymeacoffee.com/gsboktor',

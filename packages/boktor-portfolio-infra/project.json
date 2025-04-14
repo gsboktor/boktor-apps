@@ -7,7 +7,7 @@
   "targets": {
     "diff": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build"],
+      "dependsOn": ["build", "boktor-portfolio:build"],
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
@@ -75,10 +75,7 @@
         "development": {},
         "production": {
           "esbuildOptions": {
-            "sourcemap": false,
-            "outExtension": {
-              ".js": ".js"
-            }
+            "sourcemap": false
           }
         }
       }
