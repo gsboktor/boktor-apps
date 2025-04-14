@@ -237,7 +237,7 @@ export const ResumePage = () => {
         </AnimatePresence>
         <Document
           options={options}
-          file={`${process.env.NX_PUBLIC_WEB_BASE_URL}/assets/george-boktor-resume.pdf`}
+          file={`/assets/george-boktor-resume.pdf`}
           onLoadSuccess={onDocumentLoadSuccess}
           loading={
             <div
