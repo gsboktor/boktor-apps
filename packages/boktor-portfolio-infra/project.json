@@ -75,7 +75,11 @@
         "development": {},
         "production": {
           "esbuildOptions": {
-            "sourcemap": false
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            },
+            "platform": "node"
           }
         }
       }

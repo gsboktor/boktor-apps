@@ -10,11 +10,19 @@ on:
 env:
   NODE_VERSION: 18
   AWS_REGION: us-east-1
+  ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+    environment: ${{ github.base_ref == 'main' && 'production' || 'development' }}
+    strategy:
+      matrix:
+        config:
+          - app: nomopomo
+            base_name: nomopomo
+          - app: boktor-portfolio
+            base_name: boktor-portfolio
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,6 +31,9 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+          
+      - name: Clear dependency cache
+        run: rm -rf node_modules
 
       - name: Install dependencies
         run: bun install
@@ -34,23 +45,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Build nomopomo app
-        run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            bunx nx build nomopomo --configuration=production
-          else
-            bunx nx build nomopomo --configuration=development
-          fi
+      - name: Build ${{ matrix.config.app }}
+        run: bunx nx build ${{ matrix.config.base_name }} --configuration=${{ env.ENVIRONMENT }}
         env:
-          NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+          NODE_ENV: ${{ env.ENVIRONMENT }}
 
       - name: Deploy infrastructure
-        run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            bunx nx deploy nomopomo-infra --configuration=production
-          else
-            bunx nx deploy nomopomo-infra --configuration=development
-          fi
+        run: bunx nx deploy ${{ matrix.config.base_name }}-infra --configuration=${{ env.ENVIRONMENT }}
         env:
           CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
           CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
