@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nomopomo-infra/src",
   "projectType": "application",
-  "tags": [],
+  "tags": ["scope:shared"],
   "targets": {
     "diff": {
       "executor": "nx:run-commands",
@@ -27,11 +27,11 @@
       "configurations": {
         "development": {
           "cwd": "packages/nomopomo-infra",
-          "command": "cdk deploy --context env=development --all"
+          "command": "cdk deploy --context env=development --all --require-approval never"
         },
         "production": {
           "cwd": "packages/nomopomo-infra",
-          "command": "cdk deploy --context env=production --all"
+          "command": "cdk deploy --context env=production --all --require-approval never"
         }
       }
     },

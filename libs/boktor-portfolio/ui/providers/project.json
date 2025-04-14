@@ -1,0 +1,9 @@
+{
+  "name": "libs/boktor-portfolio/ui/providers",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/boktor-portfolio/ui/providers/src",
+  "projectType": "library",
+  "tags": ["scope:client"],
+  "// targets": "to see all targets run: nx show project libs/boktor-portfolio/ui/providers --web",
+  "targets": {}
+}

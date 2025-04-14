@@ -1,0 +1,9 @@
+{
+  "name": "libs/nomopomo/ui/cards",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nomopomo/ui/cards/src",
+  "projectType": "library",
+  "tags": ["scope:client"],
+  "// targets": "to see all targets run: nx show project libs/nomopomo/ui/cards --web",
+  "targets": {}
+}

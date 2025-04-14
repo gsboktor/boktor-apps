@@ -11,7 +11,8 @@
       "options": {
         "buildTarget": "nomopomo:build",
         "hmr": true,
-        "webpackConfig": "packages/nomopomo/webpack.config.js"
+        "webpackConfig": "packages/nomopomo/webpack.config.js",
+        "port": 4201
       },
       "configurations": {
         "development": {

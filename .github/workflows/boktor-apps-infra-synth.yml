@@ -1,0 +1,55 @@
+name: boktor-apps-infra-synth
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    types: [opened, synchronize, reopened]
+
+env:
+  NODE_VERSION: 18
+  AWS_REGION: us-east-1
+  ENVIRONMENT: ${{ github.base_ref == 'main' && 'production' || 'development' }}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config:
+          - app: nomopomo
+            base_name: nomopomo
+          - app: boktor-portfolio
+            base_name: boktor-portfolio
+
+    environment: ${{ github.base_ref == 'main' && 'production' || 'development' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      
+      - name: Clear dependency cache
+        run: rm -rf node_modules
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build ${{ matrix.config.app }}
+        run:
+          bunx nx build ${{ matrix.config.base_name }} --configuration=${{ env.ENVIRONMENT }}
+        env:
+          NODE_ENV: ${{ env.ENVIRONMENT }}
+
+      - name: CDK Synth
+        run:
+          bunx nx synth ${{ matrix.config.base_name }}-infra --configuration=${{ env.ENVIRONMENT }}
+        env:
+          CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+          CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
+          LAMBDA_BASIC_AUTH_USERNAME: ${{ secrets.LAMBDA_BASIC_AUTH_USERNAME }}
+          LAMBDA_BASIC_AUTH_PASSWORD: ${{ secrets.LAMBDA_BASIC_AUTH_PASSWORD }}

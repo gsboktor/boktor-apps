@@ -1,0 +1,9 @@
+{
+  "name": "libs/shared/ui/buttons",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/ui/buttons/src",
+  "projectType": "library",
+  "tags": ["scope:shared"],
+  "// targets": "to see all targets run: nx show project libs/shared/ui/buttons --web",
+  "targets": {}
+}

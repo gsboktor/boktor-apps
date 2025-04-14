@@ -2,11 +2,56 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Boktor Portfolio</title>
+    <title>George Boktor • Home</title>
+
+    <link rel="preload" href="assets/images/boktor_logo.png" as="image" type="image/png" />
+    <link rel="preload" href="assets/images/ruume_preview.png" as="image" type="image/png" />
+    <link rel="preload" href="assets/images/pardner.png" as="image" type="image/png" />
+
+    <link rel="preload" href="assets/images/nomopomo_preview.mp4" as="fetch" type="video/mp4" crossorigin />
+    <link rel="preload" href="assets/george-boktor-resume.pdf" as="fetch" type="application/pdf" crossorigin />
+
+    <link rel="preload" href="assets/fonts/Montserrat-Light.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="assets/fonts/Montserrat-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="assets/fonts/Montserrat-SemiBold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="assets/fonts/Montserrat-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="assets/fonts/Montserrat-ExtraBold.ttf" as="font" type="font/ttf" crossorigin />
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <style>
+        .loading-container {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .loading-icon {
+          width: 96px;
+          height: 96px;
+          border-radius: 50%;
+        }
+
+        .label-text {
+          margin: 0px;
+          font-size: 48px;
+          font-family: 'Merriweather';
+          font-display: block;
+          color: white;
+        }
+      </style>
+      <div class="loading-container">
+        <img src="assets/images/boktor_logo.png" alt="Loading..." class="loading-icon" />
+        <p class="label-text">georgeboktor.me</p>
+      </div>
+    </div>
   </body>
 </html>

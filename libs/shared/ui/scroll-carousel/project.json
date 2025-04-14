@@ -1,0 +1,9 @@
+{
+  "name": "libs/shared/ui/scroll-carousel",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/ui/scroll-carousel/src",
+  "projectType": "library",
+  "tags": ["scope:shared"],
+  "// targets": "to see all targets run: nx show project libs/shared/ui/scroll-carousel --web",
+  "targets": {}
+}

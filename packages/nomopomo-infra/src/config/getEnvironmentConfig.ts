@@ -4,13 +4,12 @@ export interface EnvironmentConfig {
   subDomain?: string;
   hostedZoneId?: string;
   certificateArn?: string;
-  allowedIps?: string[]; // List of allowed IP CIDR ranges
   basicAuthUsername?: string; // Optional basic auth credentials
   basicAuthPassword?: string;
 }
 
-export const getEnvironmentConfig = (context: any): EnvironmentConfig => {
-  const contextEnv = context.environment ?? 'development';
+export const getEnvironmentConfig = (context: string): EnvironmentConfig => {
+  const contextEnv = context;
 
   const enviornmentMapper: Record<string, EnvironmentConfig> = {
     ['development']: {
@@ -23,8 +22,6 @@ export const getEnvironmentConfig = (context: any): EnvironmentConfig => {
     ['production']: {
       environment: 'prod',
       domainName: 'nomopomo.io',
-      basicAuthUsername: process.env.LAMBDA_BASIC_AUTH_USERNAME,
-      basicAuthPassword: process.env.LAMBDA_BASIC_AUTH_PASSWORD,
     },
   };
 

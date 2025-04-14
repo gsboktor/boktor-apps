@@ -1,5 +1,3 @@
-// apps/infrastructure/src/stacks/website-stack.ts
-
 import * as cdk from 'aws-cdk-lib';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
@@ -12,16 +10,14 @@ import path from 'path';
 
 import { Construct } from 'constructs';
 import { EnvironmentConfig } from '../config';
-import { BasicAuthSecret } from '../constructs';
+import { BasicAuthSecret, CognitoUserPool } from '../constructs';
 
 interface NomopomoCfS3StackProps extends cdk.StackProps {
   environmentConfig: EnvironmentConfig;
 }
 
 export class NomopomoCfS3Stack extends cdk.Stack {
-  private readonly provisionLambdaAuthorizer = (
-    envConfig: EnvironmentConfig,
-  ): cdk.aws_cloudfront.experimental.EdgeFunction | undefined => {
+  private readonly provisionLambdaAuthorizer = (envConfig: EnvironmentConfig): cloudfront.experimental.EdgeFunction | undefined => {
     if (envConfig.environment != 'prod') {
       const authSecret = new BasicAuthSecret(this, `nomopomo-basic-auth-construct-${envConfig.environment}`, {
         env: envConfig.environment,
@@ -80,35 +76,52 @@ export class NomopomoCfS3Stack extends cdk.Stack {
     const lambdaAuthorizer = this.provisionLambdaAuthorizer(props.environmentConfig);
 
     // Create CloudFront distribution
-    const distribution = new cloudfront.Distribution(
-      this,
-      `nomopomo-cfn-distribution-${props.environmentConfig.environment}`,
-      {
-        defaultBehavior: {
-          origin: origins.S3BucketOrigin.withOriginAccessControl(websiteBucket),
-          edgeLambdas: lambdaAuthorizer && [
-            {
-              functionVersion: lambdaAuthorizer.currentVersion,
-              eventType: cloudfront.LambdaEdgeEventType.VIEWER_REQUEST,
-            },
-          ],
-          viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-          allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
-          cachedMethods: cloudfront.CachedMethods.CACHE_GET_HEAD,
-          compress: true,
-        },
-        defaultRootObject: 'index.html',
-        errorResponses: [
+    const distribution = new cloudfront.Distribution(this, `nomopomo-cfn-distribution-${props.environmentConfig.environment}`, {
+      defaultBehavior: {
+        origin: origins.S3BucketOrigin.withOriginAccessControl(websiteBucket),
+        edgeLambdas: lambdaAuthorizer && [
           {
-            httpStatus: 404,
-            responseHttpStatus: 200,
-            responsePagePath: '/index.html',
+            functionVersion: lambdaAuthorizer.currentVersion,
+            eventType: cloudfront.LambdaEdgeEventType.VIEWER_REQUEST,
           },
         ],
+        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
+        cachedMethods: cloudfront.CachedMethods.CACHE_GET_HEAD,
+        compress: true,
       },
-    );
+      defaultRootObject: 'index.html',
+      errorResponses: [
+        {
+          httpStatus: 404,
+          responseHttpStatus: 200,
+          responsePagePath: '/index.html',
+        },
+      ],
+    });
 
-    // Output the CloudFront URL
+    const userPoolConstruct = new CognitoUserPool(this, {
+      id: `nomopomo-cognito-user-pool-construct-${props.environmentConfig.environment}`,
+      env: props.environmentConfig.environment,
+    });
+
+    new s3deploy.BucketDeployment(this, `DeployNomopomoStaticAssets-${props.environmentConfig.environment}`, {
+      sources: [s3deploy.Source.asset('../../dist/packages/nomopomo')],
+      destinationBucket: websiteBucket,
+      distribution: distribution,
+      distributionPaths: ['/*'],
+    });
+
+    new cdk.CfnOutput(this, 'Nomopomo Userpool Id', {
+      value: userPoolConstruct.userPool.userPoolId,
+      description: 'User pool id for Nomopomo users.',
+    });
+
+    new cdk.CfnOutput(this, 'Nomopomo Userpool Client Id', {
+      value: userPoolConstruct.userPoolClient.userPoolClientId,
+      description: 'User pool client id for Nomopomo userpool',
+    });
+
     new cdk.CfnOutput(this, 'DistributionDomainName', {
       value: distribution.distributionDomainName,
       description: 'Website URL',
@@ -117,13 +130,6 @@ export class NomopomoCfS3Stack extends cdk.Stack {
     new cdk.CfnOutput(this, 'S3ObjectDomainName', {
       value: websiteBucket.bucketDomainName,
       description: 'Bucket URL',
-    });
-
-    new s3deploy.BucketDeployment(this, `DeployNomopomoStaticAssets-${props.environmentConfig.environment}`, {
-      sources: [s3deploy.Source.asset('../../dist/packages/nomopomo')],
-      destinationBucket: websiteBucket,
-      distribution: distribution,
-      distributionPaths: ['/*'],
     });
 
     cdk.Tags.of(this).add('Environment', props.environmentConfig.environment);

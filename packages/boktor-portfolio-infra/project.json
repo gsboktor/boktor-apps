@@ -1,0 +1,105 @@
+{
+  "name": "boktor-portfolio-infra",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/boktor-portfolio-infra/src",
+  "projectType": "application",
+  "tags": ["scope:shared"],
+  "targets": {
+    "diff": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build", "boktor-portfolio:build"],
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "cwd": "packages/boktor-portfolio-infra",
+          "command": "cdk diff --context env=development"
+        },
+        "production": {
+          "cwd": "packages/boktor-portfolio-infra",
+          "command": "cdk diff --context env=production"
+        }
+      }
+    },
+    "deploy": {
+      "dependsOn": ["build", "boktor-portfolio:build"],
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "cwd": "packages/boktor-portfolio-infra",
+          "command": "cdk deploy --context env=development --all --require-approval never"
+        },
+        "production": {
+          "cwd": "packages/boktor-portfolio-infra",
+          "command": "cdk deploy --context env=production --all --require-approval never"
+        }
+      }
+    },
+    "synth": {
+      "dependsOn": ["build", "boktor-portfolio:build"],
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "cwd": "packages/boktor-portfolio-infra",
+          "command": "cdk synth --context env=development"
+        },
+        "production": {
+          "cwd": "packages/boktor-portfolio-infra",
+          "command": "cdk synth --context env=production"
+        }
+      }
+    },
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "development",
+      "options": {
+        "platform": "node",
+        "outputPath": "./dist/packages/boktor-portfolio-infra",
+        "format": ["cjs"],
+        "bundle": true,
+        "main": "packages/boktor-portfolio-infra/src/main.ts",
+        "tsConfig": "packages/boktor-portfolio-infra/tsconfig.app.json",
+        "treeShaking": true,
+        "external": ["aws-cdk", "aws-cdk-lib", "constructs"],
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          },
+          "platform": "node"
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            },
+            "platform": "node"
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "boktor-portfolio-infra:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "boktor-portfolio-infra:build:development"
+        },
+        "production": {
+          "buildTarget": "boktor-portfolio-infra:build:production"
+        }
+      }
+    }
+  }
+}
