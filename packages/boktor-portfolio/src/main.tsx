@@ -16,6 +16,9 @@ const options = {
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
+console.log('ENV HOST=>', process.env.NX_PUBLIC_POSTHOG_HOST);
+console.log('ENV KEY=>', process.env.NX_PUBLIC_POSTHOG_KEY);
+
 root.render(
   <StrictMode>
     <PostHogProvider apiKey={process.env.NX_PUBLIC_POSTHOG_KEY ?? ''} options={options}>

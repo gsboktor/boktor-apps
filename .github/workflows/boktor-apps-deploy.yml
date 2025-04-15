@@ -45,12 +45,24 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Verify required environment variables
+        run: |
+          if [ -z "${{ secrets.NX_PUBLIC_POSTHOG_HOST }}" ]; then
+            echo "::error::NX_PUBLIC_POSTHOG_HOST is not defined"
+            exit 1
+          fi
+          if [ -z "${{ secrets.NX_PUBLIC_POSTHOG_KEY }}" ]; then
+            echo "::error::NX_PUBLIC_POSTHOG_KEY is not defined"
+            exit 1
+          fi
+          echo "All required environment variables are defined"
+
       - name: Build ${{ matrix.config.app }}
         run: bunx nx build ${{ matrix.config.base_name }} --configuration=${{ env.ENVIRONMENT }}
         env:
-          NODE_ENV: ${{ env.ENVIRONMENT }}
           NX_PUBLIC_POSTHOG_HOST: ${{secrets.NX_PUBLIC_POSTHOG_HOST}}
           NX_PUBLIC_POSTHOG_KEY: ${{secrets.NX_PUBLIC_POSTHOG_KEY}}
+          NODE_ENV: ${{ env.ENVIRONMENT }}
 
       - name: Deploy infrastructure
         run: bunx nx deploy ${{ matrix.config.base_name }}-infra --configuration=${{ env.ENVIRONMENT }}
