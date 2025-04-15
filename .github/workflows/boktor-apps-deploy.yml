@@ -49,6 +49,8 @@ jobs:
         run: bunx nx build ${{ matrix.config.base_name }} --configuration=${{ env.ENVIRONMENT }}
         env:
           NODE_ENV: ${{ env.ENVIRONMENT }}
+          NX_PUBLIC_POSTHOG_HOST: ${{secrets.NX_PUBLIC_POSTHOG_HOST}}
+          NX_PUBLIC_POSTHOG_KEY: ${{secrets.NX_PUBLIC_POSTHOG_KEY}}
 
       - name: Deploy infrastructure
         run: bunx nx deploy ${{ matrix.config.base_name }}-infra --configuration=${{ env.ENVIRONMENT }}

@@ -63,7 +63,7 @@ export const MenuItem = ({
       {...rest}
     >
       <MenuIndicator initial={{ x: -100 }} animate={indicatorControls} />
-      <StyledText size={Size.LG} onMouseOver={animateIn} onMouseLeave={animateOut}>
+      <StyledText size={Size.LG} onMouseEnter={animateIn} onMouseLeave={animateOut}>
         {label}
       </StyledText>
     </MenuItemContainer>
