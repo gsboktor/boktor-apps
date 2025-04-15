@@ -45,17 +45,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Verify required environment variables
+      - name: Create environment file
         run: |
-          if [ -z "${{ secrets.NX_PUBLIC_POSTHOG_HOST }}" ]; then
-            echo "::error::NX_PUBLIC_POSTHOG_HOST is not defined"
-            exit 1
+          if [ "${{ env.ENVIRONMENT }}" = "production" ]; then
+            BASE_URL="https://georgeboktor.me"
+          else
+            BASE_URL="https://dev.georgeboktor.me"
           fi
-          if [ -z "${{ secrets.NX_PUBLIC_POSTHOG_KEY }}" ]; then
-            echo "::error::NX_PUBLIC_POSTHOG_KEY is not defined"
-            exit 1
-          fi
-          echo "All required environment variables are defined"
+          
+          echo "Creating .env.build.${{ env.ENVIRONMENT }} file"
+          echo "NX_PUBLIC_WEB_BASE_URL=$BASE_URL" > .env.build.${{ env.ENVIRONMENT }}
+          echo "NX_PUBLIC_POSTHOG_HOST=${{ secrets.NX_PUBLIC_POSTHOG_HOST }}" >> .env.build.${{ env.ENVIRONMENT }}
+          echo "NX_PUBLIC_POSTHOG_KEY=${{ secrets.NX_PUBLIC_POSTHOG_KEY }}" >> .env.build.${{ env.ENVIRONMENT }}
+          
+          echo "Environment file created with appropriate base URL: $BASE_URL"
 
       - name: Build ${{ matrix.config.app }}
         run: bunx nx build ${{ matrix.config.base_name }} --configuration=${{ env.ENVIRONMENT }}
