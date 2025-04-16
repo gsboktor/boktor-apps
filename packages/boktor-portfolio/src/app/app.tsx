@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { showMenuAtom } from '@boktor-apps/boktor-portfolio/data-access/store';
-import { BottomBar, TopBar } from '@boktor-apps/boktor-portfolio/features/home-page';
+import { TopBar } from '@boktor-apps/boktor-portfolio/features/home-page';
 import { MenuOverlay } from '@boktor-apps/boktor-portfolio/features/menu-overlay';
 
 import { CmdCTA } from '@boktor-apps/boktor-portfolio/features/home-page';
@@ -66,7 +66,6 @@ export function App() {
     <>
       <RootContainer noise={Noise.default} />
       <TopBar />
-      <BottomBar />
       <AppContainer id="app-container">
         <Router />
         <ToastList />
