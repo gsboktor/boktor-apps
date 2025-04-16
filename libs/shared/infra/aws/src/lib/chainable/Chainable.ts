@@ -42,9 +42,3 @@ export function Chainable(scope: Construct, config: EnvironmentConfig, tags?: Va
     outputs: outputs.bind(context),
   };
 }
-
-// export function createAbstraction<TConstructOut extends Construct | Construct[], T extends ChainableBaseParams<TConstructOut>>(this: Context) {
-//   return function (input: T) {
-//     console.log();
-//   };
-// }
