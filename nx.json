@@ -27,7 +27,8 @@
       "plugin": "@nx/jest/plugin",
       "options": {
         "targetName": "test"
-      }
+      },
+      "exclude": ["packages/lio-infra-e2e/**/*"]
     },
     {
       "plugin": "@nx/vite/plugin",
@@ -97,5 +98,6 @@
         "flat": true
       }
     }
-  }
+  },
+  "defaultProject": "packages-lio-desktop"
 }

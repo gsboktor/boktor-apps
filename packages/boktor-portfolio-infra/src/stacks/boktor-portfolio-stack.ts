@@ -1,9 +1,8 @@
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as cdk from 'aws-cdk-lib/core';
 
-import { Chainable } from '@boktor-apps/shared/infra/aws';
+import { Chainable, EnvironmentConfig } from '@boktor-apps/shared/infra/aws';
 import { Construct } from 'constructs';
-import { EnvironmentConfig } from '../config';
 
 interface BoktorPortfolioStackProps extends cdk.StackProps {
   environmentConfig: EnvironmentConfig;
