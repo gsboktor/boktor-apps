@@ -1,0 +1,47 @@
+{
+  "name": "lio-services",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/lio-services/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "optimization": false,
+          "sourceMap": true
+        },
+        "production": {
+          "optimization": true
+        }
+      },
+      "options": {
+        "compiler": "tsc",
+        "main": "packages/lio-services/src/main.ts",
+        "outputPath": "dist/packages/lio-services",
+        "webpackConfig": "packages/lio-services/webpack.config.js",
+        "sourceMap": false
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "lio-services:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "lio-services:build:development"
+        },
+        "production": {
+          "buildTarget": "lio-services:build:production"
+        }
+      }
+    }
+  }
+}

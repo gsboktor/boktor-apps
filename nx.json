@@ -28,7 +28,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["packages/lio-infra-e2e/**/*"]
+      "exclude": ["packages/lio-infra-e2e/**/*", "packages/lio-services-e2e/**/*"]
     },
     {
       "plugin": "@nx/vite/plugin",
