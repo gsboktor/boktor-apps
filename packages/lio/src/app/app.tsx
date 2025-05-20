@@ -9,6 +9,7 @@ export function App() {
           <img alt="logo" src={`/lio.png`} className="w-42 h-24" />
           <input className="rounded-md bg-white placeholder-black px-3 py-1.5 outline-none border-none" placeholder="Username"></input>
           <input className="rounded-md bg-white placeholder-black px-3 py-1.5 outline-none border-none" placeholder="Password"></input>
+          <p>Testing: {import.meta.env.VITE_LIO_SERVICES_BASE_URL}</p>
         </div>
       </div>
     </div>

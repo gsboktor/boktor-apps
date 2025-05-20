@@ -3,19 +3,32 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/lio-services/src",
   "projectType": "application",
-  "tags": [],
+  "tags": ["scope:services"],
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "development",
+      "defaultConfiguration": "local",
       "configurations": {
+        "local": {
+          "optimization": false,
+          "sourceMap": true,
+          "environment": {
+            "NODE_ENV": "local"
+          }
+        },
         "development": {
           "optimization": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "environment": {
+            "NODE_ENV": "development"
+          }
         },
         "production": {
-          "optimization": true
+          "optimization": true,
+          "environment": {
+            "NODE_ENV": "production"
+          }
         }
       },
       "options": {
@@ -28,13 +41,15 @@
     },
     "serve": {
       "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
+      "defaultConfiguration": "local",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "lio-services:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
+        "local": {
+          "buildTarget": "lio-services:build:local"
+        },
         "development": {
           "buildTarget": "lio-services:build:development"
         },

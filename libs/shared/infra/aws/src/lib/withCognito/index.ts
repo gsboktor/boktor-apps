@@ -82,6 +82,12 @@ export function withCognito(this: Context, { then, userPoolName, passwordLength,
       preventUserExistenceErrors: true,
       accessTokenValidity: cdk.Duration.days(1),
       refreshTokenValidity: cdk.Duration.days(7),
+      authFlows: {
+        userPassword: true,
+        custom: true,
+        userSrp: true,
+        adminUserPassword: true,
+      },
       oAuth: {
         callbackUrls: ['http://localhost:4203/auth/callback', 'http://localhost:5173/auth/callback'],
         defaultRedirectUri: 'http://localhost:4203/auth/callback',
