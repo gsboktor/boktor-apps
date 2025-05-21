@@ -23,6 +23,8 @@ jobs:
             base_name: nomopomo
           - app: boktor-portfolio
             base_name: boktor-portfolio
+          - app: lio
+            base_name: lio
     steps:
       - name: Checkout
         uses: actions/checkout@v4

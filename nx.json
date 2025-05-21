@@ -98,6 +98,5 @@
         "flat": true
       }
     }
-  },
-  "defaultProject": "packages-lio-desktop"
+  }
 }

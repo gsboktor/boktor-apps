@@ -22,6 +22,8 @@ jobs:
             base_name: nomopomo
           - app: boktor-portfolio
             base_name: boktor-portfolio
+          - app: lio
+            base_name: lio
 
     environment: ${{ github.base_ref == 'main' && 'production' || 'development' }}
     steps:

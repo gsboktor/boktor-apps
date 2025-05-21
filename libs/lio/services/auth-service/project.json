@@ -1,0 +1,9 @@
+{
+  "name": "libs-lio-services-auth-service",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/lio/services/auth-service/src",
+  "projectType": "library",
+  "tags": ["scope:client"],
+  "// targets": "to see all targets run: nx show project libs-lio-services-auth-service --web",
+  "targets": {}
+}
