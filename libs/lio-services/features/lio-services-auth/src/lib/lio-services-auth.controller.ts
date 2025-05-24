@@ -12,11 +12,10 @@ export class LioServicesAuthController {
   }
   @Get('login')
   getAuth() {
-    const test_env = this.configService.get('app', { infer: true });
+    const test_env = this.configService.get<{ frontendUrl: string }>('app', { infer: true });
     const test_env_2 = this.configService.get<string>('NX_PUBLIC_LIO_FRONTEND_BASE_URL');
     return { message: `You're authed! And: ${test_env?.frontendUrl} or ${test_env_2}` };
   }
-
   @Post('signIn')
   @HttpCode(HttpStatus.OK)
   async signIn(@Body() request: { email: string; password: string }) {

@@ -6,9 +6,12 @@
   "tags": [],
   "// targets": "to see all targets run: nx show project lio --web",
   "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
     "serve": {
       "executor": "@nx/vite:dev-server",
-      "dependsOn": ["lio:build"],
+      "dependsOn": ["build"],
       "options": {
         "buildTarget": "lio:build"
       },

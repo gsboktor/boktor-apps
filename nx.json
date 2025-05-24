@@ -15,7 +15,8 @@
         "buildTargetName": "build",
         "serveTargetName": "serve",
         "previewTargetName": "preview"
-      }
+      },
+      "exclude": ["packages/lio-services/**/*"]
     },
     {
       "plugin": "@nx/playwright/plugin",

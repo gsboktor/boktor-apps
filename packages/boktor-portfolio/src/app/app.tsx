@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { showMenuAtom } from '@boktor-apps/boktor-portfolio/data-access/store';
 import { TopBar } from '@boktor-apps/boktor-portfolio/features/home-page';
 import { MenuOverlay } from '@boktor-apps/boktor-portfolio/features/menu-overlay';

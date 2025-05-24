@@ -5,7 +5,18 @@
   "projectType": "application",
   "tags": ["scope:services"],
   "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "build-root-yarn-lock": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bun install --yarn",
+        "cwd": "."
+      }
+    },
     "build": {
+      "dependsOn": ["build-root-yarn-lock"],
       "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "local",
@@ -36,26 +47,33 @@
         "main": "packages/lio-services/src/main.ts",
         "outputPath": "dist/packages/lio-services",
         "webpackConfig": "packages/lio-services/webpack.config.js",
-        "sourceMap": false
+        "sourceMap": false,
+        "generatePackageJson": true,
+        "skipPackageManager": false
       }
     },
     "serve": {
-      "executor": "@nx/js:node",
+      "executor": "nx:run-commands",
       "defaultConfiguration": "local",
-      "dependsOn": ["build"],
-      "options": {
-        "runBuildTargetDependencies": false
-      },
+      "dependsOn": ["docker-build"],
       "configurations": {
         "local": {
-          "buildTarget": "lio-services:build:local"
+          "command": "bunx docker run -p 3000:4203 --env-file ./packages/lio-services/.env -t lio-services"
         },
         "development": {
-          "buildTarget": "lio-services:build:development"
+          "command": "bunx docker run -p 3000:4203 --env-file ./packages/lio-services/.env.development -t lio-services"
         },
         "production": {
-          "buildTarget": "lio-services:build:production"
+          "command": "bunx docker run -p 3000:4203 --env-file ./packages/lio-services/.env.production -t lio-services"
         }
+      }
+    },
+    "docker-build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "defaultConfiguration": "local",
+      "options": {
+        "command": "docker build -f packages/lio-services/Dockerfile . -t lio-services"
       }
     }
   }
