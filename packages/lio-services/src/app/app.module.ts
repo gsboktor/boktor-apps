@@ -24,6 +24,7 @@ const configSchema = z.object({
       load: [configuration],
       isGlobal: true,
       validate: (config) => {
+        console.log('CONFIG NOW', config);
         const result = configSchema.safeParse(config);
         if (!result.success) {
           const errors = result.error.errors.map((err) => ({

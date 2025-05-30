@@ -9,3 +9,6 @@ vite.config.*.timestamp*
 **.DS_Store
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

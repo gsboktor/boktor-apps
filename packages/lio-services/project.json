@@ -48,8 +48,7 @@
         "outputPath": "dist/packages/lio-services",
         "webpackConfig": "packages/lio-services/webpack.config.js",
         "sourceMap": false,
-        "generatePackageJson": true,
-        "skipPackageManager": false
+        "generatePackageJson": true
       }
     },
     "serve": {
