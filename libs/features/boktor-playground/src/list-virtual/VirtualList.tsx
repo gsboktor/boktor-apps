@@ -54,7 +54,7 @@ const ListItem = styled.li`
  */
 
 export const VirtualList = () => {
-  const [items, setItems] = useState(() => [...data]);
+  const [items] = useState(() => [...data]);
   const [itemCount, setItemCount] = useState(0);
   const itemListRangeStart = useRef<number>(0);
   const [height, setHeight] = useState(0);
@@ -65,35 +65,26 @@ export const VirtualList = () => {
 
   useLayoutEffect(() => {
     const ctrHeight = containerRef.current?.getBoundingClientRect().height ?? 1;
-    const elHeight = elementRef.current?.getBoundingClientRect().height ?? 1;
 
     const itemsCountFit = Math.ceil(ctrHeight / 34);
     setHeight(34);
     setItemCount(itemsCountFit);
   }, []);
 
-  const onScrollChange = useCallback(
-    (e: React.UIEvent<HTMLUListElement, UIEvent>) => {
-      setOffsetTop(e.currentTarget.scrollTop ?? 0);
-    },
-    [height],
-  );
+  const onScrollChange = useCallback((e: React.UIEvent<HTMLUListElement, UIEvent>) => {
+    setOffsetTop(e.currentTarget.scrollTop ?? 0);
+  }, []);
 
   itemListRangeStart.current = Math.floor(offsetTop / height);
   console.log('curr', itemListRangeStart.current);
 
-  const subList = items.slice(
-    itemListRangeStart.current ?? 0,
-    Math.min(itemListRangeStart.current + itemCount, items.length),
-  );
+  const subList = items.slice(itemListRangeStart.current ?? 0, Math.min(itemListRangeStart.current + itemCount, items.length));
 
   const invisibleHeight = (items.length - (itemListRangeStart.current ?? 0) + itemCount) * height; // 10, start = 2, end = 6
 
   return (
     <Container ref={containerRef} onScroll={(e) => onScrollChange(e)}>
-      <div
-        style={{ position: 'absolute', height: `${items.length * height}px`, display: 'flex', top: 0, width: '100%' }}
-      >
+      <div style={{ position: 'absolute', height: `${items.length * height}px`, display: 'flex', top: 0, width: '100%' }}>
         {subList.map((item, idx) => {
           return (
             <ListItem
