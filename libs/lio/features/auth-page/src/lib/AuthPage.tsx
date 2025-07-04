@@ -424,13 +424,7 @@ const AuthForm = () => {
             </motion.button>
 
             {/* Email/Password Form */}
-            <motion.form
-              id="auth-form"
-              className="space-y-4 pt-8"
-              onSubmit={(e) => e.preventDefault()}
-              variants={containerVariants}
-              layout
-            >
+            <motion.form id="auth-form" className="space-y-4 pt-8" onSubmit={(e) => e.preventDefault()} variants={containerVariants}>
               <motion.div variants={itemVariants} layout>
                 <InputField
                   id="auth-email-input"

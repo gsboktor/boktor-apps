@@ -20,7 +20,6 @@
       "@boktor-apps/boktor-portfolio/ui/components": ["libs/boktor-portfolio/ui/components/src/index.ts"],
       "@boktor-apps/boktor-portfolio/ui/providers": ["libs/boktor-portfolio/ui/providers/src/index.ts"],
       "@boktor-apps/features/boktor-playground": ["libs/features/boktor-playground/src/index.ts"],
-      "@boktor-apps/features/boktor-portfolio": ["libs/features/boktor-portfolio/src/index.ts"],
       "@boktor-apps/lio-services/data-access/lio-services-auth": ["libs/lio-services/data-access/lio-services-auth/src/index.ts"],
       "@boktor-apps/lio-services/features/lio-services-auth": ["libs/lio-services/features/lio-services-auth/src/index.ts"],
       "@boktor-apps/lio/data-access/hooks": ["libs/lio/data-access/hooks/src/index.ts"],
