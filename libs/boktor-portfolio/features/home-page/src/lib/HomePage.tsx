@@ -4,9 +4,9 @@ import {
   AsurionLogo,
   AWSLogo,
   Ball,
+  BuiltLogo,
   Bullet,
   CSSMLogo,
-  HCALogo,
   HighlightedText,
   InnerBlock,
   PGLogo,
@@ -67,10 +67,10 @@ export const HomePage = () => {
           </StyledText>
           <StyledText size={Size.SM} weight={Weight.None}>
             currently @{' '}
-            <HighlightedText onMouseOver={() => onHoverDetail(Detail.HCA)} onMouseLeave={() => onResetDetail()}>
-              HCA
+            <HighlightedText onMouseOver={() => onHoverDetail(Detail.BUILT)} onMouseLeave={() => onResetDetail()}>
+              Built
             </HighlightedText>{' '}
-            building next-generation React Native applications for our healthcare workforce.{' '}
+            developing the next generation real-estate and construction finance management platform{' '}
           </StyledText>
         </InnerBlock>
         <RowBlock style={{ height: 42 }}>
@@ -165,7 +165,7 @@ export const HomePage = () => {
                 </InnerBlock>
               </AnimatedBlurBox>
             )}
-            {detailToShow && detailToShow === Detail.HCA && (
+            {detailToShow && detailToShow === Detail.BUILT && (
               <AnimatedBlurBox>
                 <Ball
                   layoutId="b1"
@@ -186,18 +186,21 @@ export const HomePage = () => {
                         backgroundColor: 'white',
                       }}
                     >
-                      <HCALogo width={40} height={40} />
+                      <img src={BuiltLogo} alt="Built" width={40} height={40} style={{ borderRadius: '50%', objectFit: 'contain' }} />
                     </div>
                   </InnerBlock>
                   <InnerBlock style={{ flexDirection: 'column', maxWidth: 400, gap: 24 }}>
                     <InnerBlock style={{ gap: 8 }}>
-                      <StyledText>HCA</StyledText>
+                      <StyledText>Built</StyledText>
                       <StyledText size={Size.SM} style={{ color: '#008578' }}>
-                        april 2025 - present
+                        may 2025 - present
                       </StyledText>
                     </InnerBlock>
-                    <StyledText size={Size.SM}>building and maintaining HCA's timpani manager React Native application</StyledText>
-                    <StyledText size={Size.SM}>faciliating strong, technical culture. mentoring subordinate engineers</StyledText>
+                    <StyledText size={Size.SM}>
+                      building onboarding and collaboration experiences for Built's CLA+ real-state and construction finance management
+                      product
+                    </StyledText>
+                    <StyledText size={Size.SM}>faciliating strong, technical culture and mentoring junior engineers</StyledText>
                   </InnerBlock>
                 </InnerBlock>
               </AnimatedBlurBox>
