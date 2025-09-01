@@ -1,5 +1,6 @@
 export { ReactComponent as AsurionLogo } from './assets/asurion.svg';
 export { ReactComponent as AWSLogo } from './assets/aws.svg';
+export { default as BuiltLogo } from './assets/built.png';
 export { ReactComponent as CSSMLogo } from './assets/css.svg';
 export { ReactComponent as DndLogo } from './assets/dnd.svg';
 export { ReactComponent as FramerLogo } from './assets/framer.svg';

@@ -4,7 +4,7 @@ import { createContext, useCallback, useMemo, useState } from 'react';
 export enum Detail {
   FS = 'fullstack',
   AS = 'asurion',
-  HCA = 'HCA',
+  BUILT = 'built',
 }
 
 export type PersonalDetailsContextType = {
