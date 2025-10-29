@@ -1,0 +1,105 @@
+{
+  "name": "lio-infra",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/lio-infra/src",
+  "projectType": "application",
+  "tags": ["scope:shared"],
+  "targets": {
+    "diff": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "cwd": "packages/lio-infra",
+          "command": "cdk diff --context env=development"
+        },
+        "production": {
+          "cwd": "packages/lio-infra",
+          "command": "cdk diff --context env=production"
+        }
+      }
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "cwd": "packages/lio-infra",
+          "command": "cdk deploy --context env=development --all --require-approval never"
+        },
+        "production": {
+          "cwd": "packages/lio-infra",
+          "command": "cdk deploy --context env=production --all --require-approval never"
+        }
+      }
+    },
+    "synth": {
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "cwd": "packages/lio-infra",
+          "command": "cdk synth --context env=development"
+        },
+        "production": {
+          "cwd": "packages/lio-infra",
+          "command": "cdk synth --context env=production"
+        }
+      }
+    },
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "development",
+      "options": {
+        "platform": "node",
+        "outputPath": "./dist/packages/lio-infra",
+        "format": ["cjs"],
+        "bundle": true,
+        "main": "packages/lio-infra/src/main.ts",
+        "tsConfig": "packages/lio-infra/tsconfig.app.json",
+        "treeShaking": true,
+        "external": ["aws-cdk", "aws-cdk-lib", "constructs"],
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          },
+          "platform": "node"
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            },
+            "platform": "node"
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "lio-infra:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "lio-infra:build:development"
+        },
+        "production": {
+          "buildTarget": "lio-infra:build:production"
+        }
+      }
+    }
+  }
+}

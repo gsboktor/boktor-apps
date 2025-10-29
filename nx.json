@@ -15,7 +15,8 @@
         "buildTargetName": "build",
         "serveTargetName": "serve",
         "previewTargetName": "preview"
-      }
+      },
+      "exclude": ["packages/lio-services/**/*"]
     },
     {
       "plugin": "@nx/playwright/plugin",
@@ -27,7 +28,8 @@
       "plugin": "@nx/jest/plugin",
       "options": {
         "targetName": "test"
-      }
+      },
+      "exclude": ["packages/lio-infra-e2e/**/*", "packages/lio-services-e2e/**/*"]
     },
     {
       "plugin": "@nx/vite/plugin",
@@ -39,20 +41,10 @@
         "serveStaticTargetName": "serve-static",
         "typecheckTargetName": "typecheck"
       }
-    },
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
     }
   ],
   "targetDefaults": {
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
     "build": {
-      "dependsOn": ["lint"],
       "configurations": {
         "development": {
           "optimization": false

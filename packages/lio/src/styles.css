@@ -1,0 +1,4 @@
+@import 'tailwindcss';
+@source '../../../libs/lio/features/**/*.{js,ts,jsx,tsx}';
+@source '../../../libs/lio/ui/**/*.{js,ts,jsx,tsx}';
+@source '../../../libs/shared/ui/**/*.{js,ts,jsx,tsx}';
