@@ -6,6 +6,7 @@ import { Context, EnvironmentConfig } from '../types/environment';
 import { withBucketDeployment } from '../withBucketDeployment';
 import { withCertificate } from '../withCertificate';
 import { withCloudFront } from '../withCloudfront';
+import { withCognito } from '../withCognito';
 import { withHostedZone } from '../withHostedZone';
 import { withRoute53 } from '../withRoute53';
 import { withS3 } from '../withS3';
@@ -39,6 +40,7 @@ export function Chainable(scope: Construct, config: EnvironmentConfig, tags?: Va
     withHostedZone: withHostedZone.bind(context),
     withRoute53: withRoute53.bind(context),
     withCertificate: withCertificate.bind(context),
+    withCognito: withCognito.bind(context),
     outputs: outputs.bind(context),
   };
 }

@@ -21,6 +21,10 @@ module.exports = [
               onlyDependOnLibsWithTags: ['scope:client', 'scope:data-access', 'scope:shared'],
             },
             {
+              sourceTag: 'scope:services',
+              onlyDependOnLibsWithTags: ['scope:services', 'scope:shared'],
+            },
+            {
               sourceTag: 'scope:data-access',
               onlyDependOnLibsWithTags: ['scope:data-access', 'scope:shared'],
             },

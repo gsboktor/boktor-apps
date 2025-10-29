@@ -1,0 +1,9 @@
+{
+  "name": "libs-lio-data-access-hooks",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/lio/data-access/hooks/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project libs-lio-data-access-hooks --web",
+  "targets": {}
+}
