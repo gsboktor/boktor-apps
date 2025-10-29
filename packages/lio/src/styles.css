@@ -1,7 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-/* You can add global styles to this file, and also import other style files */
-body {
-  background-color: rgb(66, 66, 66);
-}
+@import 'tailwindcss';
+@source '../../../libs/lio/features/**/*.{js,ts,jsx,tsx}';
+@source '../../../libs/lio/ui/**/*.{js,ts,jsx,tsx}';
+@source '../../../libs/shared/ui/**/*.{js,ts,jsx,tsx}';

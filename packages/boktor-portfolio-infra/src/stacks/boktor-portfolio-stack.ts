@@ -36,8 +36,10 @@ export class BoktorPortfolioStack extends cdk.Stack {
                     withRoute53({
                       distribution: distro,
                       hostedZone,
+                      then({ out }) {
+                        outputs({ key: 'ARecord', value: out.domainName, description: 'domain name' });
+                      },
                     });
-
                     withBucketDeployment({
                       bucket: bucket,
                       distribution: distro,

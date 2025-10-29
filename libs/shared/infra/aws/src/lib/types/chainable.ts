@@ -1,24 +1,3 @@
-/**
- * Base interface for chainable infrastructure parameters
- * @template TOutput - The CDK Construct type that will be output by the chain
- * @template TOrigin - Cloudfront-specific origin resource type annoation. Extends CDK Construct types
- * @property "then" - Optional callback function that receives the output resource
- * @example
- * // Basic usage with S3 bucket output
- * withS3({
- *   then: ({ out: bucket }) => {
- *     // Use the bucket resource
- *   }
- * });
- *
- * @example
- * // Basic usage with Cloudfront and origin annotation
- * withCloudfront<s3.Bucket>({
- *   then: ({out: distro}) => {
- *     // Manage or use distro resource
- *   }
- * });
- */
 import { Construct } from 'constructs';
 
 import { aws_cognito } from 'aws-cdk-lib';
@@ -42,6 +21,7 @@ export interface ChainableBaseParams<TOutput extends Construct | Construct[]> {
  *
  * @example
  * withCloudfront<s3.Bucket>({
+ *   source: someBucket,
  *   then: ({out: distro}) => {
  *      // Manage or use distro resource
  *   },
@@ -111,6 +91,29 @@ export type OutputsParams = {
   value: string;
   description: string;
 };
+
+/**
+ * Base interface for chainable infrastructure parameters
+ * @template TOutput - The CDK Construct type that will be output by the chain
+ * @template TOrigin - Cloudfront-specific origin resource type annoation. Extends CDK Construct types
+ * @property `then` - Optional callback function that receives the output resource
+ * @example
+ * // Basic usage with S3 bucket output
+ * withS3({
+ *   then: ({ out: myBucket }) => {
+ *     // Use the bucket resource
+ *   }
+ * });
+ *
+ * @example
+ * // Basic usage with Cloudfront and origin annotation
+ * withCloudfront<s3.Bucket>({
+ *   source: myBucket,
+ *   then: ({out: distro}) => {
+ *     // Manage or use distro resource
+ *   }
+ * });
+ */
 
 export type ChainableConstructs = {
   withS3: (params?: WithS3Params) => void;
