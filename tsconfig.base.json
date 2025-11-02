@@ -40,6 +40,7 @@
       "@boktor-apps/nomopomo/ui/cards": ["libs/nomopomo/ui/cards/src/index.ts"],
       "@boktor-apps/shared/infra/aws": ["libs/shared/infra/aws/src/index.ts"],
       "@boktor-apps/shared/services/auth-service": ["libs/shared/services/auth-service/src/index.ts"],
+      "@boktor-apps/shared/types/curry": ["libs/shared/types/curry/src/index.ts"],
       "@boktor-apps/shared/ui/assets": ["libs/shared/ui/assets/src/index.ts"],
       "@boktor-apps/shared/ui/assets/svgs": ["libs/shared/ui/assets/src/svg/index.ts"],
       "@boktor-apps/shared/ui/buttons": ["libs/shared/ui/buttons/src/index.ts"],
@@ -51,7 +52,7 @@
       "@boktor-apps/shared/ui/pop-over": ["libs/shared/ui/pop-over/src/index.ts"],
       "@boktor-apps/shared/ui/scroll-carousel": ["libs/shared/ui/scroll-carousel/src/index.ts"],
       "@boktor-apps/shared/utils/curry": ["libs/shared/utils/curry/src/index.ts"],
-      "@boktor-apps/shared/types/curry": ["libs/shared/types/curry/src/index.ts"]
+      "@boktor-apps/lio/features/landing-form": ["libs/lio/features/landing-form/src/index.ts"]
     }
   },
   "exclude": ["node_modules"]

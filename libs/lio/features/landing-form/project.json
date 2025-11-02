@@ -1,0 +1,9 @@
+{
+  "name": "libs-lio-features-landing-form",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/lio/features/landing-form/src",
+  "projectType": "library",
+  "tags": ["scope:client"],
+  "// targets": "to see all targets run: nx show project libs-lio-features-landing-form --web",
+  "targets": {}
+}
